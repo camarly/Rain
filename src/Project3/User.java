@@ -1,11 +1,7 @@
 package Project3;
 
 public class User {
-	
-	//FirstName
-	//Last Name
-	//userName
-	//password
+
 	//encrypting data
 	
 
