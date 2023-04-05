@@ -2,7 +2,7 @@ package Project3;
 
 public class User {
 
-	//encrypting data
+	//encrypt password
 
 	/**
 	 * @param firstName
