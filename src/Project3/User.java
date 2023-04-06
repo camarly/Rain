@@ -5,10 +5,10 @@ public class User {
 	//encrypt password
 
 	/**
-	 * @param firstName
-	 * @param lastName
-	 * @param username
-	 * @param password
+	 * @param firstName this is the first name of the user
+	 * @param lastName this is the last name of the user
+	 * @param username this is the username of the user
+	 * @param password this is the password of the user
 	 */
 	public User(String firstName, String lastName, String username, String password) {
 		super();
