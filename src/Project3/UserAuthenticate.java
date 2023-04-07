@@ -17,8 +17,6 @@ public class UserAuthenticate {
 		this.isValid = authenticateUser(username, password);
 	}
 
-
-	
 	public boolean authenticateUser(String username, String password) {
 		boolean state = false;
 		Scanner userFile;
