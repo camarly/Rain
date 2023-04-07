@@ -1,5 +1,3 @@
-
-
 package Project3;
 
 import java.awt.BorderLayout;
@@ -18,6 +16,9 @@ public class LoginWindow extends JFrame{
 
 	private final JTextField usernameField;
 	private final JPasswordField passwordField;
+	private JButton submitButton;
+	private JButton clearButton;
+	private JButton cancelButton;
 
 	public LoginWindow() {
 
@@ -38,19 +39,16 @@ public class LoginWindow extends JFrame{
 
 		loginPanel.setLayout(new GridLayout(2, 3));
 
-		JButton submitButton = new JButton("Submit");
+		submitButton = new JButton("Submit");
 		submitButton.addActionListener(this::loginEvent);
 		commandsPanel.add(submitButton);
 
-		JButton clearButton = new JButton("Clear");
-		clearButton.addActionListener(e -> {
-			usernameField.setText("");
-			passwordField.setText("");
-		});
+		clearButton = new JButton("Clear");
+		clearButton.addActionListener(this::clearEvent);
 		commandsPanel.add(clearButton);
 
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(e -> System.exit(0));
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(this::cancelEvent);
 		commandsPanel.add(cancelButton);
 
 
@@ -72,5 +70,14 @@ public class LoginWindow extends JFrame{
 			System.out.println("Invalid");
 	}
 
+	public void clearEvent(ActionEvent e) {
+		// TODO Auto-generated method stub
+		usernameField.setText("");
+		passwordField.setText("");
+	}
+	public void cancelEvent(ActionEvent e) {
+		// TODO Auto-generated method stub
+		System.exit(0);
+	}
 
 }
