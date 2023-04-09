@@ -83,13 +83,13 @@ public class APIRequestHandler {
             datetime = city.getInt("dt");
         }
         //return null;
-        City aCity =  new City(cityName, temp, humidity, description, type, icon, datetime);
-        City.cityWeatherData.add(aCity);
-        return null;
+//        City aCity =  new City(cityName, temp, humidity, description, type, icon, datetime);
+//        City.cityWeatherData.add(aCity);
+//        return null;
         //return (cityName + " " + temp + " " + humidity + " " + description + " " + type + " " + icon + " " + datetime);
 
         //returns weather data for city in desired format before creating city class.
-
+    return null;
     }
 
 

@@ -15,9 +15,37 @@ public class Tester {
 //		// TODO Auto-generated method stub
 //		UserAuthenticate thisUser = new UserAuthenticate("tevinH", "password1")
 
-		new LoginWindow();
+		//new LoginWindow();
 
-		ArrayList<String> cityList = new ArrayList<>();
+		String cityInput = "Montego Bay";
+		String lat = GeoCordAPI.fetchGeoCordinates(cityInput)[0];
+		String lon = GeoCordAPI.fetchGeoCordinates(cityInput)[1];
+		String start = "1680980400";
+		String end = "1680991200";
+
+		City city = new City(cityInput);
+
+		String [] weatherData= OpenWeatherMapAPI.fetchWeatherData(lat, lon, start, end);
+
+		for (String record: weatherData) {
+
+			String dt = record.split("\\|")[0];
+			double temp = Double.parseDouble(record.split("\\|")[1]);
+			int humid = Integer.parseInt(record.split("\\|")[2]);
+			String main = record.split("\\|")[3];
+			String desc = record.split("\\|")[4];
+
+			city.addToHistory(new WeatherCondition(temp, humid, main, desc, dt));
+		}
+
+		for (WeatherCondition wc: city.getWeatherHistory()){
+			System.out.println(wc.toString());
+		}
+
+
+
+
+		/*ArrayList<String> cityList = new ArrayList<>();
 		cityList.add("Lucea");
 		cityList.add("Falmouth");
 		cityList.add("Mandeville");
@@ -52,7 +80,7 @@ public class Tester {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-		}
+		}*/
 
 	}
 

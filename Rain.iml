@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/dependencies_libs/json-20230227.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/NetBeansProjects/-Dependencies/json-20230227.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

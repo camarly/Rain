@@ -6,28 +6,27 @@ public class City implements Comparable<City> {
 
 
     public static int city_id = 0;
+    private int id;
     private String cityName;
-    private double temp = 0.00;
-    private int humidity = 0;
-    private String description = null;
-    private String type = null;
-    private String icon  =  null;
-    private int datetime = 0;
-    static ArrayList<City> cityWeatherData = new ArrayList<>();
+    private String lat;
+    private String lon;
+    private WeatherCondition current; //?Usage Questionable
+    private ArrayList <WeatherCondition> weatherHistory;
+    //public static ArrayList <City> cityList;
 
-    public City(String cityName, double temp, int humidity, String description, String type, String icon, int datetime) {
+
+    public City(String cityName) {
         this.cityName = cityName;
-        this.temp = temp;
-        this.humidity = humidity;
-        this.description = description;
-        this.type = type;
-        this.icon = icon;
-        this.datetime = datetime;
-        generateID();
+        this.lat = GeoCordAPI.fetchGeoCordinates(cityName)[0];
+        this.lon = GeoCordAPI.fetchGeoCordinates(cityName)[1];
+        this.weatherHistory = new ArrayList<>();
+        assignId();
+//      cityList.add(this);
     }
 
-    public static void generateID() {
-        city_id+=1;
+    private void assignId() {
+        this.id = city_id;
+        city_id++;
     }
 
     public static int getCity_id() {
@@ -38,17 +37,13 @@ public class City implements Comparable<City> {
         City.city_id = city_id;
     }
 
-
-    public City(String cityName) {
-        this.cityName = cityName;
+    public int getId() {
+        return id;
     }
 
-
-    @Override
-    public int compareTo(City o) {
-        return 0;
+    public void setId(int id) {
+        this.id = id;
     }
-
 
     public String getCityName() {
         return cityName;
@@ -57,61 +52,59 @@ public class City implements Comparable<City> {
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
-    public double getTemp() {
-        return temp;
+
+    public String getLat() {
+        return lat;
     }
 
-    public void setTemp(double temp) {
-        this.temp = temp;
+    public void setLat(String lat) {
+        this.lat = lat;
     }
 
-    public int getHumidity() {
-        return humidity;
+    public String getLon() {
+        return lon;
     }
 
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 
-    public String getDescription() {
-        return description;
+    public WeatherCondition getCurrent() {
+        return current;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCurrent(WeatherCondition current) {
+        this.current = current;
     }
 
-    public String getType() {
-        return type;
+    public ArrayList<WeatherCondition> getWeatherHistory() {
+        return weatherHistory;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setWeatherHistory(ArrayList<WeatherCondition> weatherHistory) {
+        this.weatherHistory = weatherHistory;
     }
 
-    public String getIcon() {
-        return icon;
+    public void addToHistory(WeatherCondition wc){
+        weatherHistory.add(wc);
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void removeHistory(WeatherCondition wc) {
+        weatherHistory.remove(wc);
     }
 
-    public int getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(int datetime) {
-        this.datetime = datetime;
-    }
-
-//    public ArrayList<String> getCityWeatherData() {
-//        return cityWeatherData;
+//        public static void removeCity(City city){
+//        cityList.remove(city);
 //    }
 
-//    public void setCityWeatherData(ArrayList<String> cityWeatherData) {
-//        this.cityWeatherData = cityWeatherData;
-//    }
+    @Override
+    public int compareTo(City o) {
+        return 0;
+    }
+
+
+
+
 
 
 }
