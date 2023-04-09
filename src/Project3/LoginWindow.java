@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 
 public class LoginWindow extends JFrame{
 
@@ -19,8 +22,11 @@ public class LoginWindow extends JFrame{
 	private JButton submitButton;
 	private JButton clearButton;
 	private JButton cancelButton;
+	private LoginWindow thisFrame;
 
 	public LoginWindow() {
+
+		thisFrame = this;
 
 		setTitle("User Login");
 
@@ -64,10 +70,13 @@ public class LoginWindow extends JFrame{
 	public void loginEvent(ActionEvent e) {
 		// TODO Auto-generated method stub
 		UserAuthenticate thisUser = new UserAuthenticate(usernameField.getText(), String.valueOf(passwordField.getPassword()));
-		if(thisUser.isValid)
-			System.out.println("Valid");
-		else
-			System.out.println("Invalid");
+		if(thisUser.isValid){
+			thisFrame.setVisible(false);
+			new HomeScreen();
+		} else {
+			showMessageDialog(null, "The password and/or username entered is incorrect.\nPlease try again.", "Invalid credentials!", ERROR_MESSAGE);
+		}
+
 	}
 
 	public void clearEvent(ActionEvent e) {
