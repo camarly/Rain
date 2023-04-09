@@ -9,7 +9,7 @@ public class HomeScreen extends JFrame {
 
 
     public HomeScreen() {
-        this.thisFrame = thisFrame;
+        this.thisFrame = this;
         setVisible(true);
     }
 }
