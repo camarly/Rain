@@ -10,7 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class GeoCordAPI {
+public class APIGeoCord {
 
     private static final String BASE_API_URL = "http://api.openweathermap.org/geo/1.0/direct?q=%s,JM&limit=1&appid=%s"; //http://api.openweathermap.org/geo/1.0/direct?q={city name},{country code}&limit={limit}&appid={API key}
     private static final String API_KEY = "dbd8574d10549e41443636960496338d";
@@ -18,7 +18,7 @@ public class GeoCordAPI {
     private HttpRequest request;
     private static String apiResponse;
 
-    public GeoCordAPI() {
+    public APIGeoCord() {
     }
 
     public static String [] fetchGeoCordinates(String city){

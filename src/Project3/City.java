@@ -17,8 +17,8 @@ public class City implements Comparable<City> {
 
     public City(String cityName) {
         this.cityName = cityName;
-        this.lat = GeoCordAPI.fetchGeoCordinates(cityName)[0];
-        this.lon = GeoCordAPI.fetchGeoCordinates(cityName)[1];
+        this.lat = APIGeoCord.fetchGeoCordinates(cityName)[0];
+        this.lon = APIGeoCord.fetchGeoCordinates(cityName)[1];
         this.weatherHistory = new ArrayList<>();
         assignId();
 //      cityList.add(this);

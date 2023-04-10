@@ -8,7 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class OpenWeatherMapAPI {
+public class APIHistoricalWeather {
 
     //APICall Ur; = https://history.openweathermap.org/data/2.5/history/city?lat={lat}&lon={lon}&type=hour&start={start}&end={end}&appid={API key}
     private static final String BASE_API_URL = "https://history.openweathermap.org/data/2.5/history/city?lat=%s&lon=%s&type=hour&start=%s&end=%s&units=metric&appid=%s";
@@ -17,7 +17,7 @@ public class OpenWeatherMapAPI {
     private HttpRequest request;
     private static String apiResponse;
 
-    public OpenWeatherMapAPI() {
+    public APIHistoricalWeather() {
     }
 
     public static String[] fetchWeatherData (String lat, String lon, String start, String end){
