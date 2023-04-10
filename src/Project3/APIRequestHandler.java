@@ -4,7 +4,14 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+
 import org.json.*;
+
+import static java.util.Collections.frequency;
+import static java.util.Collections.max;
 
 public class APIRequestHandler {
     private static String cityName = "";
@@ -37,14 +44,14 @@ public class APIRequestHandler {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiUrl)).build();
 
         //do not delete
-//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//                .thenApply(APIRequestHandler::parseWeatherData)
-//                .join();
         return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-            .thenApply(APIRequestHandler::parseWeatherData)
+                .thenApply(APIRequestHandler::parseWeatherData)
                 .join());
+//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                .thenApply(HttpResponse::body)
+//            .thenAccept(System.out::println)
+//                .join();
     }
 
 
@@ -53,45 +60,53 @@ public class APIRequestHandler {
         double temp = 0.00;
         int humidity = 0;
         String description = null;
+        String weather = null;
         String type = null;
         String icon  =  null;
         int datetime = 0;
+        int count = 0;
+        ArrayList<String> modeOfWeather = new ArrayList<>();
+        ArrayList<String> modeOfDesc = new ArrayList<>();
+        ArrayList<String> modeOfIcon = new ArrayList<>();
 
         JSONObject cityData = new JSONObject(responseBody);
 
-        int city_id = cityData.getInt("city_id");
-        JSONArray _list = cityData.getJSONArray("list");
+        JSONObject weatherData = new JSONObject(responseBody);
+        JSONArray hourlyReports = weatherData.getJSONArray("list");
 
-        for (int i = 0; i < _list.length(); i++){
-            JSONObject data = _list.getJSONObject(i);
-            JSONObject MAIN = data.getJSONObject("main");
-            temp = MAIN.getDouble("temp");
-            humidity = MAIN.getInt("humidity");
-            //System.out.println("temp: " + temp	+ " humidity:" + humidity);
+        for (int i=0; i < hourlyReports.length(); i++) {
+            JSONObject report = hourlyReports.getJSONObject(i);
+            int dt = report.getInt("dt");
+            temp+= report.getJSONObject("main").getDouble("temp");
+            humidity+= report.getJSONObject("main").getInt("humidity");
+            count+=1;
 
+            weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
+            description = report.getJSONArray("weather").getJSONObject(0).getString("description");
+            icon = report.getJSONArray("weather").getJSONObject(0).getString("icon");
         }
+        temp /= count;
+        humidity /= count;
+        modeOfWeather.add(weather);
+        modeOfDesc.add(description);
+        modeOfIcon.add(icon);
 
-        for (int i = 0; i < _list.length(); i++) {
-            JSONObject city = _list.getJSONObject(i);
-            JSONArray weather = city.getJSONArray("weather");
-            for (int j = 0; j < weather.length(); j++) {
-                JSONObject weatherInfo = weather.getJSONObject(j);
-                description = weatherInfo.getString("description");
-                type = weatherInfo.getString("main");
-                icon = weatherInfo.getString("icon");
-                //System.out.println(type + " " + description + " " + icon);
-            }
-            datetime = city.getInt("dt");
-        }
-        //return null;
-        City aCity =  new City(cityName, temp, humidity, description, type, icon, datetime);
+
+
+        //comeback to later
+        //System.out.println("Temperature:" + temp + " , humidity: " + humidity + " Weather: " + max(modeOfWeather));
+
+//        //return null;
+        City aCity =  new City(cityName, temp, humidity, max(modeOfDesc), max(modeOfWeather), max(modeOfIcon), datetime);
         City.cityWeatherData.add(aCity);
-        return null;
+//        return null;
         //return (cityName + " " + temp + " " + humidity + " " + description + " " + type + " " + icon + " " + datetime);
 
         //returns weather data for city in desired format before creating city class.
 
+        return null;
     }
+
 
 
 

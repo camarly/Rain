@@ -36,13 +36,13 @@ public class Tester {
 
 
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("City ID\t\t\t\t\t\tCity\t\t\t\t\t\tTemperature\t\t\t\t\t\tType\t\t\t\t\t\tDescription");
+		System.out.println("City ID\t\tCity\t\t\t\t\t\tTemperature\t\tHumidity\t\tWeather\t\tDescription\t\t\t");
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
 //		System.out.println(myCity.getCityName()+"\t\t"+ myCity.getTemp()+"\t\t"+ myCity.getType()+"\t\t"+ myCity.getDescription());
 
-		for(String cityCapital : cityList) {
+		for (String cityCapital : cityList) {
 
-			APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?q=" + cityCapital + ",JM&type=hour&start=1680343200&end=1680735600&appid="+api_KeyCloud, cityCapital);
+			APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?q=" + cityCapital + ",JM&type=hour&start=1680343200&end=1680411599&appid=" + api_KeyCloud, cityCapital);
 			//APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?lat=18.017874&lon=-76.809906&type=hour&start=1680343200&end=1680386400&appid=" + api_KeyCloud);
 			try {
 				test.getWeatherData();
@@ -50,10 +50,9 @@ public class Tester {
 				throw new RuntimeException(e);
 			}
 		}
-		for(var city : City.cityWeatherData) {
-			System.out.println(city.getCityID() + "\t\t\t\t\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t\t\t\t\t\t" + city.getType() +"\t\t\t\t\t\t"+ city.getDescription());
+		for (var city : City.cityWeatherData) {
+			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
 		}
-
 	}
 
 

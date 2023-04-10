@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 public class City implements Comparable<City> {
 
-
     public static int city_id = 1;
-
     private int cityID = 0;
     private String cityName;
     private double temp = 0.00;
