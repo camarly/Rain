@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public class City implements Comparable<City> {
 
 
-    public static int city_id = 0;
+    public static int city_id = 1;
+
+    private int cityID = 0;
     private String cityName;
     private double temp = 0.00;
     private int humidity = 0;
@@ -23,6 +25,7 @@ public class City implements Comparable<City> {
         this.type = type;
         this.icon = icon;
         this.datetime = datetime;
+        cityID = getCity_id();
         generateID();
     }
 
@@ -30,17 +33,25 @@ public class City implements Comparable<City> {
         city_id+=1;
     }
 
-    public static int getCity_id() {
+    public int getCity_id() {
         return city_id;
     }
 
-    public static void setCity_id(int city_id) {
-        City.city_id = city_id;
+    public void setCity_id(int city_id) {
+        this.cityID = city_id;
     }
 
 
     public City(String cityName) {
         this.cityName = cityName;
+    }
+
+    public int getCityID() {
+        return cityID;
+    }
+
+    public void setCityID(int cityID) {
+        this.cityID = cityID;
     }
 
 

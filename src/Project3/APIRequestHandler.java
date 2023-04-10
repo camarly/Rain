@@ -36,6 +36,7 @@ public class APIRequestHandler {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiUrl)).build();
 
+        //do not delete
 //        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
 //                .thenApply(HttpResponse::body)
 //                .thenApply(APIRequestHandler::parseWeatherData)
