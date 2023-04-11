@@ -34,26 +34,31 @@ public class Tester {
 		cityList.add("Santa+Cruz");
 		//cityList.add("Savanna-La-Mar");
 
+//
+//		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
+//		System.out.println("City ID\t\tCity\t\t\t\t\t\tTemperature\t\tHumidity\t\tWeather\t\tDescription\t\t\t");
+//		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
+////		System.out.println(myCity.getCityName()+"\t\t"+ myCity.getTemp()+"\t\t"+ myCity.getType()+"\t\t"+ myCity.getDescription());
+//
+//		for (String cityCapital : cityList) {
 
-		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("City ID\t\tCity\t\t\t\t\t\tTemperature\t\tHumidity\t\tWeather\t\tDescription\t\t\t");
-		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
-//		System.out.println(myCity.getCityName()+"\t\t"+ myCity.getTemp()+"\t\t"+ myCity.getType()+"\t\t"+ myCity.getDescription());
-
-		for (String cityCapital : cityList) {
-
-			APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?q=" + cityCapital + ",JM&type=hour&start=1680343200&end=1680411599&appid=" + api_KeyCloud, cityCapital);
+			//main test
+			//APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?q=" + cityList.get(0) + ",JM&type=hour&start=1680343200&end=1680411599&appid=" + api_KeyCloud, cityList.get(0));
+			//secondary test
 			//APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?lat=18.017874&lon=-76.809906&type=hour&start=1680343200&end=1680386400&appid=" + api_KeyCloud);
+			//my tests
+			APIRequestHandler test = new APIRequestHandler("https://history.openweathermap.org/data/2.5/history/city?q=Lucea,JM&type=hour&start=1680256800&end=1680948000&appid=bf35fb6d7822ade28ea3197bae75439c", "Lucea");
 			try {
 				test.getWeatherData();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-		}
-		for (var city : City.cityWeatherData) {
-			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
-		}
-	}
+//		}
+//		for (var city : City.cityWeatherData) {
+//			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
+//		}
+//	}
 
 
-}
+
+}}
