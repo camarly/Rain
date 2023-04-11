@@ -1,40 +1,59 @@
 package Project3;
 
 import org.json.JSONObject;
+import java.io.BufferedReader;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 
 public class APICurrentWeather {
 
     //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={API key}
     private static final String BASE_API_URL = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&appid=%s";
     private static final String API_KEY = "dbd8574d10549e41443636960496338d";
-    private HttpClient client;
-    private HttpRequest request;
-    private static String apiResponse;
+
 
     public APICurrentWeather() {
     }
 
+    public static String [] getData (String lat, String lon){
 
-    public static String[] fetchWeatherData (String lat, String lon){
+        try {
+            String urlString = String.format(BASE_API_URL, lat, lon, API_KEY);
+            URL url = new URL(urlString);
 
-        apiResponse = null;
-        String apiCall = String.format(BASE_API_URL,lat, lon, API_KEY);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
 
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiCall)).build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(response -> {apiResponse = response;})
-                .join();
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
 
+            //System.out.println(response);
+            return parseData(response.toString());
 
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (ProtocolException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
-        JSONObject weatherData = new JSONObject(apiResponse);
+    private static String [] parseData (String response){
+
+        JSONObject weatherData = new JSONObject(response);
 
         int dt = weatherData.getInt("dt");
         double temp = weatherData.getJSONObject("main").getDouble("temp");

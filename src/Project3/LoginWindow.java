@@ -28,7 +28,7 @@ public class LoginWindow extends JFrame{
 
 		thisFrame = this;
 
-		setTitle("User Login");
+		setTitle("Rain - User Login");
 
 		JPanel loginPanel = new JPanel();
 		JPanel commandsPanel = new JPanel();

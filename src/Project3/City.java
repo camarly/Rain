@@ -17,8 +17,8 @@ public class City implements Comparable<City> {
 
     public City(String cityName) {
         this.cityName = cityName;
-        this.lat = APIGeoCord.fetchGeoCordinates(cityName)[0];
-        this.lon = APIGeoCord.fetchGeoCordinates(cityName)[1];
+        this.lat = APIGeoCord.getData(cityName)[0];
+        this.lon = APIGeoCord.getData(cityName)[1];
         this.weatherHistory = new ArrayList<>();
         assignId();
 //      cityList.add(this);
@@ -91,6 +91,17 @@ public class City implements Comparable<City> {
 
     public void removeHistory(WeatherCondition wc) {
         weatherHistory.remove(wc);
+    }
+
+    public void UpdateCurrentWeather() {
+        String[] weather = APICurrentWeather.getData(getLat(), getLon());
+        double temp = Double.parseDouble(weather[1]);
+        int humidity = Integer.parseInt(weather[2]);
+        String mainWeather = weather[3];
+        String desc = weather[4];
+        String dt = weather[0];
+
+        current = new WeatherCondition(temp, humidity, mainWeather, desc, dt);
     }
 
 //        public static void removeCity(City city){

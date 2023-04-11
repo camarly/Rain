@@ -3,15 +3,17 @@ package Project3;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUICurrentWeatherList extends JFrame {
 
     private JButton cmdAddCity;
     private JButton cmdRemoveCity;
     private JButton cmdEditCity;
-    private JButton cmdRefreshCurrent;
-    private JButton cmdSearchPast;
-    private JButton cmdViewPrevSearch;
+    private JButton cmdRefresh;
+    private JButton cmdPrevFive;
+    private JButton cmdTmpMap;
 
     private JPanel pnlDisplay;
     private JPanel pnlCrudCmd;
@@ -47,16 +49,23 @@ public class GUICurrentWeatherList extends JFrame {
         cmdAddCity = new JButton("Add City");
         cmdEditCity = new JButton("Edit City");
         cmdRemoveCity = new JButton("Remove City");
-        cmdRefreshCurrent = new JButton("Refresh");
-        cmdSearchPast = new JButton("Weather History Lookup");
-        cmdViewPrevSearch = new JButton("Search History");
+        cmdRefresh = new JButton("Refresh");
+        cmdPrevFive = new JButton("Previous 5 Days");
+        cmdTmpMap = new JButton("Temperature Map");
+
+        cmdAddCity.addActionListener(new AddCityButtonListener());
+        cmdEditCity.addActionListener(new EditCityButtonListener());
+        cmdRemoveCity.addActionListener(new RemoveCityButtonListener());
+        cmdRefresh.addActionListener(new RefreshButtonListener());
+        cmdPrevFive.addActionListener(new FiveDayButtonListener());
+        cmdTmpMap.addActionListener(new TempMapButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
         pnlCrudCmd.add(cmdRemoveCity);
-        pnlSearchCmd.add(cmdRefreshCurrent);
-        pnlSearchCmd.add(cmdSearchPast);
-        pnlSearchCmd.add(cmdViewPrevSearch);
+        pnlSearchCmd.add(cmdRefresh);
+        pnlSearchCmd.add(cmdPrevFive);
+        pnlSearchCmd.add(cmdTmpMap);
 
         add(scrollPane, BorderLayout.NORTH);
         add(pnlCrudCmd, BorderLayout.CENTER);
@@ -66,5 +75,46 @@ public class GUICurrentWeatherList extends JFrame {
         setVisible(true);
     }
 
+    private class AddCityButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class EditCityButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class RemoveCityButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class RefreshButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class FiveDayButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class TempMapButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
 
 }

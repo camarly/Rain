@@ -12,9 +12,18 @@ public class Tester {
 //		// TODO Auto-generated method stub
 //		UserAuthenticate thisUser = new UserAuthenticate("tevinH", "password1")
 
-		//new LoginWindow();
+		new LoginWindow();
+		new GUICurrentWeatherList();
+		new GUICityEntry();
+		new GUICityEdit();
+		new GUIFiveDay();
+		new TemperatureMap();
 
-		String cityInput = "Montego Bay";
+		new GUIFiveDayEntry();
+
+		//APIGeoCord.getData("Montego Bay");
+
+		/*String cityInput = "Montego Bay";
 		String lat = APIGeoCord.fetchGeoCordinates(cityInput)[0];
 		String lon = APIGeoCord.fetchGeoCordinates(cityInput)[1];
 		String start = "1680980400";
@@ -37,10 +46,72 @@ public class Tester {
 
 		for (WeatherCondition wc: city.getWeatherHistory()){
 			System.out.println(wc.toString());
+		}*/
+
+		/*String[] latLon = APIGeoCord.fetchGeoCordinates("Savanna-La-Mar");
+
+		System.out.println(latLon[0]);
+		System.out.println(latLon[1]);*/
+
+		//new GUIFiveDay();
+
+//		String lat = "18.476223";
+//		String lon = "-77.893890";
+//		String start = "1681045200";
+//		String end = "1681092000";
+
+		//APICurrentWeather.getData(lat, lon);
+		//APIGeoCord.getData("Montego Bay");
+		//APIHistoricalWeather.getData(lat, lon, start, end);
+
+		/*String start = "1681045200";
+		String end = "1681092000";
+
+		ArrayList<String> cityList = new ArrayList<>();
+		ArrayList<City>  cities = new ArrayList<>();
+
+		cityList.add("Lucea");
+		cityList.add("Falmouth");
+		cityList.add("Mandeville");
+		cityList.add("Negril");
+		cityList.add("Kingston");
+		cityList.add("Montego Bay");
+		cityList.add("Spanish Town");
+		cityList.add("Port Antonio");
+		cityList.add("Port Maria");
+		cityList.add("May Pen");
+		cityList.add("Morant Bay");
+		cityList.add("Ocho Rios");
+		cityList.add("Santa Cruz");
+		cityList.add("Savanna-La-Mar");
+
+		for (String cityInput: cityList){
+			City city = new City(cityInput);
+			cities.add(city);
+
+			String [] weatherData = APIHistoricalWeather.fetchWeatherData(city.getLat(),city.getLon(),start, end);
+
+			for (String weather: weatherData){
+				String [] record = weather.split(",");
+				double temp = Double.parseDouble(record[1]);
+				int humidity = Integer.parseInt(record[2]);
+				String mainWeather = record[3];
+				String desc = record[4];
+				String dt = record[0];
+				WeatherCondition wc = new WeatherCondition(temp, humidity, mainWeather, desc, dt);
+				city.addToHistory(wc);
+				String toPrint = String.format("City: %s - %d, Temp: %.2f, Humidity: %d, Weather: %s, Description: %s, Daytime: %s", city.getCityName(),city.getId(), temp, humidity, mainWeather, desc, dt);
+				//System.out.println(toPrint);
+
+
+			}
+
+
 		}
 
-
-
+		for (WeatherCondition weather : cities.get(0).getWeatherHistory() ){
+			System.out.println(weather.toString());
+		}*/
 
 		/*ArrayList<String> cityList = new ArrayList<>();
 		cityList.add("Lucea");
@@ -54,10 +125,10 @@ public class Tester {
 		cityList.add("Port+Maria");
 		cityList.add("May+Pen");
 		cityList.add("Morant+Bay");
-		//cityList.add("Saint+Andrew");
+		cityList.add("Saint+Andrew");
 		cityList.add("Ocho+Rios");
 		cityList.add("Santa+Cruz");
-		//cityList.add("Savanna-La-Mar");
+		cityList.add("Savanna-La-Mar");
 
 
 		System.out.println("------------------------------------------------------------------------------------");
