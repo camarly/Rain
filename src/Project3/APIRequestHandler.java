@@ -104,7 +104,6 @@ public class APIRequestHandler {
         String weather = null;
         String type = null;
         String icon = null;
-        int datetime = 0;
         int count = 0;
         ArrayList<String> modeOfWeather = new ArrayList<>();
         ArrayList<String> modeOfDesc = new ArrayList<>();
@@ -117,7 +116,6 @@ public class APIRequestHandler {
 
         for (int i = 0; i < hourlyReports.length(); i++) {
             JSONObject report = hourlyReports.getJSONObject(i);
-            int dt = report.getInt("dt");
             temp += report.getJSONObject("main").getDouble("temp");
             humidity += report.getJSONObject("main").getInt("humidity");
             count += 1;
@@ -125,16 +123,17 @@ public class APIRequestHandler {
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
             icon = report.getJSONArray("weather").getJSONObject(0).getString("icon");
 
-            if (i % 24 ==0){
+            if (i % 24 ==0 && i != 0) {
                 System.out.println("Day " + i/24);
-                temp /= count;
-                humidity /= count;
+                temp /= 24;
+                humidity /= 24;
                 modeOfWeather.add(weather);
                 modeOfDesc.add(description);
                 modeOfIcon.add(icon);
-                City aCity = new City(cityName, temp, humidity, max(modeOfDesc), max(modeOfWeather), max(modeOfIcon), datetime);
-                City.cityWeatherData.add(aCity);
-                System.out.println(cityName + " " + temp + " " + humidity + " " + max(modeOfDesc) + " " + max(modeOfWeather) + " " + max(modeOfIcon) + " " + datetime);
+                System.out.println(cityName + " " + temp + " " + humidity + " " + max(modeOfDesc) + " " + max(modeOfWeather) + " " + max(modeOfIcon));
+                modeOfWeather.clear();
+                modeOfDesc.clear();
+                modeOfIcon.clear();
             }
         }
 
