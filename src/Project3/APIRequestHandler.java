@@ -128,7 +128,7 @@ public class APIRequestHandler {
         String description = null;
         String weather = null;
         String type = null;
-        String icon  =  null;
+        String icon = null;
         int datetime = 0;
         int count = 0;
         ArrayList<String> modeOfWeather = new ArrayList<>();
@@ -142,19 +142,19 @@ public class APIRequestHandler {
         JSONArray hourlyReports = weatherData.getJSONArray("list");
         //System.out.println(weatherData);
 
-        for (int i=0; i < hourlyReports.length(); i++) {
+        for (int i = 0; i < hourlyReports.length(); i++) {
             JSONObject report = hourlyReports.getJSONObject(i);
             int dt = report.getInt("dt");
-            temp+= report.getJSONObject("main").getDouble("temp");
-            humidity+= report.getJSONObject("main").getInt("humidity");
-            count+=1;
+            temp += report.getJSONObject("main").getDouble("temp");
+            humidity += report.getJSONObject("main").getInt("humidity");
+            count += 1;
 
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-            icon = report.getJSONArray("weather").getJSONObject(0).getString("icon");
+            icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
         }
         temp /= count;
-        temp = Math.round(temp * 100.00)/100.00;
+        temp = Math.round(temp * 100.00) / 100.00;
         humidity /= count;
         modeOfWeather.add(weather);
         modeOfDesc.add(description);
@@ -164,7 +164,7 @@ public class APIRequestHandler {
         description = getFrequentItem(modeOfWeather);
         icon = getFrequentItem(modeOfIcon);
 
-        City aCity =  new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
+        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
         City.cityWeatherData.add(aCity);
 
         return null;

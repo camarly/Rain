@@ -109,7 +109,7 @@ public class Tester {
 
 
 		for (var city : City.cityWeatherData) {
-			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + "https://openweathermap.org/img/wn/"+ city.getIcon() +"@2x.png" + "\t" + city.getDescription());
+			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
 		}
 
 	}
