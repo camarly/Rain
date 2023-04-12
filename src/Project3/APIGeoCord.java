@@ -41,7 +41,7 @@ public class APIGeoCord {
             }
             in.close();
 
-           System.out.println(response);
+            //System.out.println(response);
             return parseData(response.toString());
 
         } catch (MalformedURLException ex) {

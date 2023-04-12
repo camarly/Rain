@@ -4,8 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
-public class GUIFiveDayEntry extends JFrame {
+public class GUIWeekHistoryEntry extends JFrame {
 
     private final static String[] MONTHS = {"January", "February", "March", "April",
             "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -25,7 +29,7 @@ public class GUIFiveDayEntry extends JFrame {
     private JPanel pnlCmd;
     private JPanel pnlDate;
 
-    public GUIFiveDayEntry() {
+    public GUIWeekHistoryEntry() {
 
         setTitle("Rain - Select city and date");
 
@@ -86,5 +90,32 @@ public class GUIFiveDayEntry extends JFrame {
 
         }
     }
+
+    //Convert Unix time to readable time
+		public String UnixToDate (long unix){
+			Date date = new Date (unix * 1000);
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+			dateFormat.setTimeZone((TimeZone.getTimeZone("UTC-5")));
+			String readableDT = dateFormat.format(date);
+			return readableDT;
+		}
+
+		//Convert readable time to Unix
+		public String DateToUnix (String readableDT){
+
+			try{
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                dateFormat.setTimeZone(TimeZone.getTimeZone("UTC-5"));
+                Date date = dateFormat.parse(readableDT);
+                String unixDT = String.valueOf(date.toInstant().getEpochSecond());
+                System.out.println(unixDT);
+                return unixDT;
+            }catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        }
 
 }

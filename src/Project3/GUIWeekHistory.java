@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUIFiveDay extends JFrame {
+public class GUIWeekHistory extends JFrame {
 
     private JButton cmdClose;
     private JButton cmdExport;
@@ -17,9 +17,9 @@ public class GUIFiveDay extends JFrame {
     private DefaultTableModel model;
     private JScrollPane scrollPane;
 
-    public GUIFiveDay()  {
+    public GUIWeekHistory()  {
 
-        setTitle("Rain - Five Day History");
+        setTitle("Rain - Prior Week History");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 500);
