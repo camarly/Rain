@@ -5,14 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TemperatureMap extends JFrame {
+public class GUITemperatureMap extends JFrame {
 
     private String imagePath = "./heatmap.png";
     private JLabel heatMap;
     private JButton cmdClose;
     private JPanel pnlCmd;
 
-    public TemperatureMap() {
+    public GUITemperatureMap() {
 
         setTitle("Rain - Temperature Map");
         setSize(900, 700);

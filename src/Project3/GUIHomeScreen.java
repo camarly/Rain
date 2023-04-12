@@ -5,9 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomeScreen extends JFrame {
+public class GUIHomeScreen extends JFrame {
 
-    private HomeScreen thisFrame;
+    private GUIHomeScreen thisFrame;
 
     private JButton cmdCurrentWther;
     private JButton cmdPrevHistory;
@@ -19,7 +19,7 @@ public class HomeScreen extends JFrame {
     private JPanel pnlCmd;
 
 
-    public HomeScreen() {
+    public GUIHomeScreen() {
 
         this.thisFrame = this;
         setTitle("Rain - Main Menu");

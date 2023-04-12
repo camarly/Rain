@@ -15,16 +15,16 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
-public class LoginWindow extends JFrame{
+public class GUILoginWindow extends JFrame{
 
 	private final JTextField usernameField;
 	private final JPasswordField passwordField;
 	private JButton submitButton;
 	private JButton clearButton;
 	private JButton cancelButton;
-	private LoginWindow thisFrame;
+	private GUILoginWindow thisFrame;
 
-	public LoginWindow() {
+	public GUILoginWindow() {
 
 		thisFrame = this;
 
@@ -72,7 +72,7 @@ public class LoginWindow extends JFrame{
 		UserAuthenticate thisUser = new UserAuthenticate(usernameField.getText(), String.valueOf(passwordField.getPassword()));
 		if(thisUser.isValid){
 			thisFrame.setVisible(false);
-			new HomeScreen();
+			new GUIHomeScreen();
 		} else {
 			showMessageDialog(null, "The password and/or username entered is incorrect.\nPlease try again.", "Invalid credentials!", ERROR_MESSAGE);
 		}
