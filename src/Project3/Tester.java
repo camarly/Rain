@@ -5,10 +5,6 @@ import java.util.*;
 
 public class Tester {
 
-	public static void getCities() {
-
-	}
-
 	public static final String api_KeyCloud = "bf35fb6d7822ade28ea3197bae75439c";
 
 	public static HashMap<String, String[]> createCityData(ArrayList<String> cities) {
@@ -25,19 +21,61 @@ public class Tester {
 
 	}
 
+	//7day display
+	//get lat long
+	// get the 7 day data
+	// create city
+	// display information
 
+
+	//move to similar function
+	public static HashMap<String, String[]> createCityData(String city) {
+		HashMap<String, String[]> cityGeoData = new HashMap<>();
+		String[] geoData = {Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[0], Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[1]};
+		cityGeoData.put(city, geoData);
+		return cityGeoData;
+	}
+
+
+	//get 7 day weather data
+	public static void getSevenWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime) {
+		String city = null;
+		String latitude = null;
+		String longitude = null;
+		try {
+			for(Map.Entry<String, String[]> set: cityGeoData.entrySet()) {
+				city = set.getKey();
+				latitude = set.getValue()[1];
+				longitude = set.getValue()[0];
+			}
+			APIRequestHandler svnDayData = new APIRequestHandler(city, longitude, latitude, startTime,endTime, "Historic");
+			svnDayData.getForecastWeatherData();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	//		try {
+//			TemperatureMap tmpMap = new TemperatureMap("PAR0", "2", "1", "1", startTime);
+//			APIRequestHandler test = new APIRequestHandler(tmpMap);
+//			test.getForecastWeatherData();
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
 
 
 	public static void main(String[] args) throws Exception {
-//		 TODO Auto-generated method stub
 
-		//new LoginWindow();
+
+		GUILoginWindow loginWindow = new GUILoginWindow();
+		loginWindow.setVisible(true);
 
 		String startTime = "1680343200";
-		//7day
-//		String startTime = "1680256800";
 		String endTime = "1680386400";
-//		String endTime = "1680948000";
+
+		String startTimeSevenDay = "1680256800";
+		String endTimeSevenDay = "1680948000";
 
 		ArrayList<String> cityList = new ArrayList<>();
 		cityList.add("Lucea");
@@ -60,7 +98,6 @@ public class Tester {
 		var cityData = createCityData(cityList);
 
 
-
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("City ID\t\tCity\t\t\t\t\t\tTemperature\t\tHumidity\t\tWeather\t\tDescription\t\t\t");
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
@@ -78,38 +115,51 @@ public class Tester {
 //			}
 //		}
 
-		for(Map.Entry<String, String[]> set: cityData.entrySet()) {
-			String latitude = set.getValue()[1];
-			String longitude = set.getValue()[0];
+//		for(Map.Entry<String, String[]> set: cityData.entrySet()) {
+//			String latitude = set.getValue()[1];
+//			String longitude = set.getValue()[0];
+//
+//			APIRequestHandler test = new APIRequestHandler(set.getKey(), latitude, longitude, startTime, endTime, "Historic");
+//
+//			try {
+//				test.getWeatherData();
+//			} catch (Exception e) {
+//				throw new RuntimeException(e);
+//			}
 
-			APIRequestHandler test = new APIRequestHandler(set.getKey(), latitude, longitude, startTime, endTime, "Historic");
+		//if 7 day data
+		//			try {
+//				test.getWeatherData();
+//			} catch (Exception e) {
+//				throw new RuntimeException(e);
+//			}
 
-			try {
-				test.getWeatherData();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
 
-			//if 7 day data
+		//weatherMaptest
 //		try {
+//			TemperatureMap tmpMap = new TemperatureMap("PAR0", "2", "1", "1", startTime);
+//			APIRequestHandler test = new APIRequestHandler(tmpMap);
 //			test.getForecastWeatherData();
 //		} catch (Exception e) {
 //			throw new RuntimeException(e);
 //		}
 
-		}
 
 //
 		//to get daily data
-		for (var city : City.cityWeatherData) {
-			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
-		}
+//		for (var city : City.cityWeatherData) {
+//			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
+//		}
 
 		//to get 7day data
 //		for (var city : City.sevenDayCityData) {
 //			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
 //		}
 	}
+
+
+
+
 
 
 }

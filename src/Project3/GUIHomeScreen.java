@@ -66,6 +66,7 @@ public class GUIHomeScreen extends JFrame {
     private class PrevWeekButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            new GUIWeekHistoryEntry();
 
         }
     }

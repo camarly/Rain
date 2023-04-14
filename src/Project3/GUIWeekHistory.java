@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class GUIWeekHistory extends JFrame {
 
     private JButton cmdClose;
@@ -17,7 +18,7 @@ public class GUIWeekHistory extends JFrame {
     private DefaultTableModel model;
     private JScrollPane scrollPane;
 
-    public GUIWeekHistory()  {
+    public GUIWeekHistory(String city, String startTime, String endTime)  {
 
         setTitle("Rain - Prior Week History");
 
@@ -47,6 +48,9 @@ public class GUIWeekHistory extends JFrame {
         pack();
         setVisible(true);
 
+        Tester.getSevenWeatherData(Tester.createCityData(city), startTime, endTime);
+        displayWeatherData();
+
     }
 
     private class ExportButtonListener implements ActionListener{
@@ -61,6 +65,12 @@ public class GUIWeekHistory extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
         }
+    }
+
+    public void displayWeatherData() {
+		for (var city : City.sevenDayCityData) {
+			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
+		}
     }
 
 }

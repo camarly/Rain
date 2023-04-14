@@ -80,6 +80,11 @@ public class GUIWeekHistoryEntry extends JFrame {
     private class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String city = cityField.getText();
+            String startTime = "1680256800";
+            String endTime = "1680948000";
+            GUIWeekHistory wkHistory = new GUIWeekHistory (city, startTime, endTime);
+            wkHistory.setVisible(true);
 
         }
     }
@@ -92,7 +97,7 @@ public class GUIWeekHistoryEntry extends JFrame {
     }
 
     //Convert Unix time to readable time
-    public String UnixToDate (long unix){
+    public String unixToDate (long unix){
         Date date = new Date (unix * 1000);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
@@ -102,7 +107,7 @@ public class GUIWeekHistoryEntry extends JFrame {
     }
 
     //Convert readable time to Unix
-    public String DateToUnix (String readableDT){
+    public String dateToUnix (String readableDT){
 
         try{
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
