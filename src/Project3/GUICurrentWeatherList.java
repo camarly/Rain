@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class GUICurrentWeatherList extends JFrame {
 
@@ -12,10 +13,7 @@ public class GUICurrentWeatherList extends JFrame {
     private JButton cmdRemoveCity;
     private JButton cmdEditCity;
     private JButton cmdRefresh;
-    private JButton cmdPrevFive;
-    private JButton cmdTmpMap;
-
-    private JPanel pnlDisplay;
+    private JButton cmdClose;
     private JPanel pnlCrudCmd;
     private JPanel pnlSearchCmd;
 
@@ -25,16 +23,19 @@ public class GUICurrentWeatherList extends JFrame {
 
     private GUICurrentWeatherList thisFrame;
 
+    private ArrayList<City> cityList;
+
     public GUICurrentWeatherList() {
         super("Rain - Current Weather Listing");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         thisFrame = this;
+        cityList = new ArrayList<>();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
 
-        String[] columnNames = {"City", "Temp", "Humidity", "Weather Condition", "Description", ""};
+        String[] columnNames = {"City", "Temp", "Humidity", "Weather Condition", "Description"};
 
         model = new DefaultTableModel(columnNames, 0);
 
@@ -51,34 +52,54 @@ public class GUICurrentWeatherList extends JFrame {
         cmdEditCity = new JButton("Edit City");
         cmdRemoveCity = new JButton("Remove City");
         cmdRefresh = new JButton("Refresh");
-        cmdPrevFive = new JButton("Previous 5 Days");
-        cmdTmpMap = new JButton("Temperature Map");
+        cmdClose = new JButton("Close");
 
         cmdAddCity.addActionListener(new AddCityButtonListener());
         cmdEditCity.addActionListener(new EditCityButtonListener());
         cmdRemoveCity.addActionListener(new RemoveCityButtonListener());
         cmdRefresh.addActionListener(new RefreshButtonListener());
-        cmdPrevFive.addActionListener(new FiveDayButtonListener());
-        cmdTmpMap.addActionListener(new TempMapButtonListener());
+        cmdClose.addActionListener(new CloseButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
         pnlCrudCmd.add(cmdRemoveCity);
-        pnlSearchCmd.add(cmdRefresh);
-        pnlSearchCmd.add(cmdPrevFive);
-        pnlSearchCmd.add(cmdTmpMap);
+        pnlCrudCmd.add(cmdRefresh);
+        pnlCrudCmd.add(cmdClose);
 
-        add(scrollPane, BorderLayout.NORTH);
-        add(pnlCrudCmd, BorderLayout.CENTER);
-        add(pnlSearchCmd, BorderLayout.SOUTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(pnlCrudCmd, BorderLayout.SOUTH);
 
         pack();
         setVisible(true);
     }
 
+    private void showTable(ArrayList <City> cityList){
+        for (City city: cityList){
+            addToTable(city);
+        }
+    }
+
+    private void addToTable(City city)
+    {
+        String name= city.getCityName();
+        String[] item={name,""+ city.getTemp(),""+city.getHumidity(),""+ city.getType() ,""+ city.getDescription() };
+        model.addRow(item);
+
+    }
+
+    public void addCity(City city)
+    {
+        cityList.add(city);
+        addToTable(city);
+
+    }
+
+
+
     private class AddCityButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            new GUICityEntry(thisFrame);
 
         }
     }
@@ -86,6 +107,7 @@ public class GUICurrentWeatherList extends JFrame {
     private class EditCityButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            new GUICityEdit(thisFrame);
 
         }
     }
@@ -93,29 +115,39 @@ public class GUICurrentWeatherList extends JFrame {
     private class RemoveCityButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            int selectedRow = table.getSelectedRow();
+            if(selectedRow != -1){
+                model.removeRow(table.getSelectedRow());
+                String cityName = (String) model.getValueAt(selectedRow, 0);
 
+                for (City city: cityList){
+                    if (city.getCityName().equals(cityName)) {
+                        cityList.remove(city);
+                    }
+                }
+            }
         }
     }
 
     private class RefreshButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            for (City city: cityList){
+                city.setCurrentWeather();
+            }
+            model.setRowCount(0);
+            showTable(cityList);
 
         }
     }
 
-    private class FiveDayButtonListener implements ActionListener{
+    private class CloseButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            thisFrame.setVisible(false);
 
         }
     }
 
-    private class TempMapButtonListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
 
 }

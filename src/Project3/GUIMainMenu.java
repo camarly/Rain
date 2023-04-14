@@ -12,9 +12,13 @@ public class GUIMainMenu extends JFrame {
     private JButton cmdTempMap;
     private JButton cmdSuggest;
     private JButton cmdAbout;
+    private GUIMainMenu thisFrame;
+    private GUICurrentWeatherList currentWeatherList;
 
 
     public GUIMainMenu() {
+
+        thisFrame = this;
 
         setTitle("Rain - Main Menu");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
@@ -91,19 +95,11 @@ public class GUIMainMenu extends JFrame {
     private class CurrentWeatherButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-    private class PrevWeekButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    private class ForecastButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+            //thisFrame.setVisible(false);
+            if (currentWeatherList == null)
+                currentWeatherList = new GUICurrentWeatherList();
+            else
+                currentWeatherList.setVisible(true);
 
         }
     }
@@ -111,13 +107,24 @@ public class GUIMainMenu extends JFrame {
     private class TempMapButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //thisFrame.setVisible(false);
+            new GUITemperatureMap();
 
         }
     }
 
-    private class AboutUsButtonListener implements ActionListener {
+    private class PrevWeekButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            new GUIWeekEntry(new GUIWeekHistory());
+
+        }
+    }
+
+    private class ForecastButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new GUIWeekEntry(new GUIWeekForecast());
 
         }
     }
@@ -125,8 +132,18 @@ public class GUIMainMenu extends JFrame {
     private class SuggestionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            new GUISuggestions();
 
         }
     }
+    private class AboutUsButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new GUIAboutUs();
+
+        }
+    }
+
+
 
 }

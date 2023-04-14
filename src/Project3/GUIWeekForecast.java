@@ -6,8 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUIWeekHistory extends JFrame {
-
+public class GUIWeekForecast extends JFrame{
     private JButton cmdClose;
     private JButton cmdExport;
 
@@ -17,9 +16,9 @@ public class GUIWeekHistory extends JFrame {
     private DefaultTableModel model;
     private JScrollPane scrollPane;
 
-    public GUIWeekHistory()  {
 
-        setTitle("Rain - Prior Week History");
+    public GUIWeekForecast() {
+        setTitle("Rain - Week Forecast");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +49,7 @@ public class GUIWeekHistory extends JFrame {
 
     }
 
-    private class ExportButtonListener implements ActionListener{
+    private class ExportButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 

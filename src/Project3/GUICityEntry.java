@@ -7,14 +7,15 @@ import java.awt.event.ActionListener;
 
 public class GUICityEntry extends JFrame {
     private JButton cmdAdd;
-    private JButton cmdCancel;
+    private JButton cmdClose;
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
     private JTextField cityName;
     private GUICurrentWeatherList listFrame;
 
-    public GUICityEntry() {
+    public GUICityEntry(GUICurrentWeatherList listFrame) {
 
+        this.listFrame = listFrame;
 
         setTitle("Rain - Add a City");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
@@ -27,12 +28,12 @@ public class GUICityEntry extends JFrame {
         pnlDisplay.add(cityName);
 
         cmdAdd = new JButton("Add");
-        cmdCancel = new JButton("Cancel");
+        cmdClose = new JButton("Close");
         cmdAdd.addActionListener(new AddButtonListener());
-        cmdCancel.addActionListener(new CancelButtonListener());
+        cmdClose.addActionListener(new CloseButtonListener());
 
         pnlCmd.add(cmdAdd);
-        pnlCmd.add(cmdCancel);
+        pnlCmd.add(cmdClose);
 
         add(pnlDisplay, BorderLayout.CENTER);
         add(pnlCmd, BorderLayout.SOUTH);
@@ -44,13 +45,33 @@ public class GUICityEntry extends JFrame {
     private class AddButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            String name = null;
+            String lat = null;
+            String lon = null;
+
+
+            name = cityName.getText();
+            City city = new City ();
+            city.setCityName(name);
+//            lat = APIGeoCordHandler.fetchGeoCordinates(name)[0];
+//            lon = APIGeoCordHandler.fetchGeoCordinates(name)[1];
+//
+//            city.setTemp(Double.parseDouble(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[1]));
+//            city.setHumidity(Integer.parseInt(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[2]));
+//            city.setType(String.valueOf(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]));
+//            System.out.println(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]);
+//            city.setDescription(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[4]);
+            city.setCurrentWeather();
+            listFrame.addCity(city);
+            cityName.setText("");
 
         }
     }
 
-    private class CancelButtonListener implements ActionListener{
+    private class CloseButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            dispose();
 
         }
     }

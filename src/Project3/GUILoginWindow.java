@@ -1,7 +1,6 @@
 package Project3;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.*;
@@ -17,18 +16,31 @@ public class GUILoginWindow extends JFrame{
     private JButton submitButton;
     private JButton clearButton;
     private JButton cancelButton;
+    private JLabel rainIcon;
+    private JPanel loginPanel;
+    private JPanel commandsPanel;
     private GUILoginWindow thisFrame;
 
     public GUILoginWindow() {
 
         thisFrame = this;
 
-
         setTitle("Rain - User Login");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
-        JPanel loginPanel = new JPanel();
-        JPanel commandsPanel = new JPanel();
+        ImageIcon image = new ImageIcon("pandaicon.png");
+        ImageIcon resizedImage = new ImageIcon(image.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH));
+        rainIcon = new JLabel(resizedImage);
+        rainIcon.setHorizontalAlignment(JLabel.CENTER);
+
+        loginPanel = new JPanel();
+        commandsPanel = new JPanel();
+
+        /*JLabel username = new JLabel("Username");
+        username.setHorizontalAlignment(JLabel.CENTER);*/
+
+        loginPanel.setLayout(new GridLayout(2, 2));
+
 
         loginPanel.add(new JLabel("Username"));
         usernameField = new JTextField(20);
@@ -40,7 +52,6 @@ public class GUILoginWindow extends JFrame{
         loginPanel.add(passwordField);
 
 
-        loginPanel.setLayout(new GridLayout(2, 3));
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this::loginEvent);
@@ -54,7 +65,7 @@ public class GUILoginWindow extends JFrame{
         cancelButton.addActionListener(this::cancelEvent);
         commandsPanel.add(cancelButton);
 
-
+        add(rainIcon, BorderLayout.NORTH);
         add(loginPanel, BorderLayout.CENTER);
         add(commandsPanel, BorderLayout.SOUTH);
 

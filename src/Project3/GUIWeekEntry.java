@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class GUIWeekHistoryEntry extends JFrame {
+public class GUIWeekEntry extends JFrame {
 
     private final static String[] MONTHS = {"January", "February", "March", "April",
             "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -28,8 +28,13 @@ public class GUIWeekHistoryEntry extends JFrame {
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
     private JPanel pnlDate;
+    private JFrame inputFrame;
+    private GUIWeekEntry thisFrame;
 
-    public GUIWeekHistoryEntry() {
+    public GUIWeekEntry(JFrame inputFrame) {
+
+        this.inputFrame = inputFrame;
+        thisFrame = this;
 
         setTitle("Rain - Select city and date");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
@@ -78,19 +83,7 @@ public class GUIWeekHistoryEntry extends JFrame {
         setVisible(true);
     }
 
-    private class SubmitButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
-        }
-    }
-
-    private class CancelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
 
     //Convert Unix time to readable time
     public String UnixToDate (long unix){
@@ -117,6 +110,21 @@ public class GUIWeekHistoryEntry extends JFrame {
         }
 
 
+    }
+
+    private class SubmitButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private class CancelButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            thisFrame.dispose();
+
+        }
     }
 
 }
