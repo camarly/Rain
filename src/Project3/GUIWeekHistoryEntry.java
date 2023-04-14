@@ -32,6 +32,7 @@ public class GUIWeekHistoryEntry extends JFrame {
     public GUIWeekHistoryEntry() {
 
         setTitle("Rain - Select city and date");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();

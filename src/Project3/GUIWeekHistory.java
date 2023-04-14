@@ -20,6 +20,7 @@ public class GUIWeekHistory extends JFrame {
     public GUIWeekHistory()  {
 
         setTitle("Rain - Prior Week History");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 500);

@@ -17,6 +17,7 @@ public class GUICityEdit extends JFrame {
     public GUICityEdit() {
 
         setTitle("Rain - Edit City");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();

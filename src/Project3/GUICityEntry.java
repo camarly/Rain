@@ -17,6 +17,7 @@ public class GUICityEntry extends JFrame {
 
 
         setTitle("Rain - Add a City");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();

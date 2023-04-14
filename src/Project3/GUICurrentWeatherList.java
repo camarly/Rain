@@ -27,6 +27,7 @@ public class GUICurrentWeatherList extends JFrame {
 
     public GUICurrentWeatherList() {
         super("Rain - Current Weather Listing");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         thisFrame = this;
 

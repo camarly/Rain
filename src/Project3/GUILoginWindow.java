@@ -4,12 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -28,7 +23,9 @@ public class GUILoginWindow extends JFrame{
 
         thisFrame = this;
 
+
         setTitle("Rain - User Login");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         JPanel loginPanel = new JPanel();
         JPanel commandsPanel = new JPanel();
@@ -71,8 +68,9 @@ public class GUILoginWindow extends JFrame{
         // TODO Auto-generated method stub
         UserAuthenticate thisUser = new UserAuthenticate(usernameField.getText(), String.valueOf(passwordField.getPassword()));
         if(thisUser.isValid){
-            thisFrame.setVisible(false);
-            new GUIHomeScreen();
+            this.setVisible(false);
+            new GUIMainMenu();
+            this.dispose();
         } else {
             showMessageDialog(null, "The password and/or username entered is incorrect.\nPlease try again.", "Invalid credentials!", ERROR_MESSAGE);
         }

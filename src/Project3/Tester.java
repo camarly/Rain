@@ -31,6 +31,8 @@ public class Tester {
 	public static void main(String[] args) throws Exception {
 //		 TODO Auto-generated method stub
 
+		new GUILoginWindow();
+/*
 		//new LoginWindow();
 
 		String startTime = "1680343200";
@@ -109,6 +111,7 @@ public class Tester {
 //		for (var city : City.sevenDayCityData) {
 //			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
 //		}
+		*/
 	}
 
 

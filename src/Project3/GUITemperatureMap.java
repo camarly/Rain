@@ -15,6 +15,7 @@ public class GUITemperatureMap extends JFrame {
     public GUITemperatureMap() {
 
         setTitle("Rain - Temperature Map");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
         setSize(900, 700);
 
         ImageIcon image = new ImageIcon(imagePath);
