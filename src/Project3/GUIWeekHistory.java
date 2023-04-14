@@ -18,7 +18,11 @@ public class GUIWeekHistory extends JFrame {
     private DefaultTableModel model;
     private JScrollPane scrollPane;
 
-    public GUIWeekHistory(String city, String startTime, String endTime)  {
+    private String type= null;
+
+    public GUIWeekHistory(String city, String startTime, String endTime, String type)  {
+
+        this.type = type;
 
         setTitle("Rain - Prior Week History");
 
@@ -48,7 +52,7 @@ public class GUIWeekHistory extends JFrame {
         pack();
         setVisible(true);
 
-        Tester.getSevenWeatherData(Tester.createCityData(city), startTime, endTime);
+        RainLibrary.getSevenWeatherData(RainLibrary.createCityData(city), startTime, endTime,type);
         displayWeatherData();
 
     }
@@ -71,6 +75,12 @@ public class GUIWeekHistory extends JFrame {
 		for (var city : City.sevenDayCityData) {
 			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
 		}
+    }
+
+    public void displaySvnDayWeatherData() {
+        for (var city : City.futureSevenDayCityData) {
+            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
+        }
     }
 
 }

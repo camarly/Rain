@@ -29,7 +29,10 @@ public class GUIWeekHistoryEntry extends JFrame {
     private JPanel pnlCmd;
     private JPanel pnlDate;
 
-    public GUIWeekHistoryEntry() {
+    private String type = null;
+
+    public GUIWeekHistoryEntry(String type) {
+        this.type = type;
 
         setTitle("Rain - Select city and date");
 
@@ -83,9 +86,8 @@ public class GUIWeekHistoryEntry extends JFrame {
             String city = cityField.getText();
             String startTime = "1680256800";
             String endTime = "1680948000";
-            GUIWeekHistory wkHistory = new GUIWeekHistory (city, startTime, endTime);
+            GUIWeekHistory wkHistory = new GUIWeekHistory (city, startTime, endTime, getReportType());
             wkHistory.setVisible(true);
-
         }
     }
 
@@ -123,4 +125,7 @@ public class GUIWeekHistoryEntry extends JFrame {
 
     }
 
+    public String getReportType() {
+        return this.type;
+    }
 }

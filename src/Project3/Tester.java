@@ -68,8 +68,10 @@ public class Tester {
 	public static void main(String[] args) throws Exception {
 
 
-		GUILoginWindow loginWindow = new GUILoginWindow();
-		loginWindow.setVisible(true);
+//		GUILoginWindow loginWindow = new GUILoginWindow();
+//		loginWindow.setVisible(true);
+		MainMenu mainMenu = new MainMenu();
+		mainMenu.setVisible(true);
 
 		String startTime = "1680343200";
 		String endTime = "1680386400";
@@ -95,7 +97,7 @@ public class Tester {
 		cityList.add("Savanna-La-Mar");
 
 		//rename
-		var cityData = createCityData(cityList);
+		var allCityData = createCityData(cityList);
 
 
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
@@ -156,8 +158,6 @@ public class Tester {
 //			System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
 //		}
 	}
-
-
 
 
 

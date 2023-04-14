@@ -36,7 +36,7 @@ public class RainLibrary {
     }
 
     //get 7-day weather data
-    public static void getSevenWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime) {
+    public static void getSevenWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime, String type) {
         String city = null;
         String latitude = null;
         String longitude = null;
@@ -46,16 +46,37 @@ public class RainLibrary {
                 latitude = set.getValue()[1];
                 longitude = set.getValue()[0];
             }
-            APIRequestHandler svnDayData = new APIRequestHandler(city, longitude, latitude, startTime,endTime, "Historic");
-            svnDayData.getForecastWeatherData();
+            if (type.equals("Historic")) {
+                APIRequestHandler svnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Historic");
+                svnDayData.getForecastWeatherData();
+            } else {
+                APIRequestHandler futuresvnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Future");
+                futuresvnDayData.getFutureWeatherData();
+                System.out.println(longitude + ":" +latitude);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
 
+    public static void getAllCityData(HashMap<String, String[]> allCityData, String startTime, String endTime) {
+        for (Map.Entry<String, String[]> set : allCityData.entrySet()) {
+            String latitude = set.getValue()[1];
+            String longitude = set.getValue()[0];
+
+            APIRequestHandler test = new APIRequestHandler(set.getKey(), latitude, longitude, startTime, endTime, "Historic");
+
+            try {
+                test.getWeatherData();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
 
 
+    }
 
 
 

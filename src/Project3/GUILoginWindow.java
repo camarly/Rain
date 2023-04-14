@@ -1,7 +1,6 @@
 package Project3;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
@@ -9,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -24,6 +24,8 @@ public class GUILoginWindow extends JFrame{
     private JButton cancelButton;
     private GUILoginWindow thisFrame;
 
+    private JLabel rainIcon;
+
     public GUILoginWindow() {
 
         thisFrame = this;
@@ -32,6 +34,14 @@ public class GUILoginWindow extends JFrame{
 
         JPanel loginPanel = new JPanel();
         JPanel commandsPanel = new JPanel();
+
+        ImageIcon image = new ImageIcon("./resources/images/pandaicon.png");
+        ImageIcon resizedImage = new ImageIcon(image.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH));
+        rainIcon = new JLabel(resizedImage);
+        rainIcon.setHorizontalAlignment(JLabel.CENTER);
+        add(rainIcon, BorderLayout.NORTH);
+
+
 
         loginPanel.add(new JLabel("Username"));
         usernameField = new JTextField(20);
@@ -72,7 +82,7 @@ public class GUILoginWindow extends JFrame{
         UserAuthenticate thisUser = new UserAuthenticate(usernameField.getText(), String.valueOf(passwordField.getPassword()));
         if(thisUser.isValid){
             thisFrame.setVisible(false);
-            new GUIHomeScreen();
+            new MainMenu();
         } else {
             showMessageDialog(null, "The password and/or username entered is incorrect.\nPlease try again.", "Invalid credentials!", ERROR_MESSAGE);
         }
