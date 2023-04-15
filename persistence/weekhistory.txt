@@ -1,9 +1,7 @@
-
-Day 1	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 2	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 3	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 4	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 5	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 6	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 7	Kingston	637.9600000000002	1962	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-
+Day 1	Port Antonio	23.68	81	https://openweathermap.org/img/wn/02n@2x.png	few clouds
+Day 2	Port Antonio	22.39	83	https://openweathermap.org/img/wn/01n@2x.png	clear sky
+Day 3	Port Antonio	21.08	83	https://openweathermap.org/img/wn/01n@2x.png	clear sky
+Day 4	Port Antonio	21.09	83	https://openweathermap.org/img/wn/01n@2x.png	clear sky
+Day 5	Port Antonio	19.97	83	https://openweathermap.org/img/wn/01n@2x.png	clear sky
+Day 6	Port Antonio	21.09	83	https://openweathermap.org/img/wn/01n@2x.png	clear sky
+Day 7	Port Antonio	20.53	83	https://openweathermap.org/img/wn/01n@2x.png	clear sky
