@@ -1,14 +1,7 @@
-Day 4	Kingston	28.65	76	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
-Day 5	Kingston	31.03	54	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 6	Kingston	29.41	64	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
-Day 7	Kingston	28.52	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 8	Kingston	28.99	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 9	Kingston	30.28	58	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 10	Kingston	29.56	64	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 11	Lucea	28.76	74	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 12	Lucea	27.26	73	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 13	Lucea	27.44	70	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
-Day 14	Lucea	27.05	73	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 15	Lucea	27.38	71	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 16	Lucea	27.24	73	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 17	Lucea	27.32	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 1	Port Maria	27.99	71	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 2	Port Maria	28.71	65	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 3	Port Maria	28.76	63	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 4	Port Maria	27.73	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 5	Port Maria	28.32	66	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 6	Port Maria	28.15	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 7	Port Maria	28.26	67	https://openweathermap.org/img/wn/10d@2x.png	light rain

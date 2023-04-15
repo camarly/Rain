@@ -49,7 +49,7 @@ public class APIRequestHandler {
         APIRequestHandler.cityName = cityName;
 
         if(type.equals("Historic")) {
-            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
+            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + endTime + "&end=" + startTime + "&appid=" + aPiKey02+"&units=metric";
         }
         else if (type.equals("Current")){
             this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+longitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
@@ -217,47 +217,50 @@ public class APIRequestHandler {
         JSONObject cityData = new JSONObject(responseBody);
 
         JSONObject weatherData = new JSONObject(responseBody);
+        System.out.println(weatherData);
         JSONArray hourlyReports = weatherData.getJSONArray("list");
 
         System.out.println(hourlyReports);
+
+        int count = 0;
 
         for (int i = 0; i < hourlyReports.length(); i++) {
 
             System.out.println("here 3");
 
             JSONObject report = hourlyReports.getJSONObject(i);
-            temp += report.getJSONObject("main").getDouble("temp");
-            humidity += report.getJSONObject("main").getInt("humidity");
-
+            temp = report.getJSONObject("main").getDouble("temp");
+            humidity = report.getJSONObject("main").getInt("humidity");
+            count += 1;
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
             icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
 
             System.out.println("here 2");
 
-            if (i % 24==0 && i != 0) {
-                temp /= 24;
-                temp = Math.round(temp * 100.00) / 100.00;
-                humidity /= 24;
-                modeOfWeather.add(weather);
-                modeOfDesc.add(description);
-                modeOfIcon.add(icon);
-
-                weather = getFrequentItem(modeOfWeather);
-                description = getFrequentItem(modeOfWeather);
-                icon = getFrequentItem(modeOfIcon);
-
-                City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-                City.historicSevenDayCityData.add(aCity);
-
-                System.out.println(weather);
-                System.out.println(temp);
-
-                modeOfWeather.clear();
-                modeOfDesc.clear();
-                modeOfIcon.clear();
-
-            }
+//            if (i % 7==0 && i != 0) {
+//                temp /= count;
+//                temp = Math.round(temp * 100.00) / 100.00;
+//                humidity /= count;
+//                modeOfWeather.add(weather);
+//                modeOfDesc.add(description);
+//                modeOfIcon.add(icon);
+//
+//                weather = getFrequentItem(modeOfWeather);
+//                description = getFrequentItem(modeOfWeather);
+//                icon = getFrequentItem(modeOfIcon);
+//
+//                City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
+//                City.historicSevenDayCityData.add(aCity);
+//
+//                System.out.println(weather);
+//                System.out.println(temp);
+//
+//                modeOfWeather.clear();
+//                modeOfDesc.clear();
+//                modeOfIcon.clear();
+//
+//            }
             City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
             City.historicSevenDayCityData.add(aCity);
 
@@ -371,6 +374,7 @@ public class APIRequestHandler {
 
         JSONObject cityData = new JSONObject(responseBody);
         JSONArray dailyReports = cityData.getJSONArray("list");
+        System.out.println(cityData);
 
         for (int i = 0; i < dailyReports.length(); i++) {
             JSONObject report = dailyReports.getJSONObject(i);
