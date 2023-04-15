@@ -36,7 +36,7 @@ public class RainLibrary {
     }
 
     //get 7-day weather data
-    public static void getSevenWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime, String type) {
+    public static void getSevenDayWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime, String type) {
         String city = null;
         String latitude = null;
         String longitude = null;
@@ -48,7 +48,7 @@ public class RainLibrary {
             }
             if (type.equals("Historic")) {
                 APIRequestHandler svnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Historic");
-                svnDayData.getForecastWeatherData();
+                svnDayData.getHistoricWeatherData();
             } else {
                 APIRequestHandler futuresvnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Future");
                 futuresvnDayData.getFutureWeatherData();

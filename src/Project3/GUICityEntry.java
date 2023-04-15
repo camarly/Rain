@@ -74,4 +74,30 @@ public class GUICityEntry extends JFrame {
             dispose();
         }
     }
+
+
+//    private class SaveButtonListener implements ActionListener{
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            String name = cityName.getText();
+//
+//            for (City city: listFrame.getCityList()){
+//                if (city.getCityName().equals(editCity)){
+//                    city.setCityName(name);
+//                    city.setCurrentWeather();
+//                    listFrame.showTable(listFrame.getCityList());
+//                    dispose();
+//                }
+//            }
+//        }
+//    }
+
+    private class CancelButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+
+        }
+    }
+
 }

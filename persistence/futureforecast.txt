@@ -1,21 +1,7 @@
-Day 1	Port Maria	26.88	87	https://openweathermap.org/img/wn/03n@2x.png	Clouds
-Day 2	Port Maria	26.23	88	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 3	Port Maria	25.7	88	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 4	Port Maria	26.13	87	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 5	Port Maria	25.97	89	https://openweathermap.org/img/wn/03n@2x.png	Clouds
-Day 6	Port Maria	26.78	88	https://openweathermap.org/img/wn/04n@2x.png	Clouds
-Day 7	Port Maria	27.52	84	https://openweathermap.org/img/wn/04n@2x.png	Clouds
-Day 8	Port Antonio	26.88	81	https://openweathermap.org/img/wn/03n@2x.png	Clouds
-Day 9	Port Antonio	26.27	78	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 10	Port Antonio	25.81	79	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 11	Port Antonio	26.21	79	https://openweathermap.org/img/wn/03n@2x.png	Clouds
-Day 12	Port Antonio	25.99	80	https://openweathermap.org/img/wn/04n@2x.png	Clouds
-Day 13	Port Antonio	26.91	79	https://openweathermap.org/img/wn/03n@2x.png	Clouds
-Day 14	Port Antonio	27.5	75	https://openweathermap.org/img/wn/04n@2x.png	Clouds
-Day 15	Falmouth	27.62	80	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 16	Falmouth	26.62	80	https://openweathermap.org/img/wn/01n@2x.png	Clear
-Day 17	Falmouth	26.74	78	https://openweathermap.org/img/wn/01n@2x.png	Clear
-Day 18	Falmouth	27.03	79	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 19	Falmouth	27.57	82	https://openweathermap.org/img/wn/02n@2x.png	Clouds
-Day 20	Falmouth	27.86	79	https://openweathermap.org/img/wn/04n@2x.png	Clouds
-Day 21	Falmouth	27.95	71	https://openweathermap.org/img/wn/01n@2x.png	Clear
+Day 1	Kingston	26.96	78	https://openweathermap.org/img/wn/02n@2x.png	Clouds
+Day 2	Kingston	27.16	82	https://openweathermap.org/img/wn/01n@2x.png	Clear
+Day 3	Kingston	27.49	79	https://openweathermap.org/img/wn/01n@2x.png	Clear
+Day 4	Kingston	27.76	78	https://openweathermap.org/img/wn/01n@2x.png	Clear
+Day 5	Kingston	27.29	83	https://openweathermap.org/img/wn/01n@2x.png	Clear
+Day 6	Kingston	27.52	78	https://openweathermap.org/img/wn/01n@2x.png	Clear
+Day 7	Kingston	28.47	71	https://openweathermap.org/img/wn/01n@2x.png	Clear

@@ -39,7 +39,7 @@ public class GUITemperatureMap extends JFrame {
     private class CloseButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            dispose();
         }
     }
 

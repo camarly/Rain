@@ -27,8 +27,9 @@ public class GUICityEdit extends JFrame {
 
         cmdSave = new JButton("Save");
         cmdCancel = new JButton("Cancel");
+
         cmdSave.addActionListener(new SaveButtonListener());
-        cmdCancel.addActionListener(new CancelButtonListener());
+//        cmdCancel.addActionListener(new CancelButtonListener());
 
         pnlCmd.add(cmdSave);
         pnlCmd.add(cmdCancel);
@@ -39,19 +40,29 @@ public class GUICityEdit extends JFrame {
         setVisible(true);
     }
 
-    private class SaveButtonListener implements ActionListener{
+    private class SaveButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String name = cityName.getText();
 
+//            for (City city: listFrame.getCityList()){
+//                if (city.getCityName().equals(editCity)){
+//                    city.setCityName(name);
+//                    city.setCurrentWeather();
+//                    listFrame.showTable(listFrame.getCityList());
+//                    dispose();
+//                }
+//            }
+//        }
+        }
+
+        private class CancelButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+
+            }
         }
     }
-
-    private class CancelButtonListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
 
 }

@@ -22,9 +22,12 @@ public class GUILoginWindow extends JFrame{
     private JButton submitButton;
     private JButton clearButton;
     private JButton cancelButton;
-    private GUILoginWindow thisFrame;
 
     private JLabel rainIcon;
+    private JPanel loginPanel;
+    private JPanel commandsPanel;
+    private GUILoginWindow thisFrame;
+
 
     public GUILoginWindow() {
 

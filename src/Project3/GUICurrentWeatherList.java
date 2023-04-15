@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GUICurrentWeatherList extends JFrame {
 
@@ -15,6 +16,10 @@ public class GUICurrentWeatherList extends JFrame {
     private JButton cmdRefresh;
     private JButton cmdClose;
     private JPanel pnlCrudCmd;
+    private JButton cmdSortByName;
+    private JButton cmdSortByTemp;
+    private JButton cmdSortByHumidity;
+
     private JPanel pnlSearchCmd;
 
     private JTable table;
@@ -51,18 +56,27 @@ public class GUICurrentWeatherList extends JFrame {
         cmdEditCity = new JButton("Edit City");
         cmdRemoveCity = new JButton("Remove City");
         cmdRefresh = new JButton("Refresh");
+        cmdSortByName = new JButton("Sort by Name");
+        cmdSortByTemp = new JButton("Sort by Temperature");
+        cmdSortByHumidity = new JButton("Sort by Humidity");
         cmdClose = new JButton("Close");
 
         cmdAddCity.addActionListener(new AddCityButtonListener());
         cmdEditCity.addActionListener(new EditCityButtonListener());
         cmdRemoveCity.addActionListener(new RemoveCityButtonListener());
         cmdRefresh.addActionListener(new RefreshButtonListener());
+        cmdSortByName.addActionListener(new SortByNameButtonListener());
+        cmdSortByTemp.addActionListener(new SortByTempButtonListener());
+        cmdSortByHumidity.addActionListener(new SortByHumidityButtonListener());
         cmdClose.addActionListener(new CloseButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
         pnlCrudCmd.add(cmdRemoveCity);
         pnlCrudCmd.add(cmdRefresh);
+        pnlCrudCmd.add(cmdSortByName);
+        pnlCrudCmd.add(cmdSortByTemp);
+        pnlCrudCmd.add(cmdSortByHumidity);
         pnlCrudCmd.add(cmdClose);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -74,30 +88,31 @@ public class GUICurrentWeatherList extends JFrame {
         showDetails();
     }
 
-    private void showTable(ArrayList <City> cityList){
-        for (City city: cityList){
+    private void showTable(ArrayList<City> cityList) {
+        model.setRowCount(0);
+        for (City city : cityList) {
             addToTable(city);
         }
     }
 
-    private void addToTable(City city)
-    {
-        String name= city.getCityName();
-        String[] item={name,""+ city.getTemp(),""+city.getHumidity(),""+ city.getType() ,""+ city.getDescription()};
+    public ArrayList<City> getCityList() {
+        return City.cityList;
+    }
+
+    private void addToTable(City city) {
+        String name = city.getCityName();
+        String[] item = {name, "" + city.getTemp(), "" + city.getHumidity(), "" + city.getIcon(), "" + city.getDescription()};
         model.addRow(item);
 
     }
 
-    public void addCity(City city)
-    {
+    public void addCity(City city) {
         City.cityList.add(city);
         addToTable(city);
-
     }
 
 
-
-    private class AddCityButtonListener implements ActionListener{
+    private class AddCityButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             new GUICityEntry(thisFrame);
@@ -105,7 +120,7 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
-    private class EditCityButtonListener implements ActionListener{
+    private class EditCityButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             new GUICityEdit(thisFrame);
@@ -113,15 +128,15 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
-    private class RemoveCityButtonListener implements ActionListener{
+    private class RemoveCityButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedRow = table.getSelectedRow();
-            if(selectedRow != -1){
+            if (selectedRow != -1) {
                 model.removeRow(table.getSelectedRow());
                 String cityName = (String) model.getValueAt(selectedRow, 0);
 
-                for (City city: City.cityList){
+                for (City city : City.cityList) {
                     if (city.getCityName().equals(cityName)) {
                         City.cityList.remove(city);
                     }
@@ -130,10 +145,10 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
-    private class RefreshButtonListener implements ActionListener{
+    private class RefreshButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (City city: City.cityList){
+            for (City city : City.cityList) {
                 city.setCurrentWeather();
             }
             model.setRowCount(0);
@@ -142,7 +157,7 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
-    private class CloseButtonListener implements ActionListener{
+    private class CloseButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             thisFrame.setVisible(false);
@@ -152,9 +167,38 @@ public class GUICurrentWeatherList extends JFrame {
 
     public void showDetails() {
         model.setRowCount(0);
-        for(City city : City.cityList) {
+        for (City city : City.cityList) {
             addToTable(city);
         }
     }
 
+
+    private class SortByNameButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.setRowCount(0);
+            Collections.sort(City.cityList);
+            thisFrame.showTable(City.cityList);
+        }
+    }
+
+    private class SortByTempButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.setRowCount(0);
+            Collections.sort(City.cityList, new SortbyTemperature());
+            thisFrame.showTable(City.cityList);
+
+
+        }
+    }
+
+    private class SortByHumidityButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.setRowCount(0);
+            Collections.sort(City.cityList,new SortByHumidity());
+            thisFrame.showTable(City.cityList);
+        }
+    }
 }
