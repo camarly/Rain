@@ -140,11 +140,10 @@ public class GUIWeekHistory extends JFrame {
         Path path = null;
         if(type.equals("Historic"))
             path = Paths.get("./persistence/weekhistory.txt");
-        else if (type.equals("Current"))
-            path = Paths.get("./persistence/currweatherlist.txt");
         else
             path = Paths.get("./persistence/futureforecast.txt");
-        for (var city : City.historicSevenDayCityData) {
+        for (int i = 0; i < 7 && i < City.historicSevenDayCityData.size(); i++) {
+            City city = City.historicSevenDayCityData.get(i);
             strToSave.append("Day ").append(city.getCityID()).append("\t")
                     .append(city.getCityName()).append("\t")
                     .append(city.getTemp()).append("\t")
@@ -152,10 +151,11 @@ public class GUIWeekHistory extends JFrame {
                     .append(city.getIcon()).append("\t")
                     .append(city.getDescription())
                     .append(System.lineSeparator());
-            Files.writeString(path, strToSave.toString());
             System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
+
         }
-        strToSave.setLength(0);
+            Files.writeString(path, strToSave.toString());
+            strToSave.setLength(0);
     }
 
 //this function is never used btw

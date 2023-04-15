@@ -49,9 +49,7 @@ public class APIRequestHandler {
         APIRequestHandler.cityName = cityName;
 
         if(type.equals("Historic")) {
-//            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
-//            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat=" + latitude + "&lon=" + longitude + "&type=hour&start=" + startTime + "&cnt=8&appid=" + aPiKey02+"&units=metric";
-            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat=" + getLatitude() + "&lon=" + getLongitude() + "&appid="+ aPiKey03 + "&units=metric";
+            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + endTime + "&end=" + startTime + "&appid=" + aPiKey02+"&units=metric";
         }
         else if (type.equals("Current")){
             this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
@@ -221,16 +219,19 @@ public class APIRequestHandler {
         JSONObject cityData = new JSONObject(responseBody);
 
         JSONObject weatherData = new JSONObject(responseBody);
+        System.out.println(weatherData);
         JSONArray hourlyReports = weatherData.getJSONArray("list");
 
+
+        int count = 0;
 
         for (int i = 0; i < hourlyReports.length(); i++) {
 
 
             JSONObject report = hourlyReports.getJSONObject(i);
-            temp += report.getJSONObject("main").getDouble("temp");
-            humidity += report.getJSONObject("main").getInt("humidity");
-
+            temp = report.getJSONObject("main").getDouble("temp");
+            humidity = report.getJSONObject("main").getInt("humidity");
+            count += 1;
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
             icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
@@ -430,6 +431,7 @@ public class APIRequestHandler {
 
         JSONObject cityData = new JSONObject(responseBody);
         JSONArray dailyReports = cityData.getJSONArray("list");
+        System.out.println(cityData);
 
         for (int i = 0; i < dailyReports.length(); i++) {
             JSONObject report = dailyReports.getJSONObject(i);

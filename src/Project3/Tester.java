@@ -33,6 +33,7 @@ public class Tester {
 //					RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData("Kingston"), "1681516800", "1680998400", "Historic");
 //					displayWeatherData();
 //					APIRequestHandler test = new APIRequestHandler("Kingston","17.9712148", "-76.7928128", "1681516800", "1680998400" ,"Historic");
+
 //				    APIRequestHandler.parseHistoricData(test.getHistoricWeatherData());
 //					APIRequestHandler test = new APIRequestHandler("Kingston","00000", "00000", "Future", 3);
 //					test.getFutureWeatherData();

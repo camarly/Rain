@@ -1,0 +1,1 @@
+Day 1	Lucea	29.44	79	https://openweathermap.org/img/wd/04n@2x.png	light rain
