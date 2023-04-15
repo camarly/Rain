@@ -44,8 +44,6 @@ public class GUIWeekHistory extends JFrame {
 
     public GUIWeekHistory(String city, String type) throws IOException, ParseException {
 
-        setSize(600, 600);
-
         this.type = type;
 
         setTitleWindow(type);
@@ -112,8 +110,8 @@ public class GUIWeekHistory extends JFrame {
         frame.setPreferredSize(new Dimension(600, 600));
         frame.add(pnlDisplay, BorderLayout.CENTER);
         frame.add(pnlCmd, BorderLayout.SOUTH);
-
-        pack();
+        frame.pack();
+        setSize(600, 600);
         frame.setVisible(true);
     }
 
