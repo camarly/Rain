@@ -58,7 +58,8 @@ public class City implements Comparable<City> {
 
     @Override
     public int compareTo(City o) {
-        return 0;
+
+        return this.getCityName().compareTo(o.getCityName());
     }
 
 

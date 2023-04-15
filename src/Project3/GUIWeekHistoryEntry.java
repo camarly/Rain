@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,7 +87,12 @@ public class GUIWeekHistoryEntry extends JFrame {
             String city = cityField.getText();
             String startTime = "1680256800";
             String endTime = "1680948000";
-            GUIWeekHistory wkHistory = new GUIWeekHistory (city, startTime, endTime, getReportType());
+            GUIWeekHistory wkHistory = null;
+            try {
+                wkHistory = new GUIWeekHistory(city, startTime, endTime, getReportType());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             wkHistory.setVisible(true);
         }
     }

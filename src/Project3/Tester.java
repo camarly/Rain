@@ -1,7 +1,10 @@
 
 package Project3;
 
+import java.awt.*;
 import java.util.*;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class Tester {
 
@@ -68,10 +71,26 @@ public class Tester {
 	public static void main(String[] args) throws Exception {
 
 
-//		GUILoginWindow loginWindow = new GUILoginWindow();
-//		loginWindow.setVisible(true);
-		MainMenu mainMenu = new MainMenu();
-		mainMenu.setVisible(true);
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+						if ("Nimbus".equals(info.getName())) {
+							UIManager.setLookAndFeel(info.getClassName());
+							break;
+						}
+					}
+//					GUILoginWindow loginWindow = new GUILoginWindow();
+//					loginWindow.setVisible(true);
+					MainMenu mainMenu = new MainMenu();
+					mainMenu.setVisible(true);
+				} catch (Exception e) {
+					// If Nimbus is not available, you can set the GUI to another look and feel.
+				}
+			}
+		});
+
 
 		String startTime = "1680343200";
 		String endTime = "1680386400";
