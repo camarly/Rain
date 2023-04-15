@@ -5,19 +5,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu extends JFrame {
+public class GUIMainMenu extends JFrame {
     private JButton cmdCurrent;
     private JButton cmdPastWeek;
     private JButton cmdForecast;
     private JButton cmdTempMap;
     private JButton cmdSuggest;
     private JButton cmdAbout;
+    private GUIMainMenu thisFrame;
+    private GUICurrentWeatherList currentWeatherList;
 
 
-    public MainMenu() {
+    public GUIMainMenu() {
+
+        thisFrame = this;
 
         setTitle("Rain - Main Menu");
-        setIconImage(new ImageIcon("./resources/images/frameIcon.png").getImage());
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
         setSize(600,600);
 
         cmdCurrent = new JButton("Current Weather");
@@ -34,17 +38,17 @@ public class MainMenu extends JFrame {
         cmdSuggest.setBorder(BorderFactory.createEtchedBorder());
         cmdAbout.setBorder(BorderFactory.createEtchedBorder());
 
-        cmdCurrent.setIcon(new ImageIcon("./resources/images/current.png"));
+        cmdCurrent.setIcon(new ImageIcon("current.png"));
         cmdCurrent.setBackground(new Color(2,200,152));
-        cmdPastWeek.setIcon(new ImageIcon("./resources/images/past.png"));
+        cmdPastWeek.setIcon(new ImageIcon("past.png"));
         cmdPastWeek.setBackground(new Color(62,220,247));
-        cmdForecast.setIcon(new ImageIcon("./resources/images/future.png"));
+        cmdForecast.setIcon(new ImageIcon("future.png"));
         cmdForecast.setBackground(new Color(128,84,247));
-        cmdTempMap.setIcon(new ImageIcon("./resources/images/tempmap.png"));
+        cmdTempMap.setIcon(new ImageIcon("tempmap.png"));
         cmdTempMap.setBackground(new Color(247,142,62));
-        cmdSuggest.setIcon(new ImageIcon("./resources/images/suggest.png"));
+        cmdSuggest.setIcon(new ImageIcon("suggest.png"));
         cmdSuggest.setBackground(new Color(195,62,247));
-        cmdAbout.setIcon(new ImageIcon("./resources/images/about.png"));
+        cmdAbout.setIcon(new ImageIcon("about.png"));
         cmdAbout.setBackground(new Color(159,159,159));
 
         cmdCurrent.setVerticalAlignment(SwingConstants.CENTER);
@@ -84,19 +88,6 @@ public class MainMenu extends JFrame {
         add(cmdSuggest);
         add(cmdAbout);
 
-        cmdCurrent.setOpaque(true);
-        cmdPastWeek.setOpaque(true);
-        cmdForecast.setOpaque(true);
-        cmdTempMap.setOpaque(true);
-        cmdSuggest.setOpaque(true);
-        cmdAbout.setOpaque(true);
-
-        cmdCurrent.setBorderPainted(false);
-        cmdPastWeek.setBorderPainted(false);
-        cmdForecast.setBorderPainted(false);
-        cmdTempMap.setBorderPainted(false);
-        cmdSuggest.setBorderPainted(false);
-        cmdAbout.setBorderPainted(false);
 
         setVisible(true);
     }
@@ -104,36 +95,36 @@ public class MainMenu extends JFrame {
     private class CurrentWeatherButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new GUICurrentWeatherList();
-        }
-    }
-    private class PrevWeekButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+            //thisFrame.setVisible(false);
+            if (currentWeatherList == null)
+                currentWeatherList = new GUICurrentWeatherList();
+            else
+                currentWeatherList.setVisible(true);
 
-            new GUIWeekEntry("Historic");
-        }
-    }
-
-
-
-    private class ForecastButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new GUIWeekEntry("Future");
         }
     }
 
     private class TempMapButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //thisFrame.setVisible(false);
+            new GUITemperatureMap();
 
         }
     }
 
-    private class AboutUsButtonListener implements ActionListener {
+    private class PrevWeekButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //new GUIWeekEntry(new GUIWeekHistory());
+
+        }
+    }
+
+    private class ForecastButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           // new GUIWeekEntry(new GUIWeekForecast());
 
         }
     }
@@ -141,8 +132,18 @@ public class MainMenu extends JFrame {
     private class SuggestionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            new GUISuggestions();
 
         }
     }
+    private class AboutUsButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new GUIAboutUs();
+
+        }
+    }
+
+
 
 }

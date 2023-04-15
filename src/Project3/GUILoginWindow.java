@@ -3,13 +3,7 @@ package Project3;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -22,25 +16,30 @@ public class GUILoginWindow extends JFrame{
     private JButton submitButton;
     private JButton clearButton;
     private JButton cancelButton;
-    private GUILoginWindow thisFrame;
-
     private JLabel rainIcon;
+    private JPanel loginPanel;
+    private JPanel commandsPanel;
+    private GUILoginWindow thisFrame;
 
     public GUILoginWindow() {
 
         thisFrame = this;
 
         setTitle("Rain - User Login");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
-        JPanel loginPanel = new JPanel();
-        JPanel commandsPanel = new JPanel();
-
-        ImageIcon image = new ImageIcon("./resources/images/pandaicon.png");
+        ImageIcon image = new ImageIcon("pandaicon.png");
         ImageIcon resizedImage = new ImageIcon(image.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH));
         rainIcon = new JLabel(resizedImage);
         rainIcon.setHorizontalAlignment(JLabel.CENTER);
-        add(rainIcon, BorderLayout.NORTH);
 
+        loginPanel = new JPanel();
+        commandsPanel = new JPanel();
+
+        /*JLabel username = new JLabel("Username");
+        username.setHorizontalAlignment(JLabel.CENTER);*/
+
+        loginPanel.setLayout(new GridLayout(2, 2));
 
 
         loginPanel.add(new JLabel("Username"));
@@ -53,7 +52,6 @@ public class GUILoginWindow extends JFrame{
         loginPanel.add(passwordField);
 
 
-        loginPanel.setLayout(new GridLayout(2, 3));
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this::loginEvent);
@@ -67,7 +65,7 @@ public class GUILoginWindow extends JFrame{
         cancelButton.addActionListener(this::cancelEvent);
         commandsPanel.add(cancelButton);
 
-
+        add(rainIcon, BorderLayout.NORTH);
         add(loginPanel, BorderLayout.CENTER);
         add(commandsPanel, BorderLayout.SOUTH);
 
@@ -81,8 +79,9 @@ public class GUILoginWindow extends JFrame{
         // TODO Auto-generated method stub
         UserAuthenticate thisUser = new UserAuthenticate(usernameField.getText(), String.valueOf(passwordField.getPassword()));
         if(thisUser.isValid){
-            thisFrame.setVisible(false);
-            new MainMenu();
+            this.setVisible(false);
+            new GUIMainMenu();
+            this.dispose();
         } else {
             showMessageDialog(null, "The password and/or username entered is incorrect.\nPlease try again.", "Invalid credentials!", ERROR_MESSAGE);
         }

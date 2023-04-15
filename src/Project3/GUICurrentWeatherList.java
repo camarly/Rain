@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GUICurrentWeatherList extends JFrame {
 
@@ -14,6 +15,10 @@ public class GUICurrentWeatherList extends JFrame {
     private JButton cmdEditCity;
     private JButton cmdRefresh;
     private JButton cmdClose;
+    private JButton cmdSortName;
+    private JButton cmdSortTemp;
+    private JButton cmdSortHumidity;
+
     private JPanel pnlCrudCmd;
     private JPanel pnlSearchCmd;
 
@@ -23,13 +28,14 @@ public class GUICurrentWeatherList extends JFrame {
 
     private GUICurrentWeatherList thisFrame;
 
+    private ArrayList<City> cityList;
 
     public GUICurrentWeatherList() {
         super("Rain - Current Weather Listing");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         thisFrame = this;
-        City.cityList = new ArrayList<>();
+        cityList = new ArrayList<>();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -51,18 +57,27 @@ public class GUICurrentWeatherList extends JFrame {
         cmdEditCity = new JButton("Edit City");
         cmdRemoveCity = new JButton("Remove City");
         cmdRefresh = new JButton("Refresh");
+        cmdSortName = new JButton("Sort Name");
+        cmdSortTemp = new JButton("Sort Temperature");
+        cmdSortHumidity = new JButton("Sort Humidity");
         cmdClose = new JButton("Close");
 
         cmdAddCity.addActionListener(new AddCityButtonListener());
         cmdEditCity.addActionListener(new EditCityButtonListener());
         cmdRemoveCity.addActionListener(new RemoveCityButtonListener());
         cmdRefresh.addActionListener(new RefreshButtonListener());
+        cmdSortName.addActionListener(new SortNameButtonListener());
+        cmdSortTemp.addActionListener(new SortTempButtonListener());
+        cmdSortHumidity.addActionListener(new SortHumidityButtonListener());
         cmdClose.addActionListener(new CloseButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
         pnlCrudCmd.add(cmdRemoveCity);
         pnlCrudCmd.add(cmdRefresh);
+        pnlCrudCmd.add(cmdSortName);
+        pnlCrudCmd.add(cmdSortTemp);
+        pnlCrudCmd.add(cmdSortHumidity);
         pnlCrudCmd.add(cmdClose);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -70,11 +85,10 @@ public class GUICurrentWeatherList extends JFrame {
 
         pack();
         setVisible(true);
-
-        showDetails();
     }
 
-    private void showTable(ArrayList <City> cityList){
+    public void showTable(ArrayList <City> cityList){
+        model.setRowCount(0);
         for (City city: cityList){
             addToTable(city);
         }
@@ -83,19 +97,21 @@ public class GUICurrentWeatherList extends JFrame {
     private void addToTable(City city)
     {
         String name= city.getCityName();
-        String[] item={name,""+ city.getTemp(),""+city.getHumidity(),""+ city.getType() ,""+ city.getDescription()};
+        String[] item={name,""+ city.getTemp(),""+city.getHumidity(),""+ city.getType() ,""+ city.getDescription() };
         model.addRow(item);
 
     }
 
     public void addCity(City city)
     {
-        City.cityList.add(city);
+        cityList.add(city);
         addToTable(city);
 
     }
 
-
+    public ArrayList<City> getCityList() {
+        return cityList;
+    }
 
     private class AddCityButtonListener implements ActionListener{
         @Override
@@ -108,8 +124,11 @@ public class GUICurrentWeatherList extends JFrame {
     private class EditCityButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            new GUICityEdit(thisFrame);
-
+            int selectedRow = table.getSelectedRow();
+            if(selectedRow != -1) {
+                String editCity = (String) model.getValueAt(selectedRow, 0);
+                new GUICityEdit(thisFrame, editCity);
+            }
         }
     }
 
@@ -118,12 +137,14 @@ public class GUICurrentWeatherList extends JFrame {
         public void actionPerformed(ActionEvent e) {
             int selectedRow = table.getSelectedRow();
             if(selectedRow != -1){
-                model.removeRow(table.getSelectedRow());
                 String cityName = (String) model.getValueAt(selectedRow, 0);
+                model.removeRow(table.getSelectedRow());
 
-                for (City city: City.cityList){
+
+                for (City city: cityList){
                     if (city.getCityName().equals(cityName)) {
-                        City.cityList.remove(city);
+                        cityList.remove(city);
+                        break;
                     }
                 }
             }
@@ -133,12 +154,35 @@ public class GUICurrentWeatherList extends JFrame {
     private class RefreshButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (City city: City.cityList){
+            for (City city: cityList){
                 city.setCurrentWeather();
             }
-            model.setRowCount(0);
-            showTable(City.cityList);
+            showTable(cityList);
 
+        }
+    }
+
+    private class SortNameButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Collections.sort(cityList);
+            thisFrame.showTable(cityList);
+        }
+    }
+
+    private class SortTempButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Collections.sort(cityList,new SortbyTemperature());
+            thisFrame.showTable(cityList);
+        }
+    }
+
+    private class SortHumidityButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Collections.sort(cityList,new SortByHumidity());
+            thisFrame.showTable(cityList);
         }
     }
 
@@ -150,11 +194,5 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
-    public void showDetails() {
-        model.setRowCount(0);
-        for(City city : City.cityList) {
-            addToTable(city);
-        }
-    }
 
 }

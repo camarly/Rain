@@ -13,9 +13,6 @@ public class GUICityEntry extends JFrame {
     private JTextField cityName;
     private GUICurrentWeatherList listFrame;
 
-    String startTime = null;
-    String endTime = null;
-
     public GUICityEntry(GUICurrentWeatherList listFrame) {
 
         this.listFrame = listFrame;
@@ -43,9 +40,6 @@ public class GUICityEntry extends JFrame {
         pack();
         setVisible(true);
 
-
-
-
     }
 
     private class AddButtonListener implements ActionListener{
@@ -57,13 +51,19 @@ public class GUICityEntry extends JFrame {
 
 
             name = cityName.getText();
-//            City city = new City();
-//            city.setCityName(name);
-//            city.setCurrentWeather();
-            RainLibrary.getCurrentCityData(RainLibrary.createCityData(name));
-            listFrame.showDetails();
+            City city = new City ();
+            city.setCityName(name);
+//            lat = APIGeoCordHandler.fetchGeoCordinates(name)[0];
+//            lon = APIGeoCordHandler.fetchGeoCordinates(name)[1];
+//
+//            city.setTemp(Double.parseDouble(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[1]));
+//            city.setHumidity(Integer.parseInt(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[2]));
+//            city.setType(String.valueOf(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]));
+//            System.out.println(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]);
+//            city.setDescription(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[4]);
+            city.setCurrentWeather();
+            listFrame.addCity(city);
             cityName.setText("");
-
 
         }
     }
@@ -72,6 +72,7 @@ public class GUICityEntry extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();
+
         }
     }
 }
