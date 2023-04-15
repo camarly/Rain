@@ -7,16 +7,21 @@ import java.awt.event.ActionListener;
 
 public class GUICityEntry extends JFrame {
     private JButton cmdAdd;
-    private JButton cmdCancel;
+    private JButton cmdClose;
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
     private JTextField cityName;
     private GUICurrentWeatherList listFrame;
 
-    public GUICityEntry() {
+    String startTime = null;
+    String endTime = null;
 
+    public GUICityEntry(GUICurrentWeatherList listFrame) {
+
+        this.listFrame = listFrame;
 
         setTitle("Rain - Add a City");
+        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
@@ -26,31 +31,46 @@ public class GUICityEntry extends JFrame {
         pnlDisplay.add(cityName);
 
         cmdAdd = new JButton("Add");
-        cmdCancel = new JButton("Cancel");
+        cmdClose = new JButton("Close");
         cmdAdd.addActionListener(new AddButtonListener());
-        cmdCancel.addActionListener(new CancelButtonListener());
+        cmdClose.addActionListener(new CloseButtonListener());
 
         pnlCmd.add(cmdAdd);
-        pnlCmd.add(cmdCancel);
+        pnlCmd.add(cmdClose);
 
         add(pnlDisplay, BorderLayout.CENTER);
         add(pnlCmd, BorderLayout.SOUTH);
         pack();
         setVisible(true);
 
+
+
+
     }
 
     private class AddButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            String name = null;
+            String lat = null;
+            String lon = null;
+
+
+            name = cityName.getText();
+//            City city = new City();
+//            city.setCityName(name);
+//            city.setCurrentWeather();
+            RainLibrary.getCurrentCityData(RainLibrary.createCityData(name));
+//            listFrame.addCity(city);
+            cityName.setText("");
 
         }
     }
 
-    private class CancelButtonListener implements ActionListener{
+    private class CloseButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            dispose();
         }
     }
 }

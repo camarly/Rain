@@ -15,7 +15,7 @@ public class City implements Comparable<City> {
     private int datetime = 0;
     static ArrayList<City> cityWeatherData = new ArrayList<>();
     static ArrayList<City> sevenDayCityData = new ArrayList<>();
-
+    static ArrayList<City> cityList = new ArrayList<>();
     static ArrayList<City> futureSevenDayCityData = new ArrayList<>();
 
     public City(String cityName, double temp, int humidity, String description, String type, String icon, int datetime) {
@@ -28,6 +28,10 @@ public class City implements Comparable<City> {
         this.datetime = datetime;
         cityID = getCity_id();
         generateID();
+    }
+
+    public City() {
+
     }
 
     public static void generateID() {
@@ -126,5 +130,15 @@ public class City implements Comparable<City> {
 //        this.cityWeatherData = cityWeatherData;
 //    }
 
+    public void setCurrentWeather(){
+        String lat = APIGeoCordHandler.fetchGeoCordinates(getCityName())[0];
+        String lon = APIGeoCordHandler.fetchGeoCordinates(getCityName())[1];
+
+        setTemp(Double.parseDouble(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[1]));
+        setHumidity(Integer.parseInt(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[2]));
+        setType(String.valueOf(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]));
+        setDescription(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[4]);
+
+    }
 
 }

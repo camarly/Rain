@@ -104,7 +104,7 @@ public class MainMenu extends JFrame {
     private class CurrentWeatherButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            new GUICurrentWeatherList();
         }
     }
     private class PrevWeekButtonListener implements ActionListener {

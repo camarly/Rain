@@ -61,15 +61,12 @@ public class APIRequestHandler {
         if(type.equals("Historic")) {
             this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
         }
-        else if(type.equals("Current")) {
-           this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude+"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
+        else if (type.equals("Current")){
+            this.apiURL = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + latitude + "&lon="+ longitude + "&cnt=7&appid=bf35fb6d7822ade28ea3197bae75439c&units=metric";
         }
         else {
-            this.apiURL = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + latitude + "&lon="+ longitude + "&cnt=7&appid=bf35fb6d7822ade28ea3197bae75439c&units=metric";
-            System.out.println(apiURL);
+            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude+"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
         }
-
-
 
     }
 
@@ -81,6 +78,13 @@ public class APIRequestHandler {
         this.apiURL = "http://maps.openweathermap.org/maps/2.0/weather/"+tmpMap.getLayer()+"/"+tmpMap.getZoom()+"/"+tmpMap.getXcoord()+"/"+tmpMap.getYcoord()+"?appid="+aPiKey02+"&fill_bound=true&opacity=0.6&palette=-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014";
     }
 
+    public APIRequestHandler(String latitude, String longitude, String current) {
+        this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+longitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
+    }
+
+    public APIRequestHandler(String key, String latitude, String longitude, String current) {
+
+    }
 
 
     public String getLongitude() {
@@ -116,23 +120,23 @@ public class APIRequestHandler {
     }
 
 
-    public String getWeatherData() throws Exception {
+    public void getWeatherData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiURL)).build();
 
             //do not delete
-        return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            .thenApply(HttpResponse::body)
-//                .thenApply(APIRequestHandler::forecastData)
-//                .join());
-            .thenApply(APIRequestHandler::parseWeatherData)
-                        .join());
+//        return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//            .thenApply(HttpResponse::body)
+////                .thenApply(APIRequestHandler::forecastData)
+////                .join());
+//            .thenApply(APIRequestHandler::parseWeatherData)
+//                        .join());
 
-//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//            .thenAccept(System.out::println)
-//                .join();
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+            .thenAccept(System.out::println)
+                .join();
     }
 
 
@@ -147,10 +151,6 @@ public class APIRequestHandler {
                 .thenApply(HttpResponse::body)
                 .thenApply(APIRequestHandler::forecastData)
                 .join());
-//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//            .thenAccept(System.out::println)
-//                .join();
     }
 
     public static String parseWeatherData(String responseBody) {
@@ -398,20 +398,20 @@ public class APIRequestHandler {
 
 
     //7day future - rename forecast to
-    public void getFutureWeatherData() throws Exception {
+    public String getFutureWeatherData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiURL)).build();
 
         //do not delete
-//        return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//                .thenApply(APIRequestHandler::forecastData)
-//                .join());
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-            .thenAccept(System.out::println)
-                .join();
+                .thenApply(APIRequestHandler::forecastData)
+                .join());
+//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                .thenApply(HttpResponse::body)
+//            .thenAccept(System.out::println)
+//                .join();
     }
 
 //    public static String sevenDayfutureData(String responseBody) {
@@ -468,6 +468,43 @@ public class APIRequestHandler {
 //        return null;
 //
 //    }
+
+
+
+
+    public String getCurrentWeatherData() throws Exception {
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiURL)).build();
+
+        return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            .thenApply(HttpResponse::body)
+            .thenApply(APIRequestHandler::currentWeatherData).join());
+    }
+
+
+    public static String currentWeatherData(String responseBody) {
+        double temp = 0.00;
+        int humidity = 0;
+        String description = null;
+        String weather = null;
+        String icon = null;
+        int datetime = 0;
+
+        JSONObject data = new JSONObject(responseBody);
+        icon = "https://openweathermap.org/img/wd/"+ data.getJSONArray("weather").getJSONObject(0).getString("icon")+"@2x.png";
+        description = data.getJSONArray("weather").getJSONObject(0).getString("description");
+        weather = data.getJSONArray("weather").getJSONObject(0).getString("main");
+
+        temp = data.getJSONObject("main").getDouble("temp");
+        humidity = data.getJSONObject("main").getInt("humidity");
+
+        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
+        City.cityList.add(aCity);
+
+        return null;
+    }
+
 
 
 }

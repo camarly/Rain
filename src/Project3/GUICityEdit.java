@@ -14,7 +14,7 @@ public class GUICityEdit extends JFrame {
     private JTextField cityName;
     private GUICurrentWeatherList listFrame;
 
-    public GUICityEdit() {
+    public GUICityEdit(GUICurrentWeatherList listFrame) {
 
         setTitle("Rain - Edit City");
 
