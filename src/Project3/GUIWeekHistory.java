@@ -16,10 +16,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 
 public class GUIWeekHistory extends JFrame {
@@ -41,6 +38,9 @@ public class GUIWeekHistory extends JFrame {
 
     JFrame frame;
 
+    String startTime;
+    String endTime;
+
 
     public GUIWeekHistory(String city, String type) throws IOException, ParseException {
 
@@ -51,12 +51,15 @@ public class GUIWeekHistory extends JFrame {
         setColumnNames(type);
 
 
-        String startTime = GUIWeekEntry.dateToUnix(columnNames[0]);
-        String endTime = GUIWeekEntry.dateToUnix(columnNames[6]);
+        startTime = GUIWeekEntry.dateToUnix(columnNames[0]);
+        endTime = GUIWeekEntry.dateToUnix(columnNames[6]);
 
-        System.out.println(startTime + ": " + endTime + type);
+//        System.out.println(startTime + ": " + endTime + ": " + type);
 
-        RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData(city), startTime, endTime, type);
+
+        for(int i=0; i<7; i++) {
+            RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData(city), GUIWeekEntry.dateToUnix(columnNames[i]), GUIWeekEntry.dateToUnix(columnNames[i]), type);
+        }
         displayWeatherData();
 
 
@@ -156,9 +159,6 @@ public class GUIWeekHistory extends JFrame {
 //this function is never used btw
     public void displaySvnDayWeatherData() {
 
-        for (var city : City.futureSevenDayCityData) {
-            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
-        }
 
     }
 
@@ -235,6 +235,7 @@ public class GUIWeekHistory extends JFrame {
             columnNames[0] = sdf.format(new Date());
             for(int i=1; i<7; i++) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-EEE, MM, yyyy");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC-5"));
                 String dateInString = columnNames[i-1];
                 Date date = formatter.parse(dateInString);
                 prevDate = findPrevDay(date);
