@@ -81,10 +81,10 @@ public class Tester {
 							break;
 						}
 					}
-//					GUILoginWindow loginWindow = new GUILoginWindow();
-//					loginWindow.setVisible(true);
-					MainMenu mainMenu = new MainMenu();
-					mainMenu.setVisible(true);
+					GUILoginWindow loginWindow = new GUILoginWindow();
+					loginWindow.setVisible(true);
+//					MainMenu mainMenu = new MainMenu();
+//					mainMenu.setVisible(true);
 				} catch (Exception e) {
 					// If Nimbus is not available, you can set the GUI to another look and feel.
 				}

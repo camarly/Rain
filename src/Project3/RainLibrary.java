@@ -43,8 +43,8 @@ public class RainLibrary {
         try {
             for(Map.Entry<String, String[]> set: cityGeoData.entrySet()) {
                 city = set.getKey();
-                latitude = set.getValue()[1];
-                longitude = set.getValue()[0];
+                latitude = set.getValue()[0];
+                longitude = set.getValue()[1];
             }
             if (type.equals("Historic")) {
                 APIRequestHandler svnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Historic");

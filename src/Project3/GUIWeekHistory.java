@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class GUIWeekHistory extends JFrame {
@@ -24,7 +26,7 @@ public class GUIWeekHistory extends JFrame {
 
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
-    private DefaultTableModel model;
+    private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
 
     private JTable table;
@@ -33,7 +35,10 @@ public class GUIWeekHistory extends JFrame {
     JFrame frame = new JFrame();
 
 
+
     public GUIWeekHistory(String city, String startTime, String endTime, String type) throws IOException {
+
+        setSize(600,600);
 
         this.type = type;
         setTitle("Rain - Prior Week History");
@@ -52,7 +57,7 @@ public class GUIWeekHistory extends JFrame {
                     {City.sevenDayCityData.get(0).getTemp(),City.sevenDayCityData.get(1).getTemp(),City.sevenDayCityData.get(2).getTemp(),City.sevenDayCityData.get(3).getTemp(),City.sevenDayCityData.get(4).getTemp(),City.sevenDayCityData.get(5).getTemp(),City.sevenDayCityData.get(6).getTemp()},
                     {City.sevenDayCityData.get(0).getHumidity(),City.sevenDayCityData.get(1).getHumidity(),City.sevenDayCityData.get(2).getHumidity(),City.sevenDayCityData.get(3).getHumidity(),City.sevenDayCityData.get(4).getHumidity(),City.sevenDayCityData.get(5).getHumidity(),City.sevenDayCityData.get(6).getHumidity()}
             };
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames)
+        tableModel = new DefaultTableModel(data, columnNames)
         {
             //  Returning the Class of each column will allow different
             //  renderers to be used based on Class
@@ -80,6 +85,12 @@ public class GUIWeekHistory extends JFrame {
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
 
+        pnlDisplay.setSize(600, 600);
+        pnlCmd.setSize(200,200);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(600,600));
+        pnlDisplay.add(scrollPane);
 
 
         pnlCmd.add(sortByName);
@@ -87,12 +98,10 @@ public class GUIWeekHistory extends JFrame {
         pnlCmd.add(sortByHum);
 
 
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.add(pnlDisplay,BorderLayout.CENTER);
+        frame.add(pnlCmd,BorderLayout.SOUTH);
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        pnlDisplay.add(scrollPane);
-
-        frame.add(pnlDisplay);
-        frame.add(pnlCmd);
         pack();
         frame.setVisible(true);
     }
@@ -123,26 +132,6 @@ public class GUIWeekHistory extends JFrame {
             System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" +  city.getIcon() + "\t" + city.getDescription());
         }
     }
-//
-//    private void updateRowHeights()
-//    {
-//        try
-//        {
-//            for (int row = 0; row < _table.getRowCount(); row++)
-//            {
-//                int rowHeight = _table.getRowHeight();
-//
-//                for (int column = 0; column < _table.getColumnCount(); column++)
-//                {
-//                    Component comp = _table.prepareRenderer(_table.getCellRenderer(row, column), row, column);
-//                    rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
-//                }
-//                _table.setRowHeight(row, rowHeight);
-//            }
-//        }
-//        catch(ClassCastException e) {
-//        }
-//    }
 
 
     //method to parse string of image to image for weather icon display
@@ -160,5 +149,56 @@ public class GUIWeekHistory extends JFrame {
 
         return weatherIcon;
     }
+
+    private class sortByTempButton implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tableModel.setRowCount(0);
+            Collections.sort(City.sevenDayCityData, new SortbyTemperature());
+            showTable(City.sevenDayCityData);
+        }
+    }
+
+    private class sortByHumButton implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tableModel.setRowCount(0);
+            Collections.sort(City.sevenDayCityData, new SortByHumidity());
+
+        }
+
+    }
+
+    private void showTable(ArrayList<City> cityList)
+    {
+        for(City city : cityList) {
+            addToTable(city);
+        }
+
+    }
+
+
+    private void addToTable(City city)
+    {
+        //ImageIcon img = getIconImage(City.sevenDayCityData.get(0).getIcon());
+        Object[] item = {getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
+
+//        Object[][] data = {
+//                {getIconImage(City.sevenDayCityData.get(0).getIcon()),getIconImage(City.sevenDayCityData.get(1).getIcon()),getIconImage(City.sevenDayCityData.get(2).getIcon()),getIconImage(City.sevenDayCityData.get(3).getIcon()),getIconImage(City.sevenDayCityData.get(4).getIcon()),getIconImage(City.sevenDayCityData.get(5).getIcon()),getIconImage(City.sevenDayCityData.get(6).getIcon())},
+//                {City.sevenDayCityData.get(0).getDescription(),City.sevenDayCityData.get(1).getDescription(), City.sevenDayCityData.get(2).getDescription(), City.sevenDayCityData.get(3).getDescription(), City.sevenDayCityData.get(4).getDescription(), City.sevenDayCityData.get(5).getDescription(), City.sevenDayCityData.get(6).getDescription()},
+//                {City.sevenDayCityData.get(0).getTemp(),City.sevenDayCityData.get(1).getTemp(),City.sevenDayCityData.get(2).getTemp(),City.sevenDayCityData.get(3).getTemp(),City.sevenDayCityData.get(4).getTemp(),City.sevenDayCityData.get(5).getTemp(),City.sevenDayCityData.get(6).getTemp()},
+//                {City.sevenDayCityData.get(0).getHumidity(),City.sevenDayCityData.get(1).getHumidity(),City.sevenDayCityData.get(2).getHumidity(),City.sevenDayCityData.get(3).getHumidity(),City.sevenDayCityData.get(4).getHumidity(),City.sevenDayCityData.get(5).getHumidity(),City.sevenDayCityData.get(6).getHumidity()}
+//        };
+
+        tableModel.addColumn(item);
+
+    }
+
+
+
+
+
 
 }
