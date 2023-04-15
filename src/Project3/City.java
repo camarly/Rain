@@ -15,11 +15,8 @@ public class City implements Comparable<City> {
     private int datetime = 0;
     static ArrayList<City> cityWeatherData = new ArrayList<>();
     static ArrayList<City> sevenDayCityData = new ArrayList<>();
-
-    public City() {
-        this(null);
-    }
-
+    static ArrayList<City> cityList = new ArrayList<>();
+    static ArrayList<City> futureSevenDayCityData = new ArrayList<>();
 
     public City(String cityName, double temp, int humidity, String description, String type, String icon, int datetime) {
         this.cityName = cityName;
@@ -33,7 +30,9 @@ public class City implements Comparable<City> {
         generateID();
     }
 
+    public City() {
 
+    }
 
     public static void generateID() {
         city_id+=1;
@@ -63,7 +62,8 @@ public class City implements Comparable<City> {
 
     @Override
     public int compareTo(City o) {
-        return 0;
+
+        return this.getCityName().compareTo(o.getCityName());
     }
 
 
@@ -140,6 +140,5 @@ public class City implements Comparable<City> {
         setDescription(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[4]);
 
     }
-
 
 }

@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class GUIWeekEntry extends JFrame {
+public class GUIWeekHistoryEntry extends JFrame {
 
     private final static String[] MONTHS = {"January", "February", "March", "April",
             "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -28,16 +29,13 @@ public class GUIWeekEntry extends JFrame {
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
     private JPanel pnlDate;
-    private JFrame inputFrame;
-    private GUIWeekEntry thisFrame;
 
-    public GUIWeekEntry(JFrame inputFrame) {
+    private String type = null;
 
-        this.inputFrame = inputFrame;
-        thisFrame = this;
+    public GUIWeekHistoryEntry(String type) {
+        this.type = type;
 
         setTitle("Rain - Select city and date");
-        setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
@@ -83,10 +81,31 @@ public class GUIWeekEntry extends JFrame {
         setVisible(true);
     }
 
+    private class SubmitButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String city = cityField.getText();
+            String startTime = "1680256800";
+            String endTime = "1680948000";
+            GUIWeekHistory wkHistory = null;
+            try {
+                wkHistory = new GUIWeekHistory(city, startTime, endTime, getReportType());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            wkHistory.setVisible(true);
+        }
+    }
 
+    private class CancelButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
 
     //Convert Unix time to readable time
-    public String UnixToDate (long unix){
+    public String unixToDate (long unix){
         Date date = new Date (unix * 1000);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
@@ -96,7 +115,7 @@ public class GUIWeekEntry extends JFrame {
     }
 
     //Convert readable time to Unix
-    public String DateToUnix (String readableDT){
+    public String dateToUnix (String readableDT){
 
         try{
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
@@ -112,19 +131,7 @@ public class GUIWeekEntry extends JFrame {
 
     }
 
-    private class SubmitButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
+    public String getReportType() {
+        return this.type;
     }
-
-    private class CancelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            thisFrame.dispose();
-
-        }
-    }
-
 }
