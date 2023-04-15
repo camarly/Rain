@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GUICurrentWeatherList extends JFrame {
 
@@ -14,6 +15,10 @@ public class GUICurrentWeatherList extends JFrame {
     private JButton cmdEditCity;
     private JButton cmdRefresh;
     private JButton cmdClose;
+    private JButton cmdSortName;
+    private JButton cmdSortTemp;
+    private JButton cmdSortHumidity;
+
     private JPanel pnlCrudCmd;
     private JPanel pnlSearchCmd;
 
@@ -52,18 +57,27 @@ public class GUICurrentWeatherList extends JFrame {
         cmdEditCity = new JButton("Edit City");
         cmdRemoveCity = new JButton("Remove City");
         cmdRefresh = new JButton("Refresh");
+        cmdSortName = new JButton("Sort Name");
+        cmdSortTemp = new JButton("Sort Temperature");
+        cmdSortHumidity = new JButton("Sort Humidity");
         cmdClose = new JButton("Close");
 
         cmdAddCity.addActionListener(new AddCityButtonListener());
         cmdEditCity.addActionListener(new EditCityButtonListener());
         cmdRemoveCity.addActionListener(new RemoveCityButtonListener());
         cmdRefresh.addActionListener(new RefreshButtonListener());
+        cmdSortName.addActionListener(new SortNameButtonListener());
+        cmdSortTemp.addActionListener(new SortTempButtonListener());
+        cmdSortHumidity.addActionListener(new SortHumidityButtonListener());
         cmdClose.addActionListener(new CloseButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
         pnlCrudCmd.add(cmdRemoveCity);
         pnlCrudCmd.add(cmdRefresh);
+        pnlCrudCmd.add(cmdSortName);
+        pnlCrudCmd.add(cmdSortTemp);
+        pnlCrudCmd.add(cmdSortHumidity);
         pnlCrudCmd.add(cmdClose);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -145,6 +159,30 @@ public class GUICurrentWeatherList extends JFrame {
             }
             showTable(cityList);
 
+        }
+    }
+
+    private class SortNameButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Collections.sort(cityList);
+            thisFrame.showTable(cityList);
+        }
+    }
+
+    private class SortTempButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Collections.sort(cityList,new SortbyTemperature());
+            thisFrame.showTable(cityList);
+        }
+    }
+
+    private class SortHumidityButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Collections.sort(cityList,new SortByHumidity());
+            thisFrame.showTable(cityList);
         }
     }
 

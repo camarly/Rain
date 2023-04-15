@@ -7,6 +7,13 @@ public class SortbyTemperature implements Comparator<City> {
     @Override
     public int compare(City c1, City c2) {
 
-        return ((int) c1.getTemp()-(int)c2.getTemp());
+        if (c1.getTemp() > c2.getTemp())
+            return 1;
+        else {
+            if (c2.getTemp() > c1.getTemp())
+                return -1;
+            else
+                return 0;
+        }
     }
 }

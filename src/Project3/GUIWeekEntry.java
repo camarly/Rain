@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class GUIWeekHistoryEntry extends JFrame {
+public class GUIWeekEntry extends JFrame {
 
     private final static String[] MONTHS = {"January", "February", "March", "April",
             "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -32,7 +32,7 @@ public class GUIWeekHistoryEntry extends JFrame {
 
     private String type = null;
 
-    public GUIWeekHistoryEntry(String type) {
+    public GUIWeekEntry(String type) {
         this.type = type;
 
         setTitle("Rain - Select city and date");
