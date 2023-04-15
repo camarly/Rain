@@ -83,7 +83,7 @@ public class RainLibrary {
             String latitude = set.getValue()[1];
             String longitude = set.getValue()[0];
 
-            APIRequestHandler currentData = new APIRequestHandler(latitude,longitude, "Current");
+            APIRequestHandler currentData = new APIRequestHandler(set.getKey(), latitude,longitude, "Current");
 
             try {
                 currentData.getCurrentWeatherData();

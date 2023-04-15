@@ -78,13 +78,10 @@ public class APIRequestHandler {
         this.apiURL = "http://maps.openweathermap.org/maps/2.0/weather/"+tmpMap.getLayer()+"/"+tmpMap.getZoom()+"/"+tmpMap.getXcoord()+"/"+tmpMap.getYcoord()+"?appid="+aPiKey02+"&fill_bound=true&opacity=0.6&palette=-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014";
     }
 
-    public APIRequestHandler(String latitude, String longitude, String current) {
+    public APIRequestHandler(String cityName, String latitude, String longitude, String current) {
         this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+longitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
     }
 
-    public APIRequestHandler(String key, String latitude, String longitude, String current) {
-
-    }
 
 
     public String getLongitude() {
@@ -501,6 +498,7 @@ public class APIRequestHandler {
 
         City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
         City.cityList.add(aCity);
+
 
         return null;
     }

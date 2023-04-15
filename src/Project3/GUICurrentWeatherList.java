@@ -70,6 +70,8 @@ public class GUICurrentWeatherList extends JFrame {
 
         pack();
         setVisible(true);
+
+        showDetails();
     }
 
     private void showTable(ArrayList <City> cityList){
@@ -81,7 +83,7 @@ public class GUICurrentWeatherList extends JFrame {
     private void addToTable(City city)
     {
         String name= city.getCityName();
-        String[] item={name,""+ city.getTemp(),""+city.getHumidity(),""+ city.getType() ,""+ city.getDescription() };
+        String[] item={name,""+ city.getTemp(),""+city.getHumidity(),""+ city.getType() ,""+ city.getDescription()};
         model.addRow(item);
 
     }
@@ -148,5 +150,11 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
+    public void showDetails() {
+        model.setRowCount(0);
+        for(City city : City.cityList) {
+            addToTable(city);
+        }
+    }
 
 }

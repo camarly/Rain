@@ -61,8 +61,9 @@ public class GUICityEntry extends JFrame {
 //            city.setCityName(name);
 //            city.setCurrentWeather();
             RainLibrary.getCurrentCityData(RainLibrary.createCityData(name));
-//            listFrame.addCity(city);
+            listFrame.showDetails();
             cityName.setText("");
+
 
         }
     }
