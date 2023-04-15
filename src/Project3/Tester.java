@@ -67,6 +67,16 @@ public class Tester {
 							break;
 						}
 					}
+					/*String city = "Montego Bay";
+					String [] latLon = APIGeoCordHandler.fetchGeoCordinates(city);
+					String lat = latLon[0];
+					String lon = latLon[1];
+
+					String [] sevenDayForecast = APIForecastWeatherHandler.fetchForcastWeather(lat, lon);
+					for (String weather: sevenDayForecast){
+						System.out.println(weather);
+					}*/
+
 //					GUILoginWindow loginWindow = new GUILoginWindow();
 //					loginWindow.setVisible(true);
 					MainMenu mainMenu = new MainMenu();

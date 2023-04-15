@@ -54,6 +54,8 @@ public class GUICityEdit extends JFrame {
                     city.setCityName(name);
                     city.setCurrentWeather();
                     listFrame.showTable(listFrame.getCityList());
+                    listFrame.saveCities(listFrame.getCityList());
+
                     dispose();
                 }
             }

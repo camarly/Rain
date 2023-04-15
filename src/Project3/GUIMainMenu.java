@@ -116,7 +116,7 @@ public class GUIMainMenu extends JFrame {
     private class PrevWeekButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //new GUIWeekEntry(new GUIWeekHistory());
+            new GUIWeekEntry("History");
 
         }
     }
@@ -124,7 +124,7 @@ public class GUIMainMenu extends JFrame {
     private class ForecastButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-           // new GUIWeekEntry(new GUIWeekForecast());
+            new GUIWeekEntry("Future");
 
         }
     }

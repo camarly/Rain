@@ -5,8 +5,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class GUICurrentWeatherList extends JFrame {
 
@@ -35,7 +40,7 @@ public class GUICurrentWeatherList extends JFrame {
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         thisFrame = this;
-        cityList = new ArrayList<>();
+        cityList = loadCities("cities.dat");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -83,12 +88,15 @@ public class GUICurrentWeatherList extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         add(pnlCrudCmd, BorderLayout.SOUTH);
 
+        showTable(cityList);
+
         pack();
         setVisible(true);
     }
 
     public void showTable(ArrayList <City> cityList){
         model.setRowCount(0);
+        //saveCities(cityList);
         for (City city: cityList){
             addToTable(city);
         }
@@ -106,6 +114,39 @@ public class GUICurrentWeatherList extends JFrame {
     {
         cityList.add(city);
         addToTable(city);
+
+    }
+
+    private ArrayList<City> loadCities(String pfile){
+        Scanner scan = null;
+        ArrayList<City> clist = new ArrayList<>();
+
+        try {
+            scan = new Scanner(new File(pfile));
+            while (scan.hasNext()){
+                String cityName = scan.nextLine();
+
+                City city = new City(cityName);
+                city.setCurrentWeather();
+                clist.add(city);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } return clist;
+
+    }
+
+    public void saveCities(ArrayList <City> clist){
+        try {
+            FileWriter writer = new FileWriter("cities.dat");
+            for (City city: clist){
+                writer.write(city.getCityName()+"\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
@@ -146,6 +187,7 @@ public class GUICurrentWeatherList extends JFrame {
                         cityList.remove(city);
                         break;
                     }
+                    saveCities(cityList);
                 }
             }
         }

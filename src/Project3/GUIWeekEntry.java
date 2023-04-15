@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -30,10 +31,13 @@ public class GUIWeekEntry extends JFrame {
     private JPanel pnlCmd;
     private JPanel pnlDate;
 
+    private GUIWeekEntry thisFrame;
+
     private String type = null;
 
     public GUIWeekEntry(String type) {
         this.type = type;
+        thisFrame = this;
 
         setTitle("Rain - Select city and date");
 
@@ -53,14 +57,6 @@ public class GUIWeekEntry extends JFrame {
         pnlDate.add(new JLabel("Day"));
         pnlDate.add(dbDay);
 
-//        YEARS = new Integer[40];
-//        int currentYear = 2023; //check on method to get the year of the present date.
-//        for (int i = 0; i < YEARS.length; i++){
-//            YEARS[i] = currentYear;
-//            System.out.println(YEARS[i]);
-//            currentYear --;
-//        }
-
         dbYear = new JComboBox<>(YEARS);
         pnlDate.add(new JLabel("Year"));
         pnlDate.add(dbYear);
@@ -73,39 +69,21 @@ public class GUIWeekEntry extends JFrame {
         pnlCmd.add(cmdSubmit);
         pnlCmd.add(cmdCancel);
         //setLayout(new GridLayout(4, 3));
+
         add(pnlDisplay, BorderLayout.NORTH);
         add(pnlDate, BorderLayout.CENTER);
         add(pnlCmd, BorderLayout.SOUTH);
+
+        if (type.equals("Future")){
+            remove(pnlDate);
+        }
 
         pack();
         setVisible(true);
     }
 
-    private class SubmitButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String city = cityField.getText();
-            String startTime = "1680256800";
-            String endTime = "1680948000";
-            GUIWeekHistory wkHistory = null;
-            try {
-                wkHistory = new GUIWeekHistory(city, startTime, endTime, getReportType());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            wkHistory.setVisible(true);
-        }
-    }
-
-    private class CancelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
     //Convert Unix time to readable time
-    public String unixToDate (long unix){
+    public static String unixToDate (long unix){
         Date date = new Date (unix * 1000);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
@@ -113,6 +91,7 @@ public class GUIWeekEntry extends JFrame {
         String readableDT = dateFormat.format(date);
         return readableDT;
     }
+
 
     //Convert readable time to Unix
     public String dateToUnix (String readableDT){
@@ -127,9 +106,54 @@ public class GUIWeekEntry extends JFrame {
         }catch (ParseException e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
+    private ArrayList<City> forecastGenerator(String cityName){
+        ArrayList<City> forecastList = new ArrayList<>();
+
+        String [] latLon = APIGeoCordHandler.fetchGeoCordinates(cityName);
+        String [] forecast = APIForecastWeatherHandler.fetchForcastWeather(latLon[0], latLon[1]);
+
+        for (String weather: forecast){
+            String[] splitData = weather.split(",");
+            int dt = Integer.parseInt(splitData[0]);
+            double temp = Double.parseDouble(splitData[1]);
+            int humidity = Integer.parseInt(splitData[2]);
+            String mainWeather = splitData[3];
+            String desc = splitData[4];
+            String icon = splitData[5];
+
+            City city = new City(cityName, temp, humidity, desc, mainWeather, icon, dt);
+            forecastList.add(city);
+        }
+        return forecastList;
+    }
+
+
+    private class SubmitButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           if (type.equals("Future")){
+               String cityName = cityField.getText();
+               ArrayList<City> forecastList = forecastGenerator(cityName);
+               GUIWeekForecast weekForecastList = new GUIWeekForecast(forecastList);
+               weekForecastList.setVisible(true);
+
+           }
+           else{
+
+           } dispose();
+        }
+    }
+
+    private class CancelButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+        }
+    }
+
+
 
     public String getReportType() {
         return this.type;

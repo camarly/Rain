@@ -53,16 +53,11 @@ public class GUICityEntry extends JFrame {
             name = cityName.getText();
             City city = new City ();
             city.setCityName(name);
-//            lat = APIGeoCordHandler.fetchGeoCordinates(name)[0];
-//            lon = APIGeoCordHandler.fetchGeoCordinates(name)[1];
-//
-//            city.setTemp(Double.parseDouble(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[1]));
-//            city.setHumidity(Integer.parseInt(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[2]));
-//            city.setType(String.valueOf(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]));
-//            System.out.println(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[3]);
-//            city.setDescription(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[4]);
+
             city.setCurrentWeather();
             listFrame.addCity(city);
+            listFrame.saveCities(listFrame.getCityList());
+
             cityName.setText("");
 
         }
