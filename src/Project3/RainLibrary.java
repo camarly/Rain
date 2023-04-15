@@ -32,6 +32,7 @@ public class RainLibrary {
         HashMap<String, String[]> cityGeoData = new HashMap<>();
         String[] geoData = {Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[0], Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[1]};
         cityGeoData.put(city, geoData);
+        System.out.println(geoData[0] + ": " + geoData[1]);
         return cityGeoData;
     }
 

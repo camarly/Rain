@@ -12,17 +12,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Locale;
 
 
-public class GUIWeekHistory extends JFrame {
+public class GUIWeekForecast extends JFrame {
 
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
@@ -37,12 +33,15 @@ public class GUIWeekHistory extends JFrame {
     private JTable table;
     private String type;
 
+    private String startTime=null;
+    private String endTime=null;
+
     private String[] columnNames = new String[7];
 
     JFrame frame;
 
 
-    public GUIWeekHistory(String city, String type) throws IOException, ParseException {
+    public GUIWeekForecast(String city, String type) throws IOException {
 
         setSize(600, 600);
 
@@ -50,24 +49,16 @@ public class GUIWeekHistory extends JFrame {
 
         setTitleWindow(type);
 
-        setColumnNames(type);
-
-
-        String startTime = GUIWeekEntry.dateToUnix(columnNames[0]);
-        String endTime = GUIWeekEntry.dateToUnix(columnNames[6]);
-
-        System.out.println(startTime + ": " + endTime + type);
-
         RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData(city), startTime, endTime, type);
         displayWeatherData();
 
-
+        setColumnNames();
 
         Object[][] data = {
-                {getIconImage(City.historicSevenDayCityData.get(0).getIcon()), getIconImage(City.historicSevenDayCityData.get(1).getIcon()), getIconImage(City.historicSevenDayCityData.get(2).getIcon()), getIconImage(City.historicSevenDayCityData.get(3).getIcon()), getIconImage(City.historicSevenDayCityData.get(4).getIcon()), getIconImage(City.historicSevenDayCityData.get(5).getIcon()), getIconImage(City.historicSevenDayCityData.get(6).getIcon())},
-                {City.historicSevenDayCityData.get(0).getDescription(), City.historicSevenDayCityData.get(1).getDescription(), City.historicSevenDayCityData.get(2).getDescription(), City.historicSevenDayCityData.get(3).getDescription(), City.historicSevenDayCityData.get(4).getDescription(), City.historicSevenDayCityData.get(5).getDescription(), City.historicSevenDayCityData.get(6).getDescription()},
-                {City.historicSevenDayCityData.get(0).getTemp(), City.historicSevenDayCityData.get(1).getTemp(), City.historicSevenDayCityData.get(2).getTemp(), City.historicSevenDayCityData.get(3).getTemp(), City.historicSevenDayCityData.get(4).getTemp(), City.historicSevenDayCityData.get(5).getTemp(), City.historicSevenDayCityData.get(6).getTemp()},
-                {City.historicSevenDayCityData.get(0).getHumidity(), City.historicSevenDayCityData.get(1).getHumidity(), City.historicSevenDayCityData.get(2).getHumidity(), City.historicSevenDayCityData.get(3).getHumidity(), City.historicSevenDayCityData.get(4).getHumidity(), City.historicSevenDayCityData.get(5).getHumidity(), City.historicSevenDayCityData.get(6).getHumidity()}
+                {getIconImage(City.futureSevenDayCityData.get(0).getIcon()), getIconImage(City.futureSevenDayCityData.get(1).getIcon()), getIconImage(City.futureSevenDayCityData.get(2).getIcon()), getIconImage(City.futureSevenDayCityData.get(3).getIcon()), getIconImage(City.futureSevenDayCityData.get(4).getIcon()), getIconImage(City.futureSevenDayCityData.get(5).getIcon()), getIconImage(City.futureSevenDayCityData.get(6).getIcon())},
+                {City.futureSevenDayCityData.get(0).getDescription(), City.futureSevenDayCityData.get(1).getDescription(), City.futureSevenDayCityData.get(2).getDescription(), City.futureSevenDayCityData.get(3).getDescription(), City.futureSevenDayCityData.get(4).getDescription(), City.futureSevenDayCityData.get(5).getDescription(), City.futureSevenDayCityData.get(6).getDescription()},
+                {City.futureSevenDayCityData.get(0).getTemp(), City.futureSevenDayCityData.get(1).getTemp(), City.futureSevenDayCityData.get(2).getTemp(), City.futureSevenDayCityData.get(3).getTemp(), City.futureSevenDayCityData.get(4).getTemp(), City.futureSevenDayCityData.get(5).getTemp(), City.futureSevenDayCityData.get(6).getTemp()},
+                {City.futureSevenDayCityData.get(0).getHumidity(), City.futureSevenDayCityData.get(1).getHumidity(), City.futureSevenDayCityData.get(2).getHumidity(), City.futureSevenDayCityData.get(3).getHumidity(), City.futureSevenDayCityData.get(4).getHumidity(), City.futureSevenDayCityData.get(5).getHumidity(), City.futureSevenDayCityData.get(6).getHumidity()}
         };
         tableModel = new DefaultTableModel(data, columnNames) {
             //  Returning the Class of each column will allow different
@@ -141,7 +132,7 @@ public class GUIWeekHistory extends JFrame {
             path = Paths.get("./persistence/currweatherlist.txt");
         else
             path = Paths.get("./persistence/futureforecast.txt");
-        for (var city : City.historicSevenDayCityData) {
+        for (var city : City.futureSevenDayCityData) {
             strToSave.append("Day ").append(city.getCityID()).append("\t")
                     .append(city.getCityName()).append("\t")
                     .append(city.getTemp()).append("\t")
@@ -155,14 +146,6 @@ public class GUIWeekHistory extends JFrame {
         strToSave.setLength(0);
     }
 
-//this function is never used btw
-    public void displaySvnDayWeatherData() {
-
-        for (var city : City.futureSevenDayCityData) {
-            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
-        }
-
-    }
 
 
 
@@ -187,8 +170,8 @@ public class GUIWeekHistory extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             tableModel.setRowCount(0);
-            Collections.sort(City.historicSevenDayCityData, new SortbyTemperature());
-            showTable(City.historicSevenDayCityData);
+            Collections.sort(City.futureSevenDayCityData, new SortbyTemperature());
+            showTable(City.futureSevenDayCityData);
         }
     }
 
@@ -197,7 +180,7 @@ public class GUIWeekHistory extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             tableModel.setRowCount(0);
-            Collections.sort(City.historicSevenDayCityData, new SortByHumidity());
+            Collections.sort(City.futureSevenDayCityData, new SortByHumidity());
 
         }
 
@@ -216,56 +199,34 @@ public class GUIWeekHistory extends JFrame {
     private void addToTable(City city)
     {
         Object[] item = {getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
-
         tableModel.addColumn(item);
     }
 
 
     public void setTitleWindow(String s) {
-        if(s.equals("Historic")) {
-            setTitle("Rain - 7 day " + s);
-        }else {
-            setTitle("Rain - 7 day Forecast");
-        }
+        setTitle("Rain - 7 day Forecast");
     }
 
 
-    public void setColumnNames(String s) throws ParseException {
+    public void setColumnNames() {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-EEE, MM, yyyy");
-            Date today;
+            Date today = new Date();
             Date prevDate;
-            columnNames[0] = sdf.format(new Date());
+            String stringDate = sdf.format(today);
+            columnNames[0] = stringDate;
             for(int i=1; i<7; i++) {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd-EEE, MM, yyyy");
-                String dateInString = columnNames[i-1];
-                Date date = formatter.parse(dateInString);
-                prevDate = findPrevDay(date);
-                columnNames[i] = sdf.format(prevDate);
+                prevDate = findNextDay(today);
+                stringDate = sdf.format(findNextDay(prevDate));
+                columnNames[i] = stringDate;
+                today = prevDate;
             }
-
     }
 
     private static Date findNextDay(Date date)
     {
+
         return new Date(date.getTime() + MILLIS_IN_A_DAY);
     }
-
-    private static Date findPrevDay(Date date)
-    {
-        return new Date(date.getTime() - MILLIS_IN_A_DAY);
-    }
-
-
-    public Date[] getDateTime() {
-        Date[] dates = new Date[7];
-        Date today = new Date();
-        dates[0] = today;
-        for(int i=1; i<7; i++) {
-            dates[i] = findPrevDay(dates[i-1]);
-        }
-        return dates;
-    }
-
 
 
 

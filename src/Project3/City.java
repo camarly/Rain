@@ -14,8 +14,14 @@ public class City implements Comparable<City> {
     private String icon  =  null;
     private int datetime = 0;
     static ArrayList<City> cityWeatherData = new ArrayList<>();
+
+    //historic 7 day
     static ArrayList<City> historicSevenDayCityData = new ArrayList<>();
+
+    //current data
     static ArrayList<City> cityList = new ArrayList<>();
+
+    //forecast 7 day
     static ArrayList<City> futureSevenDayCityData = new ArrayList<>();
 
     public City(String cityName, double temp, int humidity, String description, String type, String icon, int datetime) {
