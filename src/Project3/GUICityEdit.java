@@ -13,10 +13,12 @@ public class GUICityEdit extends JFrame {
     private JPanel pnlCmd;
     private JTextField cityName;
     private GUICurrentWeatherList listFrame;
+    private String editCity;
 
-    public GUICityEdit(GUICurrentWeatherList listFrame) {
+    public GUICityEdit(GUICurrentWeatherList listFrame, String editCity) {
 
         this.listFrame = listFrame;
+        this.editCity = editCity;
 
         setTitle("Rain - Edit City");
         setIconImage(new ImageIcon("frameIcon.png").getImage());
@@ -45,13 +47,23 @@ public class GUICityEdit extends JFrame {
     private class SaveButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            String name = cityName.getText();
 
+            for (City city: listFrame.getCityList()){
+                if (city.getCityName().equals(editCity)){
+                    city.setCityName(name);
+                    city.setCurrentWeather();
+                    listFrame.showTable(listFrame.getCityList());
+                    dispose();
+                }
+            }
         }
     }
 
     private class CancelButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            dispose();
 
         }
     }

@@ -73,7 +73,8 @@ public class GUICurrentWeatherList extends JFrame {
         setVisible(true);
     }
 
-    private void showTable(ArrayList <City> cityList){
+    public void showTable(ArrayList <City> cityList){
+        model.setRowCount(0);
         for (City city: cityList){
             addToTable(city);
         }
@@ -94,7 +95,9 @@ public class GUICurrentWeatherList extends JFrame {
 
     }
 
-
+    public ArrayList<City> getCityList() {
+        return cityList;
+    }
 
     private class AddCityButtonListener implements ActionListener{
         @Override
@@ -107,8 +110,11 @@ public class GUICurrentWeatherList extends JFrame {
     private class EditCityButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            new GUICityEdit(thisFrame);
-
+            int selectedRow = table.getSelectedRow();
+            if(selectedRow != -1) {
+                String editCity = (String) model.getValueAt(selectedRow, 0);
+                new GUICityEdit(thisFrame, editCity);
+            }
         }
     }
 
@@ -117,12 +123,14 @@ public class GUICurrentWeatherList extends JFrame {
         public void actionPerformed(ActionEvent e) {
             int selectedRow = table.getSelectedRow();
             if(selectedRow != -1){
-                model.removeRow(table.getSelectedRow());
                 String cityName = (String) model.getValueAt(selectedRow, 0);
+                model.removeRow(table.getSelectedRow());
+
 
                 for (City city: cityList){
                     if (city.getCityName().equals(cityName)) {
                         cityList.remove(city);
+                        break;
                     }
                 }
             }
@@ -135,7 +143,6 @@ public class GUICurrentWeatherList extends JFrame {
             for (City city: cityList){
                 city.setCurrentWeather();
             }
-            model.setRowCount(0);
             showTable(cityList);
 
         }
