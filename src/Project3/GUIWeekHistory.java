@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,6 +124,13 @@ public class GUIWeekHistory extends JFrame {
 
     public void displayWeatherData() throws IOException {
         StringBuilder strToSave = new StringBuilder();
+        Path path = null;
+        if(type.equals("Historic"))
+            path = Paths.get("./persistence/weekhistory.txt");
+        else if (type.equals("Current"))
+            path = Paths.get("./persistence/currweatherlist.txt");
+        else
+            path = Paths.get("./persistence/futureforecast.txt");
         for (var city : City.sevenDayCityData) {
             strToSave.append("Day ").append(city.getCityID()).append("\t")
                     .append(city.getCityName()).append("\t")
@@ -131,9 +139,10 @@ public class GUIWeekHistory extends JFrame {
                     .append(city.getIcon()).append("\t")
                     .append(city.getDescription())
                     .append(System.lineSeparator());
-            Files.writeString(Paths.get("./persistence/weekhistory.txt"), strToSave.toString());
+            Files.writeString(path, strToSave.toString());
             System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
         }
+        strToSave.setLength(0);
     }
 
 //this function is never used btw
