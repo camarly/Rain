@@ -5,7 +5,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class GUICurrentWeatherList extends JFrame {
@@ -103,6 +107,24 @@ public class GUICurrentWeatherList extends JFrame {
         String name = city.getCityName();
         String[] item = {name, "" + city.getTemp(), "" + city.getHumidity(), "" + city.getIcon(), "" + city.getDescription()};
         model.addRow(item);
+        StringBuilder strToSave = new StringBuilder();
+        for (var citi : City.cityList) {
+            strToSave.append("Day ").append(citi.getCityID()).append("\t")
+                    .append(citi.getCityName()).append("\t")
+                    .append(citi.getTemp()).append("\t")
+                    .append(citi.getHumidity()).append("\t")
+                    .append(citi.getIcon()).append("\t")
+                    .append(citi.getDescription())
+                    .append(System.lineSeparator());
+            try{
+                Files.writeString(Paths.get("./persistence/currweatherlist.txt"), strToSave.toString());
+                System.out.println("saved to file: " + city.getCityName());
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            System.out.println(Arrays.toString(item));
+        }
 
     }
 

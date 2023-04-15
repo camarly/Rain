@@ -1,0 +1,3 @@
+Day 1	Kingston	29.91	8	https://openweathermap.org/img/wd/04n@2x.png	overcast clouds
+Day 2	Montego Bay	30.5	8	https://openweathermap.org/img/wd/04n@2x.png	overcast clouds
+Day 3	Lucea	30.29	8	https://openweathermap.org/img/wd/04n@2x.png	overcast clouds
