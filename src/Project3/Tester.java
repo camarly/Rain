@@ -25,15 +25,15 @@ public class Tester {
 					}
 //					GUILoginWindow loginWindow = new GUILoginWindow();
 //					loginWindow.setVisible(true);
-//					MainMenu mainMenu = new MainMenu();
-//					mainMenu.setVisible(true);
+					MainMenu mainMenu = new MainMenu();
+					mainMenu.setVisible(true);
 //					APIRequestHandler test = new APIRequestHandler("44.34", "10.99", "Current");
 					//test.getCurrentWeatherData();
 //					APIRequestHandler.currentWeatherData(test.getCurrentWeatherData());
 //					RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData("Kingston"), "1681516800", "1680998400", "Historic");
 //					displayWeatherData();
-					APIRequestHandler test = new APIRequestHandler("Kingston","17.9712148", "-76.7928128", "1681516800", "1680998400" ,"Historic");
-				APIRequestHandler.parseHistoricData(test.getHistoricWeatherData());
+//					APIRequestHandler test = new APIRequestHandler("Kingston","17.9712148", "-76.7928128", "1681516800", "1680998400" ,"Historic");
+//				    APIRequestHandler.parseHistoricData(test.getHistoricWeatherData());
 //					APIRequestHandler test = new APIRequestHandler("Kingston","00000", "00000", "Future", 3);
 //					test.getFutureWeatherData();
 				} catch (Exception e) {
@@ -42,7 +42,6 @@ public class Tester {
 			}
 		});
 
-		System.out.println(City.historicSevenDayCityData.isEmpty());
 
 
 

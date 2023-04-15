@@ -49,10 +49,12 @@ public class APIRequestHandler {
         APIRequestHandler.cityName = cityName;
 
         if(type.equals("Historic")) {
-            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
+//            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + startTime + "&end=" + endTime + "&appid=" + aPiKey02+"&units=metric";
+//            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat=" + latitude + "&lon=" + longitude + "&type=hour&start=" + startTime + "&cnt=8&appid=" + aPiKey02+"&units=metric";
+            this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat=" + getLatitude() + "&lon=" + getLongitude() + "&appid="+ aPiKey03 + "&units=metric";
         }
         else if (type.equals("Current")){
-            this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+longitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
+            this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
         }
         else {
             this.apiURL = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + latitude + "&lon="+ longitude + "&cnt=7&appid=bf35fb6d7822ade28ea3197bae75439c&units=metric";
@@ -69,7 +71,7 @@ public class APIRequestHandler {
     }
 
     public APIRequestHandler(String cityName, String latitude, String longitude, String current) {
-        this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+longitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
+        this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
         APIRequestHandler.cityName = cityName;
     }
 
@@ -202,7 +204,7 @@ public class APIRequestHandler {
     }
 
     public static String parseHistoricData(String responseBody) {
-        System.out.println("here 1");
+
         double temp = 0.00;
         int humidity = 0;
         String description = null;
@@ -210,6 +212,8 @@ public class APIRequestHandler {
         String type = null;
         String icon = null;
         int datetime = 0;
+        int count = 0;
+
         ArrayList<String> modeOfWeather = new ArrayList<>();
         ArrayList<String> modeOfDesc = new ArrayList<>();
         ArrayList<String> modeOfIcon = new ArrayList<>();
@@ -219,11 +223,9 @@ public class APIRequestHandler {
         JSONObject weatherData = new JSONObject(responseBody);
         JSONArray hourlyReports = weatherData.getJSONArray("list");
 
-        System.out.println(hourlyReports);
 
         for (int i = 0; i < hourlyReports.length(); i++) {
 
-            System.out.println("here 3");
 
             JSONObject report = hourlyReports.getJSONObject(i);
             temp += report.getJSONObject("main").getDouble("temp");
@@ -233,9 +235,8 @@ public class APIRequestHandler {
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
             icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
 
-            System.out.println("here 2");
 
-            if (i % 24==0 && i != 0) {
+            if (i % 24 == 0 && i != 0) {
                 temp /= 24;
                 temp = Math.round(temp * 100.00) / 100.00;
                 humidity /= 24;
@@ -250,24 +251,82 @@ public class APIRequestHandler {
                 City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
                 City.historicSevenDayCityData.add(aCity);
 
-                System.out.println(weather);
-                System.out.println(temp);
 
                 modeOfWeather.clear();
                 modeOfDesc.clear();
                 modeOfIcon.clear();
 
             }
-            City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-            City.historicSevenDayCityData.add(aCity);
-
-
         }
+        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
+        City.historicSevenDayCityData.add(aCity);
+//        System.out.println(City.historicSevenDayCityData.isEmpty());
+//        for(City city : City.historicSevenDayCityData) {
+//            System.out.println(city.getCityName() + "\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon());
+//        }
 
         return null;
 
+//
+//
+//        JSONObject cityData = new JSONObject(responseBody);
+//
+//        JSONArray hourlyReports = cityData.getJSONArray("list");
+//
+//        for (int i = 0; i < hourlyReports.length(); i++) {
+//            JSONObject report = hourlyReports.getJSONObject(i);
+//            temp += report.getJSONObject("main").getDouble("temp");
+//            humidity += report.getJSONObject("main").getInt("humidity");
+//
+//            count += 1;
+//
+//            weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
+//            description = report.getJSONArray("weather").getJSONObject(0).getString("description");
+//            icon  = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
+//
+//            modeOfWeather.add(weather);
+//            modeOfDesc.add(description);
+//            modeOfIcon.add(icon);
+//
+//            System.out.print(APIRequestHandler.cityName+"\t");
+//            System.out.print(temp+"\t");
+//            System.out.print(humidity+"\t");
+//            System.out.println(weather+"\t");
+//
+//
+//        }
+//
+//        temp /= count;
+//        temp = Math.round(temp * 100.00) / 100.00;
+//        humidity /= count;
+//
+//
+//        weather = getFrequentItem(modeOfWeather);
+//        description = getFrequentItem(modeOfWeather);
+//        icon = getFrequentItem(modeOfIcon);
+//
+//
+//        System.out.println("---------------------------------------------------------------");
+//        System.out.print(APIRequestHandler.cityName+"\t");
+//        System.out.print(temp+"\t");
+//        System.out.print(humidity+"\t");
+//        System.out.print(weather+"\t");
+//
+//        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
+//        City.historicSevenDayCityData.add(aCity);
+//
+//        System.out.println(City.historicSevenDayCityData.isEmpty());
+//        for(City city : City.historicSevenDayCityData) {
+//            System.out.print(city.getCityName() + "\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon());
+//        }
+//
+//        modeOfWeather.clear();
+//        modeOfDesc.clear();
+//        modeOfIcon.clear();
+//
+//        return null;
+//    }
     }
-
 
     //temperature map handler
     //parse map data
