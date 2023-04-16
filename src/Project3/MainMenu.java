@@ -134,15 +134,14 @@ public class MainMenu extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-                    """
-                            PANDA
-                            
-                            The better Solution
-
-                            Computer  and Engineering Systems designers providing SMEs and  Enterprises with custom solutions for any devOPs, design and technology needs.
-
-                            Founded 2023.
-                            All Rights Reserved.""", "About Us", JOptionPane.INFORMATION_MESSAGE);
+                    "PANDA\n" +
+                    "\n" +
+                    "The better Solution\n" +
+                    "\n" +
+                    "Computer  and Engineering Systems designers providing SMEs and  Enterprises with custom solutions for any devOPs, design and technology needs.\n" +
+                    "\n" +
+                    "Founded 2023.\n" +
+                    "All Rights Reserved.", "About Us", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
