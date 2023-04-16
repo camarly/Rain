@@ -23,10 +23,10 @@ public class Tester {
 							break;
 						}
 					}
-//					GUILoginWindow loginWindow = new GUILoginWindow();
-//					loginWindow.setVisible(true);
-					MainMenu mainMenu = new MainMenu();
-					mainMenu.setVisible(true);
+					GUILoginWindow loginWindow = new GUILoginWindow();
+					loginWindow.setVisible(true);
+//					MainMenu mainMenu = new MainMenu();
+//					mainMenu.setVisible(true);
 //					APIRequestHandler test = new APIRequestHandler("44.34", "10.99", "Current");
 					//test.getCurrentWeatherData();
 //					APIRequestHandler.currentWeatherData(test.getCurrentWeatherData());
@@ -71,11 +71,6 @@ public class Tester {
 
 		//rename
 		var allCityData = RainLibrary.createCityData(cityList);
-
-
-		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("City ID\t\tCity\t\t\t\t\t\tTemperature\t\tHumidity\t\tWeather\t\tDescription\t\t\t");
-		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------");
 
 
 	}

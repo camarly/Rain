@@ -12,11 +12,17 @@ public class GUICityEdit extends JFrame {
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
     private JTextField cityName;
+
+    private String cityEdit;
     private GUICurrentWeatherList listFrame;
 
-    public GUICityEdit(GUICurrentWeatherList listFrame) {
+    public GUICityEdit(GUICurrentWeatherList listFrame, String cityEdit) {
 
         setTitle("Rain - Edit City");
+        this.cityEdit = cityEdit;
+
+        this.listFrame = listFrame;
+
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
@@ -29,7 +35,7 @@ public class GUICityEdit extends JFrame {
         cmdCancel = new JButton("Cancel");
 
         cmdSave.addActionListener(new SaveButtonListener());
-//        cmdCancel.addActionListener(new CancelButtonListener());
+        cmdCancel.addActionListener(new CancelButtonListener());
 
         pnlCmd.add(cmdSave);
         pnlCmd.add(cmdCancel);
@@ -45,24 +51,25 @@ public class GUICityEdit extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String name = cityName.getText();
 
-//            for (City city: listFrame.getCityList()){
-//                if (city.getCityName().equals(editCity)){
-//                    city.setCityName(name);
-//                    city.setCurrentWeather();
-//                    listFrame.showTable(listFrame.getCityList());
-//                    dispose();
-//                }
-//            }
-//        }
-        }
-
-        private class CancelButtonListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-
+            for (City city: listFrame.getCityList()){
+                if (city.getCityName().equals(cityEdit)){
+                    city.setCityName(name);
+                    city.setCurrentWeather();
+                    listFrame.showTable(listFrame.getCityList());
+                    dispose();
+                }
             }
         }
+
+
     }
+
+    private class CancelButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+        }
+    }
+
 
 }

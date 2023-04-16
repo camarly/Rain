@@ -52,7 +52,7 @@ public class APIRequestHandler {
             this.apiURL = "https://history.openweathermap.org/data/2.5/history/city?lat="+ latitude + "&lon="+ longitude +"&type=hour&start=" + endTime + "&end=" + startTime + "&appid=" + aPiKey02+"&units=metric";
         }
         else if (type.equals("Current")){
-            this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
+            this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+longitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
         }
         else {
             this.apiURL = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + latitude + "&lon="+ longitude + "&cnt=7&appid=bf35fb6d7822ade28ea3197bae75439c&units=metric";
@@ -122,9 +122,9 @@ public class APIRequestHandler {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiURL)).build();
 
         return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            .thenApply(HttpResponse::body)
-            .thenApply(APIRequestHandler::parseWeatherData)
-                        .join());
+                .thenApply(HttpResponse::body)
+                .thenApply(APIRequestHandler::parseWeatherData)
+                .join());
 
     }
 
@@ -202,7 +202,6 @@ public class APIRequestHandler {
     }
 
     public static String parseHistoricData(String responseBody) {
-
         double temp = 0.00;
         int humidity = 0;
         String description = null;
@@ -210,8 +209,6 @@ public class APIRequestHandler {
         String type = null;
         String icon = null;
         int datetime = 0;
-        int count = 0;
-
         ArrayList<String> modeOfWeather = new ArrayList<>();
         ArrayList<String> modeOfDesc = new ArrayList<>();
         ArrayList<String> modeOfIcon = new ArrayList<>();
@@ -219,7 +216,6 @@ public class APIRequestHandler {
         JSONObject cityData = new JSONObject(responseBody);
 
         JSONObject weatherData = new JSONObject(responseBody);
-        System.out.println(weatherData);
         JSONArray hourlyReports = weatherData.getJSONArray("list");
 
 
@@ -234,100 +230,16 @@ public class APIRequestHandler {
             count += 1;
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-            icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
+            icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
 
+            City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
+            City.historicSevenDayCityData.add(aCity);
 
-            if (i % 24 == 0 && i != 0) {
-                temp /= 24;
-                temp = Math.round(temp * 100.00) / 100.00;
-                humidity /= 24;
-                modeOfWeather.add(weather);
-                modeOfDesc.add(description);
-                modeOfIcon.add(icon);
-
-                weather = getFrequentItem(modeOfWeather);
-                description = getFrequentItem(modeOfWeather);
-                icon = getFrequentItem(modeOfIcon);
-
-                City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-                City.historicSevenDayCityData.add(aCity);
-
-
-                modeOfWeather.clear();
-                modeOfDesc.clear();
-                modeOfIcon.clear();
-
-            }
         }
-        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-        City.historicSevenDayCityData.add(aCity);
-//        System.out.println(City.historicSevenDayCityData.isEmpty());
-//        for(City city : City.historicSevenDayCityData) {
-//            System.out.println(city.getCityName() + "\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon());
-//        }
 
         return null;
-
-//
-//
-//        JSONObject cityData = new JSONObject(responseBody);
-//
-//        JSONArray hourlyReports = cityData.getJSONArray("list");
-//
-//        for (int i = 0; i < hourlyReports.length(); i++) {
-//            JSONObject report = hourlyReports.getJSONObject(i);
-//            temp += report.getJSONObject("main").getDouble("temp");
-//            humidity += report.getJSONObject("main").getInt("humidity");
-//
-//            count += 1;
-//
-//            weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
-//            description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-//            icon  = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
-//
-//            modeOfWeather.add(weather);
-//            modeOfDesc.add(description);
-//            modeOfIcon.add(icon);
-//
-//            System.out.print(APIRequestHandler.cityName+"\t");
-//            System.out.print(temp+"\t");
-//            System.out.print(humidity+"\t");
-//            System.out.println(weather+"\t");
-//
-//
-//        }
-//
-//        temp /= count;
-//        temp = Math.round(temp * 100.00) / 100.00;
-//        humidity /= count;
-//
-//
-//        weather = getFrequentItem(modeOfWeather);
-//        description = getFrequentItem(modeOfWeather);
-//        icon = getFrequentItem(modeOfIcon);
-//
-//
-//        System.out.println("---------------------------------------------------------------");
-//        System.out.print(APIRequestHandler.cityName+"\t");
-//        System.out.print(temp+"\t");
-//        System.out.print(humidity+"\t");
-//        System.out.print(weather+"\t");
-//
-//        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-//        City.historicSevenDayCityData.add(aCity);
-//
-//        System.out.println(City.historicSevenDayCityData.isEmpty());
-//        for(City city : City.historicSevenDayCityData) {
-//            System.out.print(city.getCityName() + "\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon());
-//        }
-//
-//        modeOfWeather.clear();
-//        modeOfDesc.clear();
-//        modeOfIcon.clear();
-//
-//        return null;
-//    }
     }
+
 
     //temperature map handler
     //parse map data
@@ -412,11 +324,6 @@ public class APIRequestHandler {
                 .thenApply(HttpResponse::body)
                 .thenApply(APIRequestHandler::sevenDayfutureData)
                 .join());
-
-//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//                .thenAccept(System.out::println)
-//                .join();
     }
 
     public static String sevenDayfutureData(String responseBody) {
@@ -431,11 +338,9 @@ public class APIRequestHandler {
 
         JSONObject cityData = new JSONObject(responseBody);
         JSONArray dailyReports = cityData.getJSONArray("list");
-        System.out.println(cityData);
 
         for (int i = 0; i < dailyReports.length(); i++) {
             JSONObject report = dailyReports.getJSONObject(i);
-            System.out.println(report);
             temp = report.getJSONObject("temp").getDouble("day");
             humidity = report.getInt("humidity");
 
@@ -463,8 +368,8 @@ public class APIRequestHandler {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiURL)).build();
 
         return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            .thenApply(HttpResponse::body)
-            .thenApply(APIRequestHandler::currentWeatherData).join());
+                .thenApply(HttpResponse::body)
+                .thenApply(APIRequestHandler::currentWeatherData).join());
     }
 
 

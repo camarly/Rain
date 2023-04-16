@@ -98,13 +98,17 @@ public class GUIWeekForecast extends JFrame {
         pnlCmd.add(cmdExport);
         pnlCmd.add(cmdLoad);
 
+        cmdClose.addActionListener(new CloseButtonListener());
+        cmdExport.addActionListener(new ExportButtonListener());
+        cmdLoad.addActionListener(new LoadButtonListener());
+
 
         frame = new JFrame();
         frame.setPreferredSize(new Dimension(600, 600));
         frame.add(pnlDisplay, BorderLayout.CENTER);
         frame.add(pnlCmd, BorderLayout.SOUTH);
-
-        pack();
+        frame.pack();
+        setSize(600, 600);
         frame.setVisible(true);
     }
 
@@ -112,11 +116,23 @@ public class GUIWeekForecast extends JFrame {
     private class ExportButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            try {
+                displayWeatherData();
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File saved to local directory");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
     private class CloseButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            frame.dispose();
+        }
+    }
+
+    private class LoadButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 

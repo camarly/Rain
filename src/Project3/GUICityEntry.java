@@ -63,6 +63,7 @@ public class GUICityEntry extends JFrame {
             RainLibrary.getCurrentCityData(RainLibrary.createCityData(name));
             listFrame.showDetails();
             cityName.setText("");
+            dispose();
 
 
         }

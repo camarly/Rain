@@ -38,8 +38,8 @@ public class GUILoginWindow extends JFrame{
         JPanel loginPanel = new JPanel();
         JPanel commandsPanel = new JPanel();
 
-        ImageIcon image = new ImageIcon("./resources/images/pandaicon.png");
-        ImageIcon resizedImage = new ImageIcon(image.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH));
+        ImageIcon image = new ImageIcon("./resources/images/frameIcon.png");
+        ImageIcon resizedImage = new ImageIcon(image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
         rainIcon = new JLabel(resizedImage);
         rainIcon.setHorizontalAlignment(JLabel.CENTER);
         add(rainIcon, BorderLayout.NORTH);
@@ -73,6 +73,7 @@ public class GUILoginWindow extends JFrame{
 
         add(loginPanel, BorderLayout.CENTER);
         add(commandsPanel, BorderLayout.SOUTH);
+
 
         pack();
         setVisible(true);

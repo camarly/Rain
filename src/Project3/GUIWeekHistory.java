@@ -108,6 +108,10 @@ public class GUIWeekHistory extends JFrame {
         pnlCmd.add(cmdExport);
         pnlCmd.add(cmdLoad);
 
+        cmdClose.addActionListener(new CloseButtonListener());
+        cmdExport.addActionListener(new ExportButtonListener());
+        cmdLoad.addActionListener(new LoadButtonListener());
+
 
         frame = new JFrame();
         frame.setPreferredSize(new Dimension(600, 600));
@@ -122,6 +126,18 @@ public class GUIWeekHistory extends JFrame {
     private class ExportButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            try {
+                displayWeatherData();
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File saved to local directory");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    private class LoadButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
         }
     }
@@ -129,7 +145,7 @@ public class GUIWeekHistory extends JFrame {
     private class CloseButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            frame.dispose();
         }
     }
 
@@ -235,7 +251,6 @@ public class GUIWeekHistory extends JFrame {
             columnNames[0] = sdf.format(new Date());
             for(int i=1; i<7; i++) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-EEE, MM, yyyy");
-                formatter.setTimeZone(TimeZone.getTimeZone("UTC-5"));
                 String dateInString = columnNames[i-1];
                 Date date = formatter.parse(dateInString);
                 prevDate = findPrevDay(date);

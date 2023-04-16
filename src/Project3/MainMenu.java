@@ -133,7 +133,16 @@ public class MainMenu extends JFrame {
     private class AboutUsButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+                    """
+                            PANDA
+                            
+                            The better Solution
 
+                            Computer  and Engineering Systems designers providing SMEs and  Enterprises with custom solutions for any devOPs, design and technology needs.
+
+                            Founded 2023.
+                            All Rights Reserved.""", "About Us", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

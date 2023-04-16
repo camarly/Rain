@@ -5,12 +5,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class GUICurrentWeatherList extends JFrame {
 
@@ -18,7 +21,7 @@ public class GUICurrentWeatherList extends JFrame {
     private JButton cmdRemoveCity;
     private JButton cmdEditCity;
     private JButton cmdRefresh;
-    private JButton cmdClose;
+    private JButton cmdSave;
     private JPanel pnlCrudCmd;
     private JButton cmdSortByName;
     private JButton cmdSortByTemp;
@@ -40,12 +43,29 @@ public class GUICurrentWeatherList extends JFrame {
         thisFrame = this;
         City.cityList = new ArrayList<>();
 
+//        City.cityList = loadCities("./persistence/currweatherlist.txt");
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
 
         String[] columnNames = {"City", "Temp", "Humidity", "Weather Condition", "Description"};
 
-        model = new DefaultTableModel(columnNames, 0);
+//        model = new DefaultTableModel(columnNames, 0);
+        model = new DefaultTableModel(columnNames, 0) {
+            //  Returning the Class of each column will allow different
+            //  renderers to be used based on Class
+
+            @Override
+            public Class<?> getColumnClass(int row) {
+                for (int i = 0; i < getColumnCount(); i++) {
+                    if (getRowCount() == 0) {
+                        return ImageIcon.class;
+                    }
+                }
+                return Object.class;
+            }
+        };
+
 
         table = new JTable(model);
         table.setFillsViewportHeight(true);
@@ -63,7 +83,7 @@ public class GUICurrentWeatherList extends JFrame {
         cmdSortByName = new JButton("Sort by Name");
         cmdSortByTemp = new JButton("Sort by Temperature");
         cmdSortByHumidity = new JButton("Sort by Humidity");
-        cmdClose = new JButton("Close");
+        cmdSave = new JButton("Save");
 
         cmdAddCity.addActionListener(new AddCityButtonListener());
         cmdEditCity.addActionListener(new EditCityButtonListener());
@@ -72,7 +92,7 @@ public class GUICurrentWeatherList extends JFrame {
         cmdSortByName.addActionListener(new SortByNameButtonListener());
         cmdSortByTemp.addActionListener(new SortByTempButtonListener());
         cmdSortByHumidity.addActionListener(new SortByHumidityButtonListener());
-        cmdClose.addActionListener(new CloseButtonListener());
+        cmdSave.addActionListener(new CloseButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
@@ -81,7 +101,7 @@ public class GUICurrentWeatherList extends JFrame {
         pnlCrudCmd.add(cmdSortByName);
         pnlCrudCmd.add(cmdSortByTemp);
         pnlCrudCmd.add(cmdSortByHumidity);
-        pnlCrudCmd.add(cmdClose);
+        pnlCrudCmd.add(cmdSave);
 
         add(scrollPane, BorderLayout.CENTER);
         add(pnlCrudCmd, BorderLayout.SOUTH);
@@ -92,7 +112,7 @@ public class GUICurrentWeatherList extends JFrame {
         showDetails();
     }
 
-    private void showTable(ArrayList<City> cityList) {
+    void showTable(ArrayList<City> cityList) {
         model.setRowCount(0);
         for (City city : cityList) {
             addToTable(city);
@@ -145,8 +165,11 @@ public class GUICurrentWeatherList extends JFrame {
     private class EditCityButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new GUICityEdit(thisFrame);
-
+            int selectedRow = table.getSelectedRow();
+            if(selectedRow != -1) {
+                String editCity = (String) model.getValueAt(selectedRow, 0);
+                new GUICityEdit(thisFrame, editCity);
+            }
         }
     }
 
@@ -223,4 +246,25 @@ public class GUICurrentWeatherList extends JFrame {
             thisFrame.showTable(City.cityList);
         }
     }
+
+
+    private ArrayList<City> loadCities(String pfile){
+        Scanner scan = null;
+        ArrayList<City> clist = new ArrayList<>();
+
+        try {
+            scan = new Scanner(new File(pfile));
+            while (scan.hasNext()){
+                String cityName = scan.nextLine();
+
+                City city = new City(cityName);
+                city.setCurrentWeather();
+                clist.add(city);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } return clist;
+
+    }
+
 }

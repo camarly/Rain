@@ -1,7 +1,7 @@
-Day 1	Port Maria	27.99	71	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 2	Port Maria	28.71	65	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 3	Port Maria	28.76	63	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 4	Port Maria	27.73	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 5	Port Maria	28.32	66	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 6	Port Maria	28.15	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 7	Port Maria	28.26	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 1	Kingston	27.48	77	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 2	Kingston	31.03	54	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 3	Kingston	29.41	64	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 4	Kingston	28.52	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 5	Kingston	28.99	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 6	Kingston	30.28	58	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 7	Kingston	29.56	64	https://openweathermap.org/img/wn/10d@2x.png	light rain

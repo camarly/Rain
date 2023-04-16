@@ -108,7 +108,7 @@ public class GUIWeekEntry extends JFrame {
     private class CancelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            dispose();
         }
     }
 
@@ -131,7 +131,6 @@ public class GUIWeekEntry extends JFrame {
             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC-5"));
             Date date = dateFormat.parse(readableDT);
             String unixDT = String.valueOf(date.toInstant().getEpochSecond());
-            System.out.println(unixDT);
             return unixDT;
         }catch (ParseException e) {
             throw new RuntimeException(e);
