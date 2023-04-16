@@ -12,16 +12,17 @@ public class GUICityEdit extends JFrame {
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
     private JTextField cityName;
+
+    private String cityEdit;
     private GUICurrentWeatherList listFrame;
-    private String editCity;
 
-    public GUICityEdit(GUICurrentWeatherList listFrame, String editCity) {
-
-        this.listFrame = listFrame;
-        this.editCity = editCity;
+    public GUICityEdit(GUICurrentWeatherList listFrame, String cityEdit) {
 
         setTitle("Rain - Edit City");
-        setIconImage(new ImageIcon("frameIcon.png").getImage());
+        this.cityEdit = cityEdit;
+
+        this.listFrame = listFrame;
+
 
         pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
@@ -32,6 +33,7 @@ public class GUICityEdit extends JFrame {
 
         cmdSave = new JButton("Save");
         cmdCancel = new JButton("Cancel");
+
         cmdSave.addActionListener(new SaveButtonListener());
         cmdCancel.addActionListener(new CancelButtonListener());
 
@@ -44,29 +46,28 @@ public class GUICityEdit extends JFrame {
         setVisible(true);
     }
 
-    private class SaveButtonListener implements ActionListener{
+    private class SaveButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String name = cityName.getText();
 
             for (City city: listFrame.getCityList()){
-                if (city.getCityName().equals(editCity)){
+                if (city.getCityName().equals(cityEdit)){
                     city.setCityName(name);
                     city.setCurrentWeather();
                     listFrame.showTable(listFrame.getCityList());
-                    listFrame.saveCities(listFrame.getCityList());
-
                     dispose();
                 }
             }
         }
+
+
     }
 
-    private class CancelButtonListener implements ActionListener{
+    private class CancelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();
-
         }
     }
 

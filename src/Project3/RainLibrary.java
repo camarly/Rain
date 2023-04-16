@@ -27,7 +27,11 @@ public class RainLibrary {
 
     }
 
-    //creates single city
+    /**
+     * creates single citycreates single city
+     * @param city
+     * @return
+     */
     public static HashMap<String, String[]> createCityData(String city) {
         HashMap<String, String[]> cityGeoData = new HashMap<>();
         String[] geoData = {Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[0], Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[1]};
@@ -35,8 +39,14 @@ public class RainLibrary {
         return cityGeoData;
     }
 
-    //get 7-day weather data
-    public static void getSevenWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime, String type) {
+    /**
+     * get 7-day weather data
+     * @param cityGeoData
+     * @param startTime
+     * @param endTime
+     * @param type
+     */
+    public static void getSevenDayWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime, String type) {
         String city = null;
         String latitude = null;
         String longitude = null;
@@ -48,11 +58,10 @@ public class RainLibrary {
             }
             if (type.equals("Historic")) {
                 APIRequestHandler svnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Historic");
-                svnDayData.getForecastWeatherData();
+                svnDayData.getHistoricWeatherData();
             } else {
                 APIRequestHandler futuresvnDayData = new APIRequestHandler(city, longitude, latitude, startTime, endTime, "Future");
                 futuresvnDayData.getFutureWeatherData();
-                //System.out.println(longitude + ":" +latitude);
             }
 
         } catch (Exception e) {
@@ -63,8 +72,8 @@ public class RainLibrary {
 
     public static void getAllCityData(HashMap<String, String[]> allCityData) {
         for (Map.Entry<String, String[]> set : allCityData.entrySet()) {
-            String latitude = set.getValue()[1];
-            String longitude = set.getValue()[0];
+            String latitude = set.getValue()[0];
+            String longitude = set.getValue()[1];
 
             APIRequestHandler currentData = new APIRequestHandler(set.getKey(), latitude, longitude, "Current");
 
@@ -78,10 +87,14 @@ public class RainLibrary {
     }
 
 
+    /**
+     * gets current city data from parsed file
+     * @param allCityData
+     */
     public static void getCurrentCityData(HashMap<String, String[]> allCityData) {
         for (Map.Entry<String, String[]> set : allCityData.entrySet()) {
-            String latitude = set.getValue()[1];
-            String longitude = set.getValue()[0];
+            String latitude = set.getValue()[0];
+            String longitude = set.getValue()[1];
 
             APIRequestHandler currentData = new APIRequestHandler(set.getKey(), latitude,longitude, "Current");
 
@@ -95,6 +108,4 @@ public class RainLibrary {
     }
 
 
-//    public static void getWeatherData(HashMap<String, String[]> cityData, String startTime, String endTime, String current) {
-//    }
 }

@@ -13,6 +13,9 @@ public class GUICityEntry extends JFrame {
     private JTextField cityName;
     private GUICurrentWeatherList listFrame;
 
+    String startTime = null;
+    String endTime = null;
+
     public GUICityEntry(GUICurrentWeatherList listFrame) {
 
         this.listFrame = listFrame;
@@ -40,6 +43,9 @@ public class GUICityEntry extends JFrame {
         pack();
         setVisible(true);
 
+
+
+
     }
 
     private class AddButtonListener implements ActionListener{
@@ -51,14 +57,14 @@ public class GUICityEntry extends JFrame {
 
 
             name = cityName.getText();
-            City city = new City ();
-            city.setCityName(name);
-
-            city.setCurrentWeather();
-            listFrame.addCity(city);
-            listFrame.saveCities(listFrame.getCityList());
-
+//            City city = new City();
+//            city.setCityName(name);
+//            city.setCurrentWeather();
+            RainLibrary.getCurrentCityData(RainLibrary.createCityData(name));
+            listFrame.showDetails();
             cityName.setText("");
+            dispose();
+
 
         }
     }
@@ -67,7 +73,32 @@ public class GUICityEntry extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();
+        }
+    }
+
+
+//    private class SaveButtonListener implements ActionListener{
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            String name = cityName.getText();
+//
+//            for (City city: listFrame.getCityList()){
+//                if (city.getCityName().equals(editCity)){
+//                    city.setCityName(name);
+//                    city.setCurrentWeather();
+//                    listFrame.showTable(listFrame.getCityList());
+//                    dispose();
+//                }
+//            }
+//        }
+//    }
+
+    private class CancelButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
 
         }
     }
+
 }

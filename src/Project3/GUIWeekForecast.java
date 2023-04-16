@@ -1,137 +1,287 @@
 package Project3;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
-public class GUIWeekForecast extends JFrame{
+
+public class GUIWeekForecast extends JFrame {
+
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+
     private JButton cmdClose;
     private JButton cmdExport;
 
     private JPanel pnlDisplay;
     private JPanel pnlCmd;
-    private JTable table;
-    private DefaultTableModel model;
+    private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
-    private ArrayList <City> forecastList;
+
+    private JTable table;
+    private String type;
+
+    private String startTime=null;
+    private String endTime=null;
+
+    private String[] columnNames = new String[7];
+
+    JFrame frame;
 
 
+    /**
+     * constructor for creating forecast frame to display city forecasted weather data
+     * @param city
+     * @param type
+     * @throws IOException
+     */
+    public GUIWeekForecast(String city, String type) throws IOException {
 
-    public GUIWeekForecast(ArrayList <City> forecastList) {
+        setSize(600, 600);
 
-        this.forecastList = forecastList;
-        setTitle("Rain - Week Forecast");
-        setIconImage(new ImageIcon("frameIcon.png").getImage());
+        this.type = type;
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 500);
+        setTitleWindow(type);
 
-        String[] columnNames = {"Date", "Temp", "Humidity", "Weather Condition", "Description"};
-        model = new DefaultTableModel(columnNames, 0);
+        RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData(city), startTime, endTime, type);
+        displayWeatherData();
 
-        table = new JTable(model);
-        table.setFillsViewportHeight(true);
-        scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800, 400));
+        setColumnNames();
 
-        cmdExport = new JButton("Export");
-        cmdClose = new JButton("Close");
-        cmdExport.addActionListener(new ExportButtonListener());
-        cmdClose.addActionListener(new CloseButtonListener());
+        Object[][] data = {
+                {getIconImage(City.futureSevenDayCityData.get(0).getIcon()), getIconImage(City.futureSevenDayCityData.get(1).getIcon()), getIconImage(City.futureSevenDayCityData.get(2).getIcon()), getIconImage(City.futureSevenDayCityData.get(3).getIcon()), getIconImage(City.futureSevenDayCityData.get(4).getIcon()), getIconImage(City.futureSevenDayCityData.get(5).getIcon()), getIconImage(City.futureSevenDayCityData.get(6).getIcon())},
+                {City.futureSevenDayCityData.get(0).getDescription(), City.futureSevenDayCityData.get(1).getDescription(), City.futureSevenDayCityData.get(2).getDescription(), City.futureSevenDayCityData.get(3).getDescription(), City.futureSevenDayCityData.get(4).getDescription(), City.futureSevenDayCityData.get(5).getDescription(), City.futureSevenDayCityData.get(6).getDescription()},
+                {City.futureSevenDayCityData.get(0).getTemp(), City.futureSevenDayCityData.get(1).getTemp(), City.futureSevenDayCityData.get(2).getTemp(), City.futureSevenDayCityData.get(3).getTemp(), City.futureSevenDayCityData.get(4).getTemp(), City.futureSevenDayCityData.get(5).getTemp(), City.futureSevenDayCityData.get(6).getTemp()},
+                {City.futureSevenDayCityData.get(0).getHumidity(), City.futureSevenDayCityData.get(1).getHumidity(), City.futureSevenDayCityData.get(2).getHumidity(), City.futureSevenDayCityData.get(3).getHumidity(), City.futureSevenDayCityData.get(4).getHumidity(), City.futureSevenDayCityData.get(5).getHumidity(), City.futureSevenDayCityData.get(6).getHumidity()}
+        };
+        tableModel = new DefaultTableModel(data, columnNames) {
+            //  Returning the Class of each column will allow different
+            //  renderers to be used based on Class
 
+            @Override
+            public Class<?> getColumnClass(int row) {
+                for (int i = 0; i < getColumnCount(); i++) {
+                    if (getRowCount() == 0) {
+                        return ImageIcon.class;
+                    }
+                }
+                return Object.class;
+            }
+        };
+
+
+        table = new JTable(tableModel);
+        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+        JButton cmdClose = new JButton("Close");
+        JButton cmdExport = new JButton("Save Data");
+        JButton cmdLoad = new JButton("Load Data");
+
+
+        pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
-        pnlCmd.add(cmdExport);
+
+        pnlDisplay.setSize(600, 600);
+        pnlCmd.setSize(200, 200);
+
+        scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(600, 600));
+        pnlDisplay.add(scrollPane);
+
         pnlCmd.add(cmdClose);
+        pnlCmd.add(cmdExport);
+        pnlCmd.add(cmdLoad);
 
-        add(scrollPane, BorderLayout.CENTER);
-        add(pnlCmd, BorderLayout.SOUTH);
+        cmdClose.addActionListener(new CloseButtonListener());
+        cmdExport.addActionListener(new ExportButtonListener());
+        cmdLoad.addActionListener(new LoadButtonListener());
 
-        pack();
-        showTable(forecastList);
-        //setVisible(true);
 
-    }
-
-    public void showTable(ArrayList <City> forecastList){
-        model.setRowCount(0);
-        for (City forecast: forecastList){
-            addToTable(forecast);
-        }
-    }
-
-    private void addToTable(City forecast)
-    {
-        String date = GUIWeekEntry.unixToDate(forecast.getDatetime());
-        String[] item={date,""+ forecast.getTemp(),""+forecast.getHumidity(),""+ forecast.getType() ,""+ forecast.getDescription() };
-        model.addRow(item);
-
-    }
-
-    public void addCity(City city)
-    {
-        forecastList.add(city);
-        addToTable(city);
-
-    }
-
-    public ArrayList<City> getCityList() {
-
-        return forecastList;
+        frame = new JFrame();
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.add(pnlDisplay, BorderLayout.CENTER);
+        frame.add(pnlCmd, BorderLayout.SOUTH);
+        frame.pack();
+        setSize(600, 600);
+        frame.setVisible(true);
     }
 
 
+    /**
+     * exports data to a local file
+     */
     private class ExportButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String cityName = forecastList.get(0).getCityName();
-            JFileChooser chooser = new JFileChooser();
-            chooser.setDialogTitle("Choose save directory");
-            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int returnVal = chooser.showSaveDialog(new JFrame());
-
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File dir = chooser.getSelectedFile();
-                File file = new File(dir, "weather_forecast_"+cityName+".csv");
-                try {
-                    FileWriter writer = new FileWriter(file);
-
-                    writer.write("Date,Temperature,Humidity,General Weather Condition,Weather Description\n"); //header for csv file
-
-                    for (City forecast : forecastList) {
-                        String dt = GUIWeekEntry.unixToDate((long)forecast.getDatetime());
-                        double temperature = forecast.getTemp();
-                        int humidity = forecast.getHumidity();
-                        String generalCondition = forecast.getType();
-                        String weatherDescription = forecast.getDescription();
-                        writer.write(dt + "," + temperature + "," + humidity + "," + generalCondition + "," + weatherDescription + "\n");
-                    }
-
-                    writer.close();
-
-                    JOptionPane.showMessageDialog(new JFrame(), "CSV file saved successfully.");
-
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Error saving CSV file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            try {
+                displayWeatherData();
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File saved to local directory");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         }
-
     }
 
-
-    private class CloseButtonListener implements ActionListener{
+    private class CloseButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            dispose();
+            frame.dispose();
+        }
+    }
+
+    /**
+     * loads data from a file
+     */
+    private class LoadButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
         }
     }
+
+    /**
+     * saves current frame's weather data to a file
+     * @throws IOException
+     */
+    public void displayWeatherData() throws IOException {
+        StringBuilder strToSave = new StringBuilder();
+        Path path = null;
+        if(type.equals("Historic"))
+            path = Paths.get("./persistence/weekhistory.txt");
+        else if (type.equals("Current"))
+            path = Paths.get("./persistence/currweatherlist.txt");
+        else
+            path = Paths.get("./persistence/futureforecast.txt");
+        for (var city : City.futureSevenDayCityData) {
+            strToSave.append("Day ").append(city.getCityID()).append("\t")
+                    .append(city.getCityName()).append("\t")
+                    .append(city.getTemp()).append("\t")
+                    .append(city.getHumidity()).append("\t")
+                    .append(city.getIcon()).append("\t")
+                    .append(city.getDescription())
+                    .append(System.lineSeparator());
+            Files.writeString(path, strToSave.toString());
+            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
+        }
+        strToSave.setLength(0);
+    }
+
+
+
+
+    /**
+     * method to parse string of image to image for weather icon display
+     * @param url1
+     * @return
+     */
+    public ImageIcon getIconImage(String url1) {
+        URL url = null;
+        BufferedImage img = null;
+        try {
+            url = new URL(url1);
+            img = ImageIO.read(url);
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon weatherIcon;
+        weatherIcon = new ImageIcon(img);
+
+        return weatherIcon;
+    }
+
+
+
+    private class sortByTempButton implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tableModel.setRowCount(0);
+            Collections.sort(City.futureSevenDayCityData, new SortbyTemperature());
+            showTable(City.futureSevenDayCityData);
+        }
+    }
+
+    private class sortByHumButton implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tableModel.setRowCount(0);
+            Collections.sort(City.futureSevenDayCityData, new SortByHumidity());
+
+        }
+
+    }
+
+    private void showTable(ArrayList<City> cityList)
+    {
+        tableModel.setRowCount(0);
+        for(City city : cityList) {
+            addToTable(city);
+        }
+
+    }
+
+
+    private void addToTable(City city)
+    {
+        Object[] item = {getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
+        tableModel.addColumn(item);
+    }
+
+
+    /**
+     * sets current frame title to sting value : s
+     * @param s
+     */
+    public void setTitleWindow(String s) {
+        setTitle("Rain - 7 day Forecast");
+    }
+
+
+    /**
+     * gets column names parsed from current date.
+     * @param s
+     * @throws ParseException
+     */
+    public void setColumnNames() {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-EEE, MM, yyyy");
+            Date today = new Date();
+            Date prevDate;
+            String stringDate = sdf.format(today);
+            columnNames[0] = stringDate;
+            for(int i=1; i<7; i++) {
+                prevDate = findNextDay(today);
+                stringDate = sdf.format(findNextDay(prevDate));
+                columnNames[i] = stringDate;
+                today = prevDate;
+            }
+    }
+
+    /**
+     * finds the next date from a given date
+     * @param date
+     * @return
+     */
+    private static Date findNextDay(Date date)
+    {
+
+        return new Date(date.getTime() + MILLIS_IN_A_DAY);
+    }
+
+
 
 
 

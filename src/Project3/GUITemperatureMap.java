@@ -11,14 +11,10 @@ public class GUITemperatureMap extends JFrame {
     private JLabel heatMap;
     private JButton cmdClose;
     private JPanel pnlCmd;
-    private GUITemperatureMap thisPanel;
 
     public GUITemperatureMap() {
 
-        thisPanel = this;
-
         setTitle("Rain - Temperature Map");
-        setIconImage(new ImageIcon("frameIcon.png").getImage());
         setSize(900, 700);
 
         ImageIcon image = new ImageIcon(imagePath);
@@ -44,7 +40,6 @@ public class GUITemperatureMap extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();
-
         }
     }
 
