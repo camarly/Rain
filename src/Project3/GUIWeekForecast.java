@@ -12,6 +12,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +42,12 @@ public class GUIWeekForecast extends JFrame {
     JFrame frame;
 
 
+    /**
+     * constructor for creating forecast frame to display city forecasted weather data
+     * @param city
+     * @param type
+     * @throws IOException
+     */
     public GUIWeekForecast(String city, String type) throws IOException {
 
         setSize(600, 600);
@@ -113,6 +120,9 @@ public class GUIWeekForecast extends JFrame {
     }
 
 
+    /**
+     * exports data to a local file
+     */
     private class ExportButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -132,6 +142,9 @@ public class GUIWeekForecast extends JFrame {
         }
     }
 
+    /**
+     * loads data from a file
+     */
     private class LoadButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -139,6 +152,10 @@ public class GUIWeekForecast extends JFrame {
         }
     }
 
+    /**
+     * saves current frame's weather data to a file
+     * @throws IOException
+     */
     public void displayWeatherData() throws IOException {
         StringBuilder strToSave = new StringBuilder();
         Path path = null;
@@ -165,7 +182,11 @@ public class GUIWeekForecast extends JFrame {
 
 
 
-    //method to parse string of image to image for weather icon display
+    /**
+     * method to parse string of image to image for weather icon display
+     * @param url1
+     * @return
+     */
     public ImageIcon getIconImage(String url1) {
         URL url = null;
         BufferedImage img = null;
@@ -180,6 +201,8 @@ public class GUIWeekForecast extends JFrame {
 
         return weatherIcon;
     }
+
+
 
     private class sortByTempButton implements ActionListener {
 
@@ -219,11 +242,20 @@ public class GUIWeekForecast extends JFrame {
     }
 
 
+    /**
+     * sets current frame title to sting value : s
+     * @param s
+     */
     public void setTitleWindow(String s) {
         setTitle("Rain - 7 day Forecast");
     }
 
 
+    /**
+     * gets column names parsed from current date.
+     * @param s
+     * @throws ParseException
+     */
     public void setColumnNames() {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-EEE, MM, yyyy");
             Date today = new Date();
@@ -238,6 +270,11 @@ public class GUIWeekForecast extends JFrame {
             }
     }
 
+    /**
+     * finds the next date from a given date
+     * @param date
+     * @return
+     */
     private static Date findNextDay(Date date)
     {
 

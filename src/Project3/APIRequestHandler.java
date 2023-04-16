@@ -40,6 +40,15 @@ public class APIRequestHandler {
     private String endTime;
 
 
+    /**
+     * constructor for getting API data and parsing
+     * @param cityName
+     * @param longitude
+     * @param latitude
+     * @param startTime
+     * @param endTime
+     * @param type
+     */
     public APIRequestHandler(String cityName, String longitude, String latitude, String startTime, String endTime, String type) {
 
         this.longitude = longitude;
@@ -60,13 +69,23 @@ public class APIRequestHandler {
 
     }
 
+    /**
+     * Temperature map constructor
+     * @param tmpMap
+     */
     public APIRequestHandler(TemperatureMap tmpMap) {
         this.apiURL = "http://maps.openweathermap.org/maps/2.0/weather/"+ tmpMap.getLayer() +"/"+ tmpMap.getZoom() +"/"+ tmpMap.getXcoord() +"/"+ tmpMap.getYcoord() +"?date="+tmpMap.getDatetime()+"&appid="+aPiKey03;
     }
 
+    /**
+     * Temperature map constructor
+     * @param tmpMap
+     * @param type
+     */
     public APIRequestHandler(TemperatureMap tmpMap, int type) {
         this.apiURL = "http://maps.openweathermap.org/maps/2.0/weather/"+tmpMap.getLayer()+"/"+tmpMap.getZoom()+"/"+tmpMap.getXcoord()+"/"+tmpMap.getYcoord()+"?appid="+aPiKey02+"&fill_bound=true&opacity=0.6&palette=-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014";
     }
+
 
     public APIRequestHandler(String cityName, String latitude, String longitude, String current) {
         this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
@@ -81,14 +100,26 @@ public class APIRequestHandler {
     }
 
 
+    /**
+     * gets the longitude from this object
+     * @return
+     */
     public String getLongitude() {
         return longitude;
     }
 
+    /**
+     * sets longitude of this object
+     * @param longitude
+     */
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
+    /**
+     * gets the latitude of this object
+     * @return
+     */
     public String getLatitude() {
         return latitude;
     }
@@ -114,8 +145,11 @@ public class APIRequestHandler {
     }
 
 
-
-    // gets weather data
+    /**
+     * gets non-specific weather data from API
+     * @return
+     * @throws Exception
+     */
     public String getWeatherData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -129,6 +163,11 @@ public class APIRequestHandler {
     }
 
 
+    /**
+     * parses non-specific weather data from API and creates city holding data
+     * @param responseBody
+     * @return
+     */
     public static String parseWeatherData(String responseBody) {
 
         double temp = 0.00;
@@ -185,10 +224,11 @@ public class APIRequestHandler {
     }
 
 
-
-    /*
-    Methods for historic weather data
-    */
+    /**
+     * Methods for historic weather data
+     * @return
+     * @throws Exception
+     */
     public String getHistoricWeatherData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -201,6 +241,11 @@ public class APIRequestHandler {
 
     }
 
+    /**
+     * Methods for pasrsing historic weather data
+     * @param responseBody
+     * @return
+     */
     public static String parseHistoricData(String responseBody) {
         double temp = 0.00;
         int humidity = 0;
@@ -309,12 +354,11 @@ public class APIRequestHandler {
     }
 
 
-
-
-    /*
-   Methods for future weather data
-    */
-
+    /**
+     * Method for getting future weather data from API
+     * @return
+     * @throws Exception
+     */
     public String getFutureWeatherData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -326,6 +370,11 @@ public class APIRequestHandler {
                 .join());
     }
 
+    /**
+     * Method for parsing future weather data from API and creating city object
+     * @param responseBody
+     * @return
+     */
     public static String sevenDayfutureData(String responseBody) {
 
         double temp = 0.00;
@@ -357,11 +406,11 @@ public class APIRequestHandler {
     }
 
 
-    /*
-    Methods for current weather data
+    /**
+     * Method for retrieving current weather data from API
+     * @return
+     * @throws Exception
      */
-
-
     public String getCurrentWeatherData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -373,6 +422,11 @@ public class APIRequestHandler {
     }
 
 
+    /**
+     * Method for parsing current weather data
+     * @param responseBody
+     * @return
+     */
     public static String currentWeatherData(String responseBody) {
         double temp = 0.00;
         int humidity = 0;
@@ -397,9 +451,12 @@ public class APIRequestHandler {
     }
 
 
-
-
-    //get the most frequent occurring item in collection - code attri : arshajii(stackoverflow)
+    /**
+     * get the most frequent occurring item in collection - code attri : arshajii(stackoverflow)
+     * @param list
+     * @return
+     * @param <T>
+     */
     public static <T> T getFrequentItem(ArrayList<T> list) {
 
         Map<T, Integer> map = new HashMap<>();
@@ -422,7 +479,11 @@ public class APIRequestHandler {
     }
 
 
-
+    /**
+     * gets the longitude and latutude of a city
+     * @param city
+     * @return
+     */
     public static String [] fetchGeoCoordinates(String city){
 
         try {

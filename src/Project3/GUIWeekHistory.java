@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 
+
 public class GUIWeekHistory extends JFrame {
 
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
@@ -42,6 +43,13 @@ public class GUIWeekHistory extends JFrame {
     String endTime;
 
 
+    /**
+     * creates GUI window for viewing seven-day weather history
+     * @param city
+     * @param type
+     * @throws IOException
+     * @throws ParseException
+     */
     public GUIWeekHistory(String city, String type) throws IOException, ParseException {
 
         this.type = type;
@@ -149,6 +157,10 @@ public class GUIWeekHistory extends JFrame {
         }
     }
 
+    /**
+     * saves weather data to a local file
+     * @throws IOException
+     */
     public void displayWeatherData() throws IOException {
         StringBuilder strToSave = new StringBuilder();
         Path path = null;
@@ -179,8 +191,11 @@ public class GUIWeekHistory extends JFrame {
     }
 
 
-
-    //method to parse string of image to image for weather icon display
+    /**
+     * method to parse string of image to image for weather icon display
+     * @param url1
+     * @return
+     */
     public ImageIcon getIconImage(String url1) {
         URL url = null;
         BufferedImage img = null;
@@ -196,6 +211,10 @@ public class GUIWeekHistory extends JFrame {
         return weatherIcon;
     }
 
+
+    /**
+     * sorts datatable based on Temperature
+     */
     private class sortByTempButton implements ActionListener {
 
         @Override
@@ -206,6 +225,9 @@ public class GUIWeekHistory extends JFrame {
         }
     }
 
+    /**
+     * sorts datatable based on Humidity
+     */
     private class sortByHumButton implements ActionListener {
 
         @Override
@@ -217,6 +239,10 @@ public class GUIWeekHistory extends JFrame {
 
     }
 
+    /**
+     * displays the table in current frame
+     * @param cityList
+     */
     private void showTable(ArrayList<City> cityList)
     {
         tableModel.setRowCount(0);
@@ -227,6 +253,10 @@ public class GUIWeekHistory extends JFrame {
     }
 
 
+    /**
+     * adds city data to table model
+     * @param city
+     */
     private void addToTable(City city)
     {
         Object[] item = {getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
@@ -235,6 +265,10 @@ public class GUIWeekHistory extends JFrame {
     }
 
 
+    /**
+     * sets current frame title to sting value : s
+     * @param s
+     */
     public void setTitleWindow(String s) {
         if(s.equals("Historic")) {
             setTitle("Rain - 7 day " + s);
@@ -244,6 +278,11 @@ public class GUIWeekHistory extends JFrame {
     }
 
 
+    /**
+     * gets column names parsed from current date.
+     * @param s
+     * @throws ParseException
+     */
     public void setColumnNames(String s) throws ParseException {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-EEE, MM, yyyy");
             Date today;
@@ -259,17 +298,31 @@ public class GUIWeekHistory extends JFrame {
 
     }
 
+    /**
+     * finds the next day from a given date.
+     * @param date
+     * @return
+     */
     private static Date findNextDay(Date date)
     {
         return new Date(date.getTime() + MILLIS_IN_A_DAY);
     }
 
+    /**
+     * finds the previous date from a given date
+     * @param date
+     * @return
+     */
     private static Date findPrevDay(Date date)
     {
         return new Date(date.getTime() - MILLIS_IN_A_DAY);
     }
 
 
+    /**
+     * returns the date time values for historic 7 day period
+     * @return
+     */
     public Date[] getDateTime() {
         Date[] dates = new Date[7];
         Date today = new Date();
@@ -279,9 +332,6 @@ public class GUIWeekHistory extends JFrame {
         }
         return dates;
     }
-
-
-
 
 
 

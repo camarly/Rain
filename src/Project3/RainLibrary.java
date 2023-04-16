@@ -27,7 +27,11 @@ public class RainLibrary {
 
     }
 
-    //creates single city
+    /**
+     * creates single citycreates single city
+     * @param city
+     * @return
+     */
     public static HashMap<String, String[]> createCityData(String city) {
         HashMap<String, String[]> cityGeoData = new HashMap<>();
         String[] geoData = {Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[0], Objects.requireNonNull(APIRequestHandler.fetchGeoCoordinates(city))[1]};
@@ -35,7 +39,13 @@ public class RainLibrary {
         return cityGeoData;
     }
 
-    //get 7-day weather data
+    /**
+     * get 7-day weather data
+     * @param cityGeoData
+     * @param startTime
+     * @param endTime
+     * @param type
+     */
     public static void getSevenDayWeatherData(HashMap<String, String[]> cityGeoData, String startTime, String endTime, String type) {
         String city = null;
         String latitude = null;
@@ -77,6 +87,10 @@ public class RainLibrary {
     }
 
 
+    /**
+     * gets current city data from parsed file
+     * @param allCityData
+     */
     public static void getCurrentCityData(HashMap<String, String[]> allCityData) {
         for (Map.Entry<String, String[]> set : allCityData.entrySet()) {
             String latitude = set.getValue()[0];
