@@ -48,7 +48,10 @@ public class GUICurrentWeatherList extends JFrame {
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         thisFrame = this;
-        City.cityList = new ArrayList<>();
+//        City.cityList = new ArrayList<>();
+//        var allCityList = RainLibrary.createCityData(cityList);
+//        var allCityData = RainLibrary.createCityData(Tester.allCityList);
+        RainLibrary.getAllCityData(Tester.allCityList);
 
 //        City.cityList = loadCities("./persistence/currweatherlist.txt");
 
@@ -160,7 +163,6 @@ public class GUICurrentWeatherList extends JFrame {
 
 //        Object[] item = {city.getCityName(),getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
         Object[] item = {name, "" + city.getTemp(), "" + city.getHumidity(), getIconImage(city.getIcon()), "" + city.getDescription()};
-        System.out.println(city.getIcon());
         model.addRow(item);
 
         StringBuilder strToSave = new StringBuilder();
