@@ -1,7 +1,7 @@
-Day 1	Lucea	27.74	71	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
-Day 2	Lucea	27.41	72	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 3	Lucea	27.83	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 4	Lucea	27.63	70	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 5	Lucea	27.39	71	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 6	Lucea	27.5	71	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 7	Lucea	27.29	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 1	Kingston	28.94	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 2	Kingston	29.06	63	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 3	Kingston	28.33	71	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 4	Kingston	29.78	63	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 5	Kingston	29.58	63	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 6	Kingston	29.93	59	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 7	Kingston	28.71	64	https://openweathermap.org/img/wn/10d@2x.png	light rain

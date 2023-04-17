@@ -2,7 +2,10 @@ package Project3;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +15,12 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import javax.swing.JLabel;
 
 
 
@@ -81,54 +85,124 @@ public class GUIWeekHistory extends JFrame {
         tableModel = new DefaultTableModel(data, columnNames) {
             //  Returning the Class of each column will allow different
             //  renderers to be used based on Class
-
             @Override
             public Class<?> getColumnClass(int row) {
-                for (int i = 0; i < getColumnCount(); i++) {
-                    if (getRowCount() == 0) {
+                for (int i = 0; i < getRowCount(); i++) {
+                    if (row == 0) {
                         return ImageIcon.class;
                     }
                 }
                 return Object.class;
             }
+
         };
 
 
-        table = new JTable(tableModel);
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        table = new JTable(tableModel) {
+            @Override
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                return new GUIWeekHistory.ImageTableCellRenderer();
+            }
+        };
+        table.getColumnModel().getColumn(0).setCellRenderer(new GUIWeekHistory.ImageTableCellRenderer());
+
+
+        table.setRowHeight(100);
+
+        TableColumn column;
+        for (int i = 0; i < columnNames.length; i++) {
+            column = table.getColumnModel().getColumn(i);
+            column.setPreferredWidth(150); // Set preferred width as desired
+        }
+
+        // Enable word wrap and set wrap style word for column names
+        TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
+        JLabel label = (JLabel) renderer;
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+
+//        JButton cmdClose = new JButton("Close");
+//        JButton cmdExport = new JButton("Save Data");
+//        JButton cmdLoad = new JButton("Load Data");
+
 
         JButton cmdClose = new JButton("Close");
         JButton cmdExport = new JButton("Save Data");
         JButton cmdLoad = new JButton("Load Data");
 
 
-        pnlDisplay = new JPanel();
+//        pnlDisplay = new JPanel();
         pnlCmd = new JPanel();
-
-        pnlDisplay.setSize(600, 600);
+//
+//        pnlDisplay.setSize(600, 600);
+//        pnlCmd.setSize(200, 200);
+//
+//        scrollPane = new JScrollPane(table);
+//        scrollPane.setPreferredSize(new Dimension(600, 600));
+//        pnlDisplay.add(scrollPane);
+//
+//        pnlCmd.add(cmdClose);
+//        pnlCmd.add(cmdExport);
+//        pnlCmd.add(cmdLoad);
         pnlCmd.setSize(200, 200);
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(600, 600));
-        pnlDisplay.add(scrollPane);
+        scrollPane.setPreferredSize(new Dimension(800, 400));
+
+        // Create the pnlDisplay panel to hold the JScrollPane
+        pnlDisplay = new JPanel(new BorderLayout());
+        pnlDisplay.add(scrollPane, BorderLayout.CENTER);
+
 
         pnlCmd.add(cmdClose);
         pnlCmd.add(cmdExport);
         pnlCmd.add(cmdLoad);
 
-        cmdClose.addActionListener(new CloseButtonListener());
-        cmdExport.addActionListener(new ExportButtonListener());
-        cmdLoad.addActionListener(new LoadButtonListener());
+        cmdClose.addActionListener(new GUIWeekHistory.CloseButtonListener());
+        cmdExport.addActionListener(new GUIWeekHistory.ExportButtonListener());
+        cmdLoad.addActionListener(new GUIWeekHistory.LoadButtonListener());
+
+//        cmdClose.addActionListener(new CloseButtonListener());
+//        cmdExport.addActionListener(new ExportButtonListener());
+//        cmdLoad.addActionListener(new LoadButtonListener());
 
 
+//        frame = new JFrame();
+//        frame.setPreferredSize(new Dimension(600, 600));
+//        frame.add(pnlDisplay, BorderLayout.CENTER);
+//        frame.add(pnlCmd, BorderLayout.SOUTH);
+//        frame.pack();
+//        setSize(600, 600);
+//        frame.setVisible(true);
+
+        // Create the frame to hold the pnlDisplay panel
         frame = new JFrame();
-        frame.setPreferredSize(new Dimension(600, 600));
-        frame.add(pnlDisplay, BorderLayout.CENTER);
+        frame.add(pnlDisplay);
         frame.add(pnlCmd, BorderLayout.SOUTH);
-        frame.pack();
-        setSize(600, 600);
+        frame.setSize(1000, 600); // Set the size of the frame
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+
+    // Custom TableCellRenderer for rendering images in JTable
+    private class ImageTableCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            // Check if the value is an instance of ImageIcon
+            if (value instanceof ImageIcon) {
+                // Create a JLabel to render the ImageIcon
+                JLabel label = new JLabel((ImageIcon) value);
+                label.setHorizontalAlignment(JLabel.CENTER);
+                label.setVerticalAlignment(JLabel.TOP);
+                return label;
+            } else {
+                // For other values, use the default renderer
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            }
+        }
+    }
+
 
 
     private class ExportButtonListener implements ActionListener {
@@ -333,6 +407,19 @@ public class GUIWeekHistory extends JFrame {
         return dates;
     }
 
+    public class WordWrapTableCellRenderer extends JTextArea implements TableCellRenderer {
+        public WordWrapTableCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(value.toString());
+            return this;
+        }
+    }
 
 
 }

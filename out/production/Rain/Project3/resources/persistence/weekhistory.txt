@@ -1,0 +1,7 @@
+Day 1	Kingston	27.36	82	https://openweathermap.org/img/wn/04n@2x.png	broken clouds
+Day 2	Kingston	26.8	86	https://openweathermap.org/img/wn/03n@2x.png	scattered clouds
+Day 3	Kingston	26.25	84	https://openweathermap.org/img/wn/03n@2x.png	scattered clouds
+Day 4	Kingston	25.69	88	https://openweathermap.org/img/wn/03n@2x.png	scattered clouds
+Day 5	Kingston	26.25	85	https://openweathermap.org/img/wn/02n@2x.png	few clouds
+Day 6	Kingston	25.69	81	https://openweathermap.org/img/wn/03n@2x.png	scattered clouds
+Day 7	Kingston	25.13	78	https://openweathermap.org/img/wn/04n@2x.png	broken clouds

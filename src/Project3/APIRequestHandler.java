@@ -10,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -275,7 +276,12 @@ public class APIRequestHandler {
             count += 1;
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-            icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
+            String pre_icon = report.getJSONArray("weather").getJSONObject(0).getString("icon");
+
+            int place = 2;
+            pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
+            System.out.println(pre_icon);
+            icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
 
             City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
             City.historicSevenDayCityData.add(aCity);
@@ -395,7 +401,14 @@ public class APIRequestHandler {
 
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-            icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
+//            icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
+
+            String pre_icon = report.getJSONArray("weather").getJSONObject(0).getString("icon");
+
+            int place = 2;
+            pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
+            System.out.println(pre_icon);
+            icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
 
             City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
             City.futureSevenDayCityData.add(aCity);
@@ -436,7 +449,15 @@ public class APIRequestHandler {
         int datetime = 0;
 
         JSONObject data = new JSONObject(responseBody);
-        icon = "https://openweathermap.org/img/wd/"+ data.getJSONArray("weather").getJSONObject(0).getString("icon")+"@2x.png";
+//        icon = "https://openweathermap.org/img/wd/"+ data.getJSONArray("weather").getJSONObject(0).getString("icon")+"@2x.png";
+        String pre_icon = data.getJSONArray("weather").getJSONObject(0).getString("icon");
+
+        int place = 2;
+        pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
+//        System.out.println(pre_icon);
+        icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
+//        System.out.println(icon);
+
         description = data.getJSONArray("weather").getJSONObject(0).getString("description");
         weather = data.getJSONArray("weather").getJSONObject(0).getString("main");
 
