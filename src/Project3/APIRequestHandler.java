@@ -454,9 +454,9 @@ public class APIRequestHandler {
 
         int place = 2;
         pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
-        System.out.println(pre_icon);
+//        System.out.println(pre_icon);
         icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
-        System.out.println(icon);
+//        System.out.println(icon);
 
         description = data.getJSONArray("weather").getJSONObject(0).getString("description");
         weather = data.getJSONArray("weather").getJSONObject(0).getString("main");
