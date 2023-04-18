@@ -201,7 +201,7 @@ public class GUIWeekForecast extends JFrame {
         frame.add(pnlDisplay);
         frame.add(pnlCmd, BorderLayout.SOUTH);
         frame.setSize(1000, 600); // Set the size of the frame
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Modified line
         frame.setVisible(true);
 
     }
@@ -279,7 +279,7 @@ public class GUIWeekForecast extends JFrame {
                     .append(city.getDescription())
                     .append(System.lineSeparator());
             Files.writeString(path, strToSave.toString());
-            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
+//            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
         }
         strToSave.setLength(0);
     }

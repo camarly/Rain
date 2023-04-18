@@ -3,6 +3,7 @@ package Project3;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -280,7 +281,6 @@ public class APIRequestHandler {
 
             int place = 2;
             pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
-            System.out.println(pre_icon);
             icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
 
             City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
@@ -407,7 +407,6 @@ public class APIRequestHandler {
 
             int place = 2;
             pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
-            System.out.println(pre_icon);
             icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
 
             City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
@@ -505,10 +504,47 @@ public class APIRequestHandler {
      * @param city
      * @return
      */
-    public static String [] fetchGeoCoordinates(String city){
+//    public static String [] fetchGeoCoordinates(String city){
+//
+//        try {
+//
+//            apiResponse = null;
+//
+//            String query = String.format("%s", URLEncoder.encode(city, "UTF-8"));
+//            String apiCall = String.format(BASE_API_URL, query, aPiKey03);
+//
+//            HttpClient client = HttpClient.newHttpClient();
+//            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiCall)).build();
+//            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                    .thenApply(HttpResponse::body)
+//                    .thenAccept(response -> {apiResponse = response;})
+//                    .join();
+//
+//
+//            String [] latLon = new String[2];
+//            if (apiResponse.equals("[]")){
+//                System.out.println("Location not found. Please try another city"); //Employ the use of message boxes
+//            } else{
+//                JSONArray jArray = new JSONArray(apiResponse);
+//                JSONObject results = jArray.getJSONObject(0);
+//
+//                if (results.getString("country").equals("JM")){
+//                    latLon[0] = Double.toString(results.getDouble("lat"));
+//                    latLon[1] = Double.toString(results.getDouble("lon"));
+//
+//                }else
+//                    System.out.println("Unable to locate data on this city in Jamaica"); //Employ the use of message boxes
+//            }
+//            return latLon;
+//
+//        } catch (UnsupportedEncodingException ueex) {
+//            ueex.printStackTrace();
+//        }
+//        return null;
+//    }
 
+    public static String[] fetchGeoCoordinates(String city) {
         try {
-
             apiResponse = null;
 
             String query = String.format("%s", URLEncoder.encode(city, "UTF-8"));
@@ -518,28 +554,35 @@ public class APIRequestHandler {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiCall)).build();
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body)
-                    .thenAccept(response -> {apiResponse = response;})
+                    .thenAccept(response -> {
+                        apiResponse = response;
+                    })
                     .join();
 
-
-            String [] latLon = new String[2];
-            if (apiResponse.equals("[]")){
-                System.out.println("Location not found. Please try another city"); //Employ the use of message boxes
-            } else{
+            String[] latLon = new String[2];
+            if (apiResponse.equals("[]")) {
+                JOptionPane.showMessageDialog(null, "Location not found. Please try another city", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
                 JSONArray jArray = new JSONArray(apiResponse);
                 JSONObject results = jArray.getJSONObject(0);
 
-                if (results.getString("country").equals("JM")){
+                if (results.getString("country").equals("JM")) {
                     latLon[0] = Double.toString(results.getDouble("lat"));
                     latLon[1] = Double.toString(results.getDouble("lon"));
-
-                }else
-                    System.out.println("Unable to locate data on this city in Jamaica"); //Employ the use of message boxes
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Unable to locate data on this city in Jamaica", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             return latLon;
 
         } catch (UnsupportedEncodingException ueex) {
-            ueex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unsupported encoding: " + ueex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }

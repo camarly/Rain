@@ -148,7 +148,7 @@ public class MainMenu extends JFrame {
     private class SuggestionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            GUISuggestions guiSuggestions = new GUISuggestions();
         }
     }
 
