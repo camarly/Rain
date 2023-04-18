@@ -1,7 +1,14 @@
-Day 8	Kingston	28.7	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 9	Kingston	29.73	60	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 10	Kingston	28.94	66	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
-Day 11	Kingston	29.56	63	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 12	Kingston	29.97	58	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
-Day 13	Kingston	29.81	58	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 14	Kingston	30.78	50	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 23	Lucea	28.08	66	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 24	Lucea	28.03	67	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 25	Lucea	27.14	73	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 26	Lucea	26.91	74	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 27	Lucea	27.26	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 28	Lucea	27.75	63	https://openweathermap.org/img/wn/01d@2x.png	sky is clear
+Day 29	Lucea	27.91	65	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 57	Kingston	28.7	68	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 58	Kingston	29.73	60	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 59	Kingston	28.94	66	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 60	Kingston	29.56	63	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 61	Kingston	29.97	58	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
+Day 62	Kingston	29.81	58	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 63	Kingston	30.78	50	https://openweathermap.org/img/wn/10d@2x.png	light rain

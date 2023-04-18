@@ -36,7 +36,7 @@ public class GUISuggestions extends JFrame implements ActionListener {
         "Falmouth"
         ,"Mandeville"
         ,"Negril"
-       ,"Kingston"
+        ,"Kingston"
         ,"Montego Bay"
         ,"Spanish Town"
         ,"Port Antonio"

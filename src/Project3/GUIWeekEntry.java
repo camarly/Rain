@@ -92,9 +92,11 @@ public class GUIWeekEntry extends JFrame {
             try {
                 if(type.equals("Historic")) {
                     new GUIWeekHistory(city, getReportType());
+                    dispose();
                 }
                 else {
                     new GUIWeekForecast(city, getReportType());
+                    dispose();
                 }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

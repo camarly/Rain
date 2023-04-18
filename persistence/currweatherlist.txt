@@ -1,14 +1,15 @@
-Day 1	May Pen	27.59	86	https://openweathermap.org/img/wn/02d@2x.png	few clouds
-Day 2	Port Antonio	24.02	84	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 3	Mandeville	19.5	92	https://openweathermap.org/img/wn/03d@2x.png	scattered clouds
-Day 4	Montego Bay	24.89	88	https://openweathermap.org/img/wn/03d@2x.png	scattered clouds
-Day 5	Port Maria	23.54	95	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 6	Kingston	26.36	87	https://openweathermap.org/img/wn/04d@2x.png	broken clouds
-Day 7	Ocho Rios	23.75	81	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 8	Lucea	25.0	78	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 9	Spanish Town	26.12	87	https://openweathermap.org/img/wn/10d@2x.png	heavy intensity rain
-Day 10	Falmouth	24.97	83	https://openweathermap.org/img/wn/10d@2x.png	light rain
-Day 11	Negril	24.95	94	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 12	Santa Cruz	23.65	89	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 13	Morant Bay	27.77	83	https://openweathermap.org/img/wn/01d@2x.png	clear sky
-Day 14	Savanna-La-Mar	24.96	88	https://openweathermap.org/img/wn/10d@2x.png	heavy intensity rain
+Day 42	Kingston	24.39	98	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 43	May Pen	23.16	87	https://openweathermap.org/img/wn/02d@2x.png	few clouds
+Day 44	Port Antonio	23.82	83	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 45	Mandeville	19.31	92	https://openweathermap.org/img/wn/03d@2x.png	scattered clouds
+Day 46	Montego Bay	24.32	81	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 47	Port Maria	23.48	94	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 48	Kingston	24.39	98	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 49	Ocho Rios	23.86	82	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 50	Lucea	24.44	78	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 51	Spanish Town	24.32	98	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 52	Falmouth	24.53	84	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 53	Negril	24.39	94	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 54	Santa Cruz	23.34	89	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 55	Morant Bay	24.26	83	https://openweathermap.org/img/wn/01d@2x.png	clear sky
+Day 56	Savanna-La-Mar	24.4	89	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
