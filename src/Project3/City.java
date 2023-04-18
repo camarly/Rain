@@ -137,8 +137,8 @@ public class City implements Comparable<City> {
 //    }
 
     public void setCurrentWeather(){
-        String lat = APIGeoCordHandler.fetchGeoCordinates(getCityName())[0];
-        String lon = APIGeoCordHandler.fetchGeoCordinates(getCityName())[1];
+        String lat = APIRequestHandler.fetchGeoCoordinates(getCityName())[0];
+        String lon = APIRequestHandler.fetchGeoCoordinates(getCityName())[1];
 
         setTemp(Double.parseDouble(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[1]));
         setHumidity(Integer.parseInt(APICurrentWeatherHandler.fetchWeatherData(lat, lon)[2]));

@@ -1,7 +1,7 @@
-Day 8	Mandeville	21.1	82	https://openweathermap.org/img/wn/03d@2x.png	scattered clouds
-Day 9	Mandeville	20.77	91	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 10	Mandeville	21.35	87	https://openweathermap.org/img/wn/04d@2x.png	overcast clouds
-Day 11	Mandeville	21.16	89	https://openweathermap.org/img/wn/04d@2x.png	broken clouds
-Day 12	Mandeville	20.49	88	https://openweathermap.org/img/wn/04d@2x.png	broken clouds
-Day 13	Mandeville	20.11	87	https://openweathermap.org/img/wn/04d@2x.png	broken clouds
-Day 14	Mandeville	20.0	87	https://openweathermap.org/img/wn/03d@2x.png	scattered clouds
+Day 15	Montego Bay	24.88	79	https://openweathermap.org/img/wn/04d@2x.png	broken clouds
+Day 16	Montego Bay	27.89	74	https://openweathermap.org/img/wn/10d@2x.png	light rain
+Day 17	Montego Bay	25.44	81	https://openweathermap.org/img/wn/04d@2x.png	broken clouds
+Day 18	Montego Bay	27.1	77	https://openweathermap.org/img/wn/10d@2x.png	very heavy rain
+Day 19	Montego Bay	25.44	80	https://openweathermap.org/img/wn/02d@2x.png	few clouds
+Day 20	Montego Bay	27.1	76	https://openweathermap.org/img/wn/03d@2x.png	scattered clouds
+Day 21	Montego Bay	26.55	79	https://openweathermap.org/img/wn/10d@2x.png	moderate rain
