@@ -62,11 +62,8 @@ public class GUIWeekForecast extends JFrame {
         setTitleWindow(type);
 
         RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData(city), startTime, endTime, type);
-//        displayWeatherData();
 
         setColumnNames();
-        // Set preferred width for each column
-
 
         Object[][] data = {
                 {getIconImage(City.futureSevenDayCityData.get(0).getIcon()), getIconImage(City.futureSevenDayCityData.get(1).getIcon()), getIconImage(City.futureSevenDayCityData.get(2).getIcon()), getIconImage(City.futureSevenDayCityData.get(3).getIcon()), getIconImage(City.futureSevenDayCityData.get(4).getIcon()), getIconImage(City.futureSevenDayCityData.get(5).getIcon()), getIconImage(City.futureSevenDayCityData.get(6).getIcon())},
@@ -107,7 +104,6 @@ public class GUIWeekForecast extends JFrame {
 
 
 // Create a custom TableCellRenderer that wraps the text using HTML tags
-
 
         table = new JTable(tableModel) {
             @Override
@@ -188,14 +184,6 @@ public class GUIWeekForecast extends JFrame {
         cmdExport.addActionListener(new ExportButtonListener());
         cmdLoad.addActionListener(new LoadButtonListener());
 
-
-//        frame = new JFrame();
-//        frame.setPreferredSize(new Dimension(600, 600));
-//        frame.add(pnlDisplay, BorderLayout.CENTER);
-//        frame.add(pnlCmd, BorderLayout.SOUTH);
-//        frame.pack();
-//        setSize(600, 600);
-//        frame.setVisible(true);
 
         // Create the frame to hold the pnlDisplay panel
         frame = new JFrame();
@@ -346,7 +334,7 @@ public class GUIWeekForecast extends JFrame {
 
 
     /**
-     * method to parse string of image to image for weather icon display
+     * method to parse string of image to imageIcon for weather icon display
      * @param url1
      * @return
      */
@@ -388,6 +376,11 @@ public class GUIWeekForecast extends JFrame {
 
     }
 
+
+    /**
+     * shows the data from the list in current JTable Frame
+     * @param cityList
+     */
     private void showTable(ArrayList<City> cityList)
     {
         tableModel.setRowCount(0);
@@ -398,6 +391,10 @@ public class GUIWeekForecast extends JFrame {
     }
 
 
+    /**
+     * adds a city to the current JTable
+     * @param city
+     */
     private void addToTable(City city)
     {
         Object[] item = {getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
@@ -416,7 +413,6 @@ public class GUIWeekForecast extends JFrame {
 
     /**
      * gets column names parsed from current date.
-     * @param s
      * @throws ParseException
      */
     public void setColumnNames() {
@@ -433,6 +429,9 @@ public class GUIWeekForecast extends JFrame {
             }
     }
 
+
+
+
     /**
      * finds the next date from a given date
      * @param date
@@ -443,6 +442,8 @@ public class GUIWeekForecast extends JFrame {
     }
 
 
+
+    //wraps text on JTable
     public class WordWrapTableCellRenderer extends JTextArea implements TableCellRenderer {
         public WordWrapTableCellRenderer() {
             setLineWrap(true);

@@ -184,28 +184,16 @@ public class GUICurrentWeatherList extends JFrame {
 
     }
 
+
+    /**
+     * adds a city to the current JFrame
+     * @param city
+     */
     public void addCity(City city) {
         City.cityList.add(city);
         addToTable(city);
     }
 
-    // Custom TableCellRenderer for rendering images in JTable
-//    private class ImageTableCellRenderer extends DefaultTableCellRenderer {
-//        @Override
-//        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//            // Check if the value is an instance of ImageIcon
-//            if (value instanceof ImageIcon) {
-//                // Create a JLabel to render the ImageIcon
-//                JLabel label = new JLabel((ImageIcon) value);
-//                label.setHorizontalAlignment(JLabel.CENTER);
-//                label.setVerticalAlignment(JLabel.TOP);
-//                return label;
-//            } else {
-//                // For other values, use the default renderer
-//                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//            }
-//        }
-//    }
 
 
     /**
@@ -288,6 +276,7 @@ public class GUICurrentWeatherList extends JFrame {
                 }
 
             }
+            //saves data to current file.
             private void saveData() throws IOException {
                 StringBuilder strToSave = new StringBuilder();
                 Path path = null;
@@ -305,6 +294,10 @@ public class GUICurrentWeatherList extends JFrame {
             }
     }
 
+
+    /**
+     * displays the city weather data in the JFrame
+     */
     public void showDetails() {
         model.setRowCount(0);
         for (City city : City.cityList) {
@@ -343,6 +336,7 @@ public class GUICurrentWeatherList extends JFrame {
     }
 
 
+    //loads city data
     private ArrayList<City> loadCities(String pfile){
         Scanner scan = null;
         ArrayList<City> clist = new ArrayList<>();
@@ -375,6 +369,7 @@ public class GUICurrentWeatherList extends JFrame {
             return this;
         }
     }
+
 
     private class ImageTableCellRenderer extends DefaultTableCellRenderer {
         @Override

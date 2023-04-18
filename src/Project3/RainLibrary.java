@@ -12,7 +12,7 @@ import java.util.Objects;
 public class RainLibrary {
 
 
-    //creates multiple city
+    //creates multiple city geo data (longitude and latitude) for all cities in the list provided
     public static HashMap<String, String[]> createCityData(ArrayList<String> cities) {
         HashMap<String, String[]> cityGeoData = new HashMap<>();
         String longitude = null;
@@ -27,8 +27,10 @@ public class RainLibrary {
 
     }
 
+
+
     /**
-     * creates single citycreates single city
+     * creates single geo data (longitude and latitude) for a city.
      * @param city
      * @return
      */
@@ -38,6 +40,7 @@ public class RainLibrary {
         cityGeoData.put(city, geoData);
         return cityGeoData;
     }
+
 
     /**
      * get 7-day weather data
@@ -70,6 +73,10 @@ public class RainLibrary {
     }
 
 
+    /**
+     *  gets current weather data for all cities-with geodata stored in hashmap
+     * @param allCityData
+     */
     public static void getAllCityData(HashMap<String, String[]> allCityData) {
         for (Map.Entry<String, String[]> set : allCityData.entrySet()) {
             String latitude = set.getValue()[0];

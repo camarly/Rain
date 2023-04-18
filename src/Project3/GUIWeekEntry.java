@@ -12,13 +12,6 @@ import java.util.TimeZone;
 
 public class GUIWeekEntry extends JFrame {
 
-//    private final static String[] MONTHS = {"January", "February", "March", "April",
-//            "May", "June", "July", "August", "September", "October", "November", "December"};
-//    private final static Integer[] DAYS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-//            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31};
-//    private final static Integer[] YEARS = {2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016,
-//            2015, 2014, 2013};
-
     private JTextField cityField;
     private JComboBox<String> dbMonth;
     private JComboBox<Integer> dbDay;
@@ -32,6 +25,11 @@ public class GUIWeekEntry extends JFrame {
 
     private String type;
 
+
+    /**
+     * constructor for generating entry window for city to get forecast weather data
+     * @param type
+     */
     public GUIWeekEntry(String type) {
         this.type = type;
 
@@ -44,26 +42,6 @@ public class GUIWeekEntry extends JFrame {
         pnlDisplay.add(new JLabel("City Name"));
         cityField = new JTextField(20);
         pnlDisplay.add(cityField);
-//
-//        dbMonth = new JComboBox<>(MONTHS);
-//        pnlDate.add(new JLabel("Month"));
-//        pnlDate.add(dbMonth);
-//
-//        dbDay = new JComboBox<>(DAYS);
-//        pnlDate.add(new JLabel("Day"));
-//        pnlDate.add(dbDay);
-
-//        YEARS = new Integer[40];
-//        int currentYear = 2023; //check on method to get the year of the present date.
-//        for (int i = 0; i < YEARS.length; i++){
-//            YEARS[i] = currentYear;
-//            System.out.println(YEARS[i]);
-//            currentYear --;
-//        }
-
-//        dbYear = new JComboBox<>(YEARS);
-//        pnlDate.add(new JLabel("Year"));
-//        pnlDate.add(dbYear);
 
         cmdSubmit = new JButton("Submit");
         cmdCancel = new JButton("Cancel");
@@ -114,7 +92,13 @@ public class GUIWeekEntry extends JFrame {
         }
     }
 
-    //Convert Unix time to readable time
+
+
+    /**
+     * Convert Unix time to readable time
+     * @param unix
+     * @return date in string format
+     */
     public static String unixToDate (long unix){
         Date date = new Date (unix * 1000);
 
@@ -124,7 +108,11 @@ public class GUIWeekEntry extends JFrame {
         return readableDT;
     }
 
-    //Convert readable time to Unix
+    /**
+     * Convert readable time to Unix
+     * @param readableDT
+     * @return String with data i unixdatetime format
+     */
     public static String dateToUnix (String readableDT){
 
         try{
@@ -141,6 +129,10 @@ public class GUIWeekEntry extends JFrame {
 
     }
 
+    /**
+     * returns the type of data requested "Current", "Historic" or "Forecast".
+     * @return
+     */
     public String getReportType() {
         return this.type;
     }

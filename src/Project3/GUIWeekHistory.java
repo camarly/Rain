@@ -184,6 +184,11 @@ public class GUIWeekHistory extends JFrame {
             }
 
         }
+
+        /**
+         * saves weather data to a local file
+         * @throws IOException
+         */
         private void saveData() throws IOException {
             StringBuilder strToSave = new StringBuilder();
             Path path = null;
@@ -215,6 +220,11 @@ public class GUIWeekHistory extends JFrame {
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File loaded from local directory");
         }
 
+
+        /**
+         * loads weather data to a local file
+         * @throws IOException
+         */
         private void loadWeatherData() {
             Path path = null;
             if (type.equals("Historic"))
@@ -252,33 +262,6 @@ public class GUIWeekHistory extends JFrame {
             frame.dispose();
         }
     }
-
-    /**
-     * saves weather data to a local file
-     * @throws IOException
-     */
-//    public void displayWeatherData() throws IOException {
-//        StringBuilder strToSave = new StringBuilder();
-//        Path path = null;
-//        if(type.equals("Historic"))
-//            path = Paths.get("./persistence/weekhistory.txt");
-//        else
-//            path = Paths.get("./persistence/futureforecast.txt");
-//        for (int i = 0; i < 7 && i < City.historicSevenDayCityData.size(); i++) {
-//            City city = City.historicSevenDayCityData.get(i);
-//            strToSave.append("Day ").append(city.getCityID()).append("\t")
-//                    .append(city.getCityName()).append("\t")
-//                    .append(city.getTemp()).append("\t")
-//                    .append(city.getHumidity()).append("\t")
-//                    .append(city.getIcon()).append("\t")
-//                    .append(city.getDescription())
-//                    .append(System.lineSeparator());
-////            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
-//
-//        }
-//            Files.writeString(path, strToSave.toString());
-//            strToSave.setLength(0);
-//    }
 
 
 
@@ -399,6 +382,8 @@ public class GUIWeekHistory extends JFrame {
         return new Date(date.getTime() + MILLIS_IN_A_DAY);
     }
 
+
+
     /**
      * finds the previous date from a given date
      * @param date
@@ -411,7 +396,7 @@ public class GUIWeekHistory extends JFrame {
 
 
     /**
-     * returns the date time values for historic 7 day period
+     * returns the date time values for historic 7-day period
      * @return
      */
     public Date[] getDateTime() {

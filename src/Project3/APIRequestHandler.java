@@ -1,6 +1,7 @@
 package Project3;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class APIRequestHandler {
 
@@ -43,7 +46,7 @@ public class APIRequestHandler {
 
 
     /**
-     * constructor for getting API data and parsing
+     * constructor for creating api url
      * @param cityName
      * @param longitude
      * @param latitude
@@ -72,7 +75,7 @@ public class APIRequestHandler {
     }
 
     /**
-     * Temperature map constructor
+     * Temperature map constructor - creates a temperature map api url
      * @param tmpMap
      */
     public APIRequestHandler(TemperatureMap tmpMap) {
@@ -80,7 +83,7 @@ public class APIRequestHandler {
     }
 
     /**
-     * Temperature map constructor
+     * Temperature map constructor - creates a temperature map api url
      * @param tmpMap
      * @param type
      */
@@ -89,6 +92,13 @@ public class APIRequestHandler {
     }
 
 
+    /**
+     * constructor for creating API url for current weather data
+     * @param cityName
+     * @param latitude
+     * @param longitude
+     * @param current
+     */
     public APIRequestHandler(String cityName, String latitude, String longitude, String current) {
         this.apiURL = "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude +"&appid=" + aPiKey02+"&units=metric";
         APIRequestHandler.cityName = cityName;
@@ -110,6 +120,7 @@ public class APIRequestHandler {
         return longitude;
     }
 
+
     /**
      * sets longitude of this object
      * @param longitude
@@ -118,6 +129,7 @@ public class APIRequestHandler {
         this.longitude = longitude;
     }
 
+
     /**
      * gets the latitude of this object
      * @return
@@ -125,6 +137,8 @@ public class APIRequestHandler {
     public String getLatitude() {
         return latitude;
     }
+
+
 
     public String getStartTime() {
         return startTime;
@@ -148,7 +162,7 @@ public class APIRequestHandler {
 
 
     /**
-     * gets non-specific weather data from API
+     * gets non-specific weather data from API url
      * @return
      * @throws Exception
      */
@@ -192,7 +206,6 @@ public class APIRequestHandler {
         for (int i = 0; i < hourlyReports.length(); i++) {
             JSONObject report = hourlyReports.getJSONObject(i);
             int dt = report.getInt("dt");
-            //System.out.println("temp adding: " + report.getJSONObject("main").getDouble("temp"));
             temp += report.getJSONObject("main").getDouble("temp");
             humidity += report.getJSONObject("main").getInt("humidity");
             count += 1;
@@ -201,7 +214,6 @@ public class APIRequestHandler {
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
             icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
         }
-        //System.out.println(temp);
         temp /= count;
         temp = Math.round(temp * 100.00) / 100.00;
         humidity /= count;
@@ -216,8 +228,6 @@ public class APIRequestHandler {
         City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
         City.historicSevenDayCityData.add(aCity);
 
-//        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-//        City.cityWeatherData.add(aCity);
         modeOfWeather.clear();
         modeOfDesc.clear();
         modeOfIcon.clear();
@@ -226,8 +236,9 @@ public class APIRequestHandler {
     }
 
 
+
     /**
-     * Methods for historic weather data
+     * Method for getting historic weather data from API url
      * @return
      * @throws Exception
      */
@@ -243,8 +254,10 @@ public class APIRequestHandler {
 
     }
 
+
+
     /**
-     * Methods for pasrsing historic weather data
+     * Methods for parsing historic weather data
      * @param responseBody
      * @return
      */
@@ -292,9 +305,12 @@ public class APIRequestHandler {
     }
 
 
-    //temperature map handler
-    //parse map data
 
+    /**
+     * fetches JSON map data from API url
+     * @return
+     * @throws Exception
+     */
     public String getTempMapData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -306,6 +322,11 @@ public class APIRequestHandler {
                 .join());
     }
 
+    /**
+     * method to parse weather map data from JSON Array
+     * @param responseBody
+     * @return
+     */
     public static String parseTempMapData(String responseBody) {
 
         double temp = 0.00;
@@ -337,7 +358,6 @@ public class APIRequestHandler {
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
             icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
         }
-        //System.out.println(temp);
         temp /= count;
         temp = Math.round(temp * 100.00) / 100.00;
         humidity /= count;
@@ -360,6 +380,8 @@ public class APIRequestHandler {
     }
 
 
+
+
     /**
      * Method for getting future weather data from API
      * @return
@@ -375,6 +397,9 @@ public class APIRequestHandler {
                 .thenApply(APIRequestHandler::sevenDayfutureData)
                 .join());
     }
+
+
+
 
     /**
      * Method for parsing future weather data from API and creating city object
@@ -401,7 +426,6 @@ public class APIRequestHandler {
 
             weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
             description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-//            icon = icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
 
             String pre_icon = report.getJSONArray("weather").getJSONObject(0).getString("icon");
 
@@ -448,14 +472,11 @@ public class APIRequestHandler {
         int datetime = 0;
 
         JSONObject data = new JSONObject(responseBody);
-//        icon = "https://openweathermap.org/img/wd/"+ data.getJSONArray("weather").getJSONObject(0).getString("icon")+"@2x.png";
         String pre_icon = data.getJSONArray("weather").getJSONObject(0).getString("icon");
 
         int place = 2;
         pre_icon = pre_icon.substring(0,place)+"d"+pre_icon.substring(place+1);
-//        System.out.println(pre_icon);
         icon = "https://openweathermap.org/img/wn/" + pre_icon + "@2x.png";
-//        System.out.println(icon);
 
         description = data.getJSONArray("weather").getJSONObject(0).getString("description");
         weather = data.getJSONArray("weather").getJSONObject(0).getString("main");
@@ -499,11 +520,7 @@ public class APIRequestHandler {
     }
 
 
-    /**
-     * gets the longitude and latutude of a city
-     * @param city
-     * @return
-     */
+
 //    public static String [] fetchGeoCoordinates(String city){
 //
 //        try {
@@ -543,8 +560,15 @@ public class APIRequestHandler {
 //        return null;
 //    }
 
-    public static String[] fetchGeoCoordinates(String city) {
+    /**
+     * gets the longitude and latitude of a city
+     * @param city
+     * @return String[] of latitude and longitude
+     */
+    public static String [] fetchGeoCoordinates(String city){
+
         try {
+
             apiResponse = null;
 
             String query = String.format("%s", URLEncoder.encode(city, "UTF-8"));
@@ -554,38 +578,80 @@ public class APIRequestHandler {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiCall)).build();
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body)
-                    .thenAccept(response -> {
-                        apiResponse = response;
-                    })
+                    .thenAccept(response -> {apiResponse = response;})
                     .join();
 
-            String[] latLon = new String[2];
-            if (apiResponse.equals("[]")) {
-                JOptionPane.showMessageDialog(null, "Location not found. Please try another city", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            } else {
-                JSONArray jArray = new JSONArray(apiResponse);
-                JSONObject results = jArray.getJSONObject(0);
 
-                if (results.getString("country").equals("JM")) {
-                    latLon[0] = Double.toString(results.getDouble("lat"));
-                    latLon[1] = Double.toString(results.getDouble("lon"));
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Unable to locate data on this city in Jamaica", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            String [] latLon = new String[2];
+
+            JSONArray jArray = new JSONArray(apiResponse);
+            JSONObject results = jArray.getJSONObject(0);
+
+            if (results.getString("country").equals("JM")){
+                latLon[0] = Double.toString(results.getDouble("lat"));
+                latLon[1] = Double.toString(results.getDouble("lon"));
+
+            }else {
+                throw new IllegalArgumentException();
             }
+
             return latLon;
 
         } catch (UnsupportedEncodingException ueex) {
+//            ueex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unsupported encoding: " + ueex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage(), "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        } catch (JSONException | IllegalArgumentException ex){
+            JOptionPane.showMessageDialog(null, "Location not found. Please try another city", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+//            showMessageDialog(null, "Location not found in our database.\t\t \nPlease try another city.", "Location not found!", JOptionPane.WARNING_MESSAGE);
         }
         return null;
     }
+
+//    public static String[] fetchGeoCoordinates(String city) {
+//        try {
+//            apiResponse = null;
+//
+//            String query = String.format("%s", URLEncoder.encode(city, "UTF-8"));
+//            String apiCall = String.format(BASE_API_URL, query, aPiKey03);
+//
+//            HttpClient client = HttpClient.newHttpClient();
+//            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiCall)).build();
+//            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                    .thenApply(HttpResponse::body)
+//                    .thenAccept(response -> {
+//                        apiResponse = response;
+//                    })
+//                    .join();
+//
+//            String[] latLon = new String[2];
+//            if (apiResponse.equals("[]")) {
+//                JOptionPane.showMessageDialog(null, "Location not found. Please try another city", "Error",
+//                        JOptionPane.ERROR_MESSAGE);
+//            } else {
+//                JSONArray jArray = new JSONArray(apiResponse);
+//                JSONObject results = jArray.getJSONObject(0);
+//
+//                if (results.getString("country").equals("JM")) {
+//                    latLon[0] = Double.toString(results.getDouble("lat"));
+//                    latLon[1] = Double.toString(results.getDouble("lon"));
+//                } else {
+//                    JOptionPane.showMessageDialog(null,
+//                            "Unable to locate data on this city in Jamaica", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+//            }
+//            return latLon;
+//
+//        } catch (UnsupportedEncodingException ueex) {
+//            JOptionPane.showMessageDialog(null, "Unsupported encoding: " + ueex.getMessage(), "Error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage(), "Error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//        return null;
+//    }
 
 
 }
