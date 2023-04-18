@@ -1,12 +1,19 @@
 package Project3;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,7 +48,10 @@ public class GUICurrentWeatherList extends JFrame {
         setIconImage(new ImageIcon("frameIcon.png").getImage());
 
         thisFrame = this;
-        City.cityList = new ArrayList<>();
+//        City.cityList = new ArrayList<>();
+//        var allCityList = RainLibrary.createCityData(cityList);
+//        var allCityData = RainLibrary.createCityData(Tester.allCityList);
+        RainLibrary.getAllCityData(Tester.allCityList);
 
 //        City.cityList = loadCities("./persistence/currweatherlist.txt");
 
@@ -54,21 +64,43 @@ public class GUICurrentWeatherList extends JFrame {
         model = new DefaultTableModel(columnNames, 0) {
             //  Returning the Class of each column will allow different
             //  renderers to be used based on Class
-
             @Override
             public Class<?> getColumnClass(int row) {
-                for (int i = 0; i < getColumnCount(); i++) {
-                    if (getRowCount() == 0) {
+                for (int i = 0; i < getRowCount(); i++) {
+                    if (row == 0) {
                         return ImageIcon.class;
                     }
                 }
                 return Object.class;
             }
+
         };
 
 
-        table = new JTable(model);
+        table = new JTable(model) {
+            @Override
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                return new GUICurrentWeatherList.ImageTableCellRenderer();
+            }
+        };
         table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(0).setCellRenderer(new GUICurrentWeatherList.ImageTableCellRenderer());
+
+
+        table.setRowHeight(100);
+
+        TableColumn column;
+        for (int i = 0; i < columnNames.length; i++) {
+            column = table.getColumnModel().getColumn(i);
+            column.setPreferredWidth(150); // Set preferred width as desired
+        }
+
+        // Enable word wrap and set wrap style word for column names
+        TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
+        JLabel label = (JLabel) renderer;
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(800, 400));
         //getContentPane().add(scrollPane, BorderLayout.NORTH);
@@ -110,6 +142,8 @@ public class GUICurrentWeatherList extends JFrame {
         setVisible(true);
 
         showDetails();
+
+
     }
 
     void showTable(ArrayList<City> cityList) {
@@ -125,8 +159,12 @@ public class GUICurrentWeatherList extends JFrame {
 
     private void addToTable(City city) {
         String name = city.getCityName();
-        String[] item = {name, "" + city.getTemp(), "" + city.getHumidity(), "" + city.getIcon(), "" + city.getDescription()};
+        ImageIcon icon = new ImageIcon();
+
+//        Object[] item = {city.getCityName(),getIconImage(city.getIcon()),city.getDescription(), city.getTemp(), city.getHumidity()};
+        Object[] item = {name, "" + city.getTemp(), "" + city.getHumidity(), getIconImage(city.getIcon()), "" + city.getDescription()};
         model.addRow(item);
+
         StringBuilder strToSave = new StringBuilder();
         for (var citi : City.cityList) {
             strToSave.append("Day ").append(citi.getCityID()).append("\t")
@@ -151,6 +189,45 @@ public class GUICurrentWeatherList extends JFrame {
     public void addCity(City city) {
         City.cityList.add(city);
         addToTable(city);
+    }
+
+    // Custom TableCellRenderer for rendering images in JTable
+//    private class ImageTableCellRenderer extends DefaultTableCellRenderer {
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//            // Check if the value is an instance of ImageIcon
+//            if (value instanceof ImageIcon) {
+//                // Create a JLabel to render the ImageIcon
+//                JLabel label = new JLabel((ImageIcon) value);
+//                label.setHorizontalAlignment(JLabel.CENTER);
+//                label.setVerticalAlignment(JLabel.TOP);
+//                return label;
+//            } else {
+//                // For other values, use the default renderer
+//                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//            }
+//        }
+//    }
+
+
+    /**
+     * method to parse string of image to image for weather icon display
+     * @param url1
+     * @return
+     */
+    public ImageIcon getIconImage(String url1) {
+        URL url = null;
+        BufferedImage img = null;
+        try {
+            url = new URL(url1);
+            img = ImageIO.read(url);
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon weatherIcon;
+        weatherIcon = new ImageIcon(img);
+
+        return weatherIcon;
     }
 
 
@@ -266,5 +343,33 @@ public class GUICurrentWeatherList extends JFrame {
         } return clist;
 
     }
+
+    public class WordWrapTableCellRenderer extends JTextArea implements TableCellRenderer {
+        public WordWrapTableCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(value.toString());
+            return this;
+        }
+    }
+
+    private class ImageTableCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (value instanceof ImageIcon) {
+                label.setIcon((ImageIcon) value);
+                label.setText(null);
+            }
+            return label;
+        }
+    }
+
+
 
 }

@@ -9,6 +9,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class Tester {
 
 	public static final String api_KeyCloud = "bf35fb6d7822ade28ea3197bae75439c";
+	public static HashMap<String, String[]> allCityList;
 
 
 	public static void main(String[] args) throws Exception {
@@ -45,12 +46,12 @@ public class Tester {
 
 
 
-
-		String startTime = "1680343200";
-		String endTime = "1680386400";
-
-		String startTimeSevenDay = "1680256800";
-		String endTimeSevenDay = "1680948000";
+//
+//		String startTime = "1680343200";
+//		String endTime = "1680386400";
+//
+//		String startTimeSevenDay = "1680256800";
+//		String endTimeSevenDay = "1680948000";
 
 		ArrayList<String> cityList = new ArrayList<>();
 		cityList.add("Lucea");
@@ -70,7 +71,7 @@ public class Tester {
 		cityList.add("Savanna-La-Mar");
 
 		//rename
-		var allCityData = RainLibrary.createCityData(cityList);
+		allCityList = RainLibrary.createCityData(cityList);
 
 
 	}

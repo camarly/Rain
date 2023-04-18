@@ -78,7 +78,8 @@ public class RainLibrary {
             APIRequestHandler currentData = new APIRequestHandler(set.getKey(), latitude, longitude, "Current");
 
             try {
-                currentData.getWeatherData();
+//                currentData.getWeatherData();
+                currentData.getCurrentWeatherData();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
