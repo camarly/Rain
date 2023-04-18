@@ -122,7 +122,7 @@ public class GUICurrentWeatherList extends JFrame {
         cmdSortByName.addActionListener(new SortByNameButtonListener());
         cmdSortByTemp.addActionListener(new SortByTempButtonListener());
         cmdSortByHumidity.addActionListener(new SortByHumidityButtonListener());
-        cmdSave.addActionListener(new CloseButtonListener());
+        cmdSave.addActionListener(new SaveButtonListener());
 
         pnlCrudCmd.add(cmdAddCity);
         pnlCrudCmd.add(cmdEditCity);
@@ -174,7 +174,7 @@ public class GUICurrentWeatherList extends JFrame {
                     .append(System.lineSeparator());
             try{
                 Files.writeString(Paths.get("./persistence/currweatherlist.txt"), strToSave.toString());
-                System.out.println("saved to file: " + city.getCityName());
+//                System.out.println("saved to file: " + city.getCityName());
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -277,12 +277,32 @@ public class GUICurrentWeatherList extends JFrame {
         }
     }
 
-    private class CloseButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            thisFrame.setVisible(false);
+    private class SaveButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    saveData();
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File saved to local directory");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
-        }
+            }
+            private void saveData() throws IOException {
+                StringBuilder strToSave = new StringBuilder();
+                Path path = null;
+                path = Paths.get("./persistence/currweatherlist.txt");
+                for (var city : City.futureSevenDayCityData) {
+                    strToSave.append("Day ").append(city.getCityID()).append("\t")
+                            .append(city.getCityName()).append("\t")
+                            .append(city.getTemp()).append("\t")
+                            .append(city.getHumidity()).append("\t")
+                            .append(city.getIcon()).append("\t")
+                            .append(city.getDescription())
+                            .append(System.lineSeparator());
+                    Files.writeString(path, strToSave.toString());
+                }
+            }
     }
 
     public void showDetails() {

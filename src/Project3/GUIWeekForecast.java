@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -61,7 +62,7 @@ public class GUIWeekForecast extends JFrame {
         setTitleWindow(type);
 
         RainLibrary.getSevenDayWeatherData(RainLibrary.createCityData(city), startTime, endTime, type);
-        displayWeatherData();
+//        displayWeatherData();
 
         setColumnNames();
         // Set preferred width for each column
@@ -232,10 +233,31 @@ public class GUIWeekForecast extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                displayWeatherData();
+                saveData();
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File saved to local directory");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
+            }
+        }
+        //save data to a file
+        private void saveData() throws IOException {
+            StringBuilder strToSave = new StringBuilder();
+            Path path = null;
+            if(type.equals("Historic"))
+                path = Paths.get("./persistence/weekhistory.txt");
+            else if (type.equals("Current"))
+                path = Paths.get("./persistence/currweatherlist.txt");
+            else
+                path = Paths.get("./persistence/futureforecast.txt");
+            for (var city : City.futureSevenDayCityData) {
+                strToSave.append("Day ").append(city.getCityID()).append("\t")
+                        .append(city.getCityName()).append("\t")
+                        .append(city.getTemp()).append("\t")
+                        .append(city.getHumidity()).append("\t")
+                        .append(city.getIcon()).append("\t")
+                        .append(city.getDescription())
+                        .append(System.lineSeparator());
+                Files.writeString(path, strToSave.toString());
             }
         }
     }
@@ -247,13 +269,49 @@ public class GUIWeekForecast extends JFrame {
         }
     }
 
+//    private class CloseButtonListener implements ActionListener {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            frame.dispose();
+//        }
+//    }
+
     /**
      * loads data from a file
      */
     private class LoadButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            loadWeatherData();
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "File loaded from local directory");
+        }
 
+        private void loadWeatherData() {
+            Path path = null;
+            if(type.equals("Historic"))
+                path = Paths.get("./persistence/weekhistory.txt");
+            else
+                path = Paths.get("./persistence/futureforecast.txt");
+            try (BufferedReader reader = Files.newBufferedReader(path)) {
+                String line;
+                City.futureSevenDayCityData.clear();
+                String cityName = null;
+                while ((line = reader.readLine()) != null) {
+                    String[] data = line.split("\t");
+                    City city = new City();
+                    city.setCityName(data[1]);
+                    cityName = data[1];
+                    city.setTemp(Double.parseDouble(data[2]));
+                    city.setHumidity(Integer.parseInt(data[3]));
+                    city.setIcon(data[4]);
+                    city.setDescription(data[5]);
+                    City.futureSevenDayCityData.add(city);
+                    System.out.println("city data for file is " +city.getCityName() + " " + city.getTemp() + " " + city.getHumidity() + " " + city.getIcon() + " " + city.getDescription());
+                }
+                new GUIWeekForecast(cityName,"Future");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -261,28 +319,28 @@ public class GUIWeekForecast extends JFrame {
      * saves current frame's weather data to a file
      * @throws IOException
      */
-    public void displayWeatherData() throws IOException {
-        StringBuilder strToSave = new StringBuilder();
-        Path path = null;
-        if(type.equals("Historic"))
-            path = Paths.get("./persistence/weekhistory.txt");
-        else if (type.equals("Current"))
-            path = Paths.get("./persistence/currweatherlist.txt");
-        else
-            path = Paths.get("./persistence/futureforecast.txt");
-        for (var city : City.futureSevenDayCityData) {
-            strToSave.append("Day ").append(city.getCityID()).append("\t")
-                    .append(city.getCityName()).append("\t")
-                    .append(city.getTemp()).append("\t")
-                    .append(city.getHumidity()).append("\t")
-                    .append(city.getIcon()).append("\t")
-                    .append(city.getDescription())
-                    .append(System.lineSeparator());
-            Files.writeString(path, strToSave.toString());
-//            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
-        }
-        strToSave.setLength(0);
-    }
+//    public void displayWeatherData() throws IOException {
+//        StringBuilder strToSave = new StringBuilder();
+//        Path path = null;
+//        if(type.equals("Historic"))
+//            path = Paths.get("./persistence/weekhistory.txt");
+//        else if (type.equals("Current"))
+//            path = Paths.get("./persistence/currweatherlist.txt");
+//        else
+//            path = Paths.get("./persistence/futureforecast.txt");
+//        for (var city : City.futureSevenDayCityData) {
+//            strToSave.append("Day ").append(city.getCityID()).append("\t")
+//                    .append(city.getCityName()).append("\t")
+//                    .append(city.getTemp()).append("\t")
+//                    .append(city.getHumidity()).append("\t")
+//                    .append(city.getIcon()).append("\t")
+//                    .append(city.getDescription())
+//                    .append(System.lineSeparator());
+//            Files.writeString(path, strToSave.toString());
+////            System.out.println(city.getCityID() + "\t\t" + city.getCityName() + "\t\t\t\t\t\t" + city.getTemp() + "\t" + city.getHumidity() + "\t" + city.getIcon() + "\t" + city.getDescription());
+//        }
+//        strToSave.setLength(0);
+//    }
 
 
 
