@@ -5,3 +5,4 @@ Day 4	Lucea	27.14	75	https://openweathermap.org/img/wn/03n@2x.png	scattered clou
 Day 5	Lucea	25.48	76	https://openweathermap.org/img/wn/03n@2x.png	scattered clouds
 Day 6	Lucea	27.14	73	https://openweathermap.org/img/wn/10n@2x.png	moderate rain
 Day 7	Lucea	26.59	75	https://openweathermap.org/img/wn/02n@2x.png	few clouds
+
