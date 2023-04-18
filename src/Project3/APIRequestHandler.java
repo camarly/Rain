@@ -311,74 +311,61 @@ public class APIRequestHandler {
      * @return
      * @throws Exception
      */
-    public String getTempMapData() throws Exception {
+    public void getTempMapData() throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiURL)).build();
 
-        return (client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenApply(APIRequestHandler::parseTempMapData)
-                .join());
+                .join();
     }
+
 
     /**
-     * method to parse weather map data from JSON Array
+     * method to parse temperature map data from JSON object
      * @param responseBody
      * @return
+     * @throws JSONException
      */
-    public static String parseTempMapData(String responseBody) {
+    public static Map<String, Double> parseTempMapData(String responseBody) throws JSONException {
 
-        double temp = 0.00;
-        int humidity = 0;
-        String description = null;
-        String weather = null;
-        String type = null;
-        String icon = null;
-        int datetime = 0;
-        int count = 0;
-        ArrayList<String> modeOfWeather = new ArrayList<>();
-        ArrayList<String> modeOfDesc = new ArrayList<>();
-        ArrayList<String> modeOfIcon = new ArrayList<>();
-
-        JSONObject cityData = new JSONObject(responseBody);
+        Map<String, Double> temperatureData = new HashMap<>();
 
         JSONObject weatherData = new JSONObject(responseBody);
-        JSONArray hourlyReports = weatherData.getJSONArray("list");
 
-        for (int i = 0; i < hourlyReports.length(); i++) {
-            JSONObject report = hourlyReports.getJSONObject(i);
-            int dt = report.getInt("dt");
-            //System.out.println("temp adding: " + report.getJSONObject("main").getDouble("temp"));
-            temp += report.getJSONObject("main").getDouble("temp");
-            humidity += report.getJSONObject("main").getInt("humidity");
-            count += 1;
+        JSONArray temperatureLayers = weatherData.getJSONArray("layers");
 
-            weather = report.getJSONArray("weather").getJSONObject(0).getString("main");
-            description = report.getJSONArray("weather").getJSONObject(0).getString("description");
-            icon = "https://openweathermap.org/img/wn/" + report.getJSONArray("weather").getJSONObject(0).getString("icon") + "@2x.png";
+        for (int i = 0; i < temperatureLayers.length(); i++) {
+
+            JSONObject temperatureLayer = temperatureLayers.getJSONObject(i);
+
+            String layerName = temperatureLayer.getString("name");
+
+            if (layerName.equals("temp")) {
+                JSONArray layerData = temperatureLayer.getJSONArray("data");
+
+                for (int j = 0; j < layerData.length(); j++) {
+                    JSONArray rowData = layerData.getJSONArray(j);
+
+                    for (int k = 0; k < rowData.length(); k++) {
+
+                        JSONArray gridPointData = rowData.getJSONArray(k);
+
+                        String lat = gridPointData.getString(0);
+                        String lon = gridPointData.getString(1);
+                        Double temperature = gridPointData.getDouble(2);
+
+                        String key = lat + "," + lon;
+                        temperatureData.put(key, temperature);
+                    }
+                }
+            }
         }
-        temp /= count;
-        temp = Math.round(temp * 100.00) / 100.00;
-        humidity /= count;
-        modeOfWeather.add(weather);
-        modeOfDesc.add(description);
-        modeOfIcon.add(icon);
 
-        weather = getFrequentItem(modeOfWeather);
-        description = getFrequentItem(modeOfWeather);
-        icon = getFrequentItem(modeOfIcon);
-
-        City aCity = new City(APIRequestHandler.cityName, temp, humidity, description, weather, icon, datetime);
-        City.cityWeatherData.add(aCity);
-
-        modeOfWeather.clear();
-        modeOfDesc.clear();
-        modeOfIcon.clear();
-
-        return null;
+        return temperatureData;
     }
-
 
 
 
@@ -609,48 +596,11 @@ public class APIRequestHandler {
         return null;
     }
 
-//    public static String[] fetchGeoCoordinates(String city) {
-//        try {
-//            apiResponse = null;
-//
-//            String query = String.format("%s", URLEncoder.encode(city, "UTF-8"));
-//            String apiCall = String.format(BASE_API_URL, query, aPiKey03);
-//
-//            HttpClient client = HttpClient.newHttpClient();
-//            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiCall)).build();
-//            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                    .thenApply(HttpResponse::body)
-//                    .thenAccept(response -> {
-//                        apiResponse = response;
-//                    })
-//                    .join();
-//
-//            String[] latLon = new String[2];
-//            if (apiResponse.equals("[]")) {
-//                JOptionPane.showMessageDialog(null, "Location not found. Please try another city", "Error",
-//                        JOptionPane.ERROR_MESSAGE);
-//            } else {
-//                JSONArray jArray = new JSONArray(apiResponse);
-//                JSONObject results = jArray.getJSONObject(0);
-//
-//                if (results.getString("country").equals("JM")) {
-//                    latLon[0] = Double.toString(results.getDouble("lat"));
-//                    latLon[1] = Double.toString(results.getDouble("lon"));
-//                } else {
-//                    JOptionPane.showMessageDialog(null,
-//                            "Unable to locate data on this city in Jamaica", "Error", JOptionPane.ERROR_MESSAGE);
-//                }
-//            }
-//            return latLon;
-//
-//        } catch (UnsupportedEncodingException ueex) {
-//            JOptionPane.showMessageDialog(null, "Unsupported encoding: " + ueex.getMessage(), "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage(), "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//        }
-//        return null;
+
+//    public void displayWeatherData() throws Exception {
+//        String apiURL = "http://maps.openweathermap.org/maps/2.0/weather/TA2/2/1/1?appid=dbd8574d10549e41443636960496338d&fill_bound=true&opacity=0.6&palette=-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014";
+//        Map<String, Double> temperatureData = APIRequestHandler.parseTempMapData(getTempMapData());
+//        new WeatherDisplay(temperatureData);
 //    }
 
 

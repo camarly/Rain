@@ -17,9 +17,6 @@ public class TemperatureMap extends JFrame {
 
     private String datetime = null;
 
-    //private <T> T tempMap = null;
-    //private <T> T rainMap = null;
-
 
     public TemperatureMap(String layer, String zoom, String xcoord, String ycoord, String datetime) throws HeadlessException {
         this.layer = layer;

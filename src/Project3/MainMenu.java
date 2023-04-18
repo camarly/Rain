@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class MainMenu extends JFrame {
     private JButton cmdCurrent;
@@ -126,7 +127,11 @@ public class MainMenu extends JFrame {
     private class TempMapButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            try {
+                new MapDisplay();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -151,5 +156,7 @@ public class MainMenu extends JFrame {
             GUISuggestions guiSuggestions = new GUISuggestions();
         }
     }
+
+
 
 }
